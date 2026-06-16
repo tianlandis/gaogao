@@ -1,16 +1,70 @@
 ---
 name: gao
-description: 负责2025年山东音乐类统考数据自动清洗、标签富化及前端志愿填报界面的交互重构
+description: 2026山东音乐类统考志愿填报 — 数据清洗、标签富化、前端交互
 model: deepseek-v4-pro
-tools: list_dir, search_file, search_content, read_file, read_lints, replace_in_file, write_to_file, execute_command, delete_file, connect_cloud_service, preview_url, web_fetch, use_skill, web_search, automation_update
+tools: list_dir, search_file, search_content, read_file, read_lints, replace_in_file, write_to_file, execute_command, delete_file, preview_url, web_fetch, use_skill, web_search
 agentMode: agentic
 enabled: true
 enabledAutoRun: true
 ---
-你是一个精通中国高考艺术系统（特别是山东音乐类统考投档规则）的顶级全栈 AI 开发智能体。你的核心任务是全自动接管该系统的底层数据加工与前端交互重构。
 
-你的工作原则：
-1. 始终围绕 2025 年山东省官方发布的综合分段表、纯文化分段表和纯专业分段表（三大核心金标字典）进行高精度数据分析与位次计算。
-2. 在执行任何代码重构前，必须自动扫描本地的 `data.json`、`compressed_ranks.json` 和 `index.html`。
-3. 你具备自主运行本地 Python 清洗脚本的能力。如果发现数据文件缺失或损坏，请自主编写修复代码并运行，将处理后的院校数据完美打上“省份、公办民办、办学层次（本科/专科）、志愿投档批次”等富化标签。
-4. 优化前端时，确保“三维身段看板（预估综合分位次、专业硬实力排名、文化赛道超越率）”算法 100% 精准，交互流畅。
+# 山东音乐类志愿填报系统 · 宪法入口 V0.1
+
+> ⚠️ 本文档是项目"宪法"。所有改动必须遵守以下原则。
+> 详细规范见 `docs/` 目录下各领域文档——**按任务类型按需读取，不要全部加载**。
+
+---
+
+## 五条核心原则（不可违反）
+
+1. **数据只读** — `data.json` 和 `compressed_ranks.json` 只能由 Python 脚本生成，禁止手动编辑或代码内硬编码
+2. **算法不变** — 等位分 4 步换算流程（见 `docs/03-ALGORITHM.md`）不可修改其数学逻辑
+3. **防御编程** — 所有 DOM 操作前必须 null 检查；所有渲染函数必须 try-catch
+4. **状态驱动** — 筛选必须在 `state.calcResult` 存在后才生效，无结果时 `applyFilters()` 直接 return
+5. **版本隔离** — 2025 数据为 V0.1 基准，2026 数据为 V0.2 增量，不覆盖历史数据
+
+---
+
+## 文档索引（按需读取）
+
+| 任务类型 | 必读文档 | 选读文档 |
+|---------|---------|---------|
+| 修改前端 UI/交互 | `05-FRONTEND_RULES.md` | `01-ARCHITECTURE.md` |
+| 修改计算逻辑/算法 | `03-ALGORITHM.md` → `02-DATA_MODEL.md` | `05-FRONTEND_RULES.md` |
+| 修改数据模型/JSON结构 | `02-DATA_MODEL.md` → `04-DATA_INGEST.md` | `07-CODING_RULES.md` |
+| 处理原始数据/运行脚本 | `04-DATA_INGEST.md` | `02-DATA_MODEL.md` |
+| 规划新功能/版本升级 | `06-VERSION_PLAN.md` | `01-ARCHITECTURE.md` |
+| 首次接触项目 | `01-ARCHITECTURE.md` → `02-DATA_MODEL.md` → `03-ALGORITHM.md` | — |
+| 修 Bug | `05-FRONTEND_RULES.md` | `08-CHANGELOG.md` |
+| 不确定该读什么 | **先读本文件**，再根据任务匹配上表 | — |
+
+---
+
+## 文档目录结构
+
+```
+.codebuddy/agents/
+├── gao.md                    # 🔴 本文件 — 宪法入口
+└── docs/
+    ├── 01-ARCHITECTURE.md    # 项目定位、文件架构、部署方式
+    ├── 02-DATA_MODEL.md      # data.json / compressed_ranks.json / state 结构
+    ├── 03-ALGORITHM.md       # 等位分4步、插值、梯度、文化超越率
+    ├── 04-DATA_INGEST.md     # Python脚本、XLS解析规则、标签富化
+    ├── 05-FRONTEND_RULES.md  # 状态机、筛选渲染防御、响应式、代码预留点
+    ├── 06-VERSION_PLAN.md    # V0.2 数据需求、架构扩展、功能规划
+    ├── 07-CODING_RULES.md    # 8条强制规则 + 运行清单
+    └── 08-CHANGELOG.md       # 变更历史、已知BUG、待办事项
+```
+
+---
+
+## 快速参考
+
+| 项目 | 值 |
+|------|-----|
+| 启动命令 | `node serve.js` |
+| 访问地址 | `http://localhost:8080` |
+| 生成数据 | `python build_real_data.py` |
+| 目标用户 | 2026年山东音乐类统考考生 |
+| 综合分公式 | 文化×0.5 + 专业×2.5×0.5 |
+| 梯度阈值 | 保>15 / 稳≥0 / 冲≥-5 |

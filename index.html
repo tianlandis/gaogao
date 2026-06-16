@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>2026年山东省音乐类智能志愿填报专家系统</title>
     <style>
         :root {
@@ -10,7 +10,6 @@
             --primary-blue-light: #2563EB;
             --bg-gradient-start: #0F172A;
             --bg-gradient-end: #1E293B;
-            --surface-bg: rgba(255, 255, 255, 0.95);
             --glass-bg: rgba(255, 255, 255, 0.85);
             --glass-border: rgba(255, 255, 255, 0.3);
             --border-light: #E2E8F0;
@@ -18,1376 +17,664 @@
             --radius-md: 12px;
             --radius-lg: 16px;
             --radius-xl: 20px;
-            --tag-chong: #F59E0B;
-            --tag-chong-bg: rgba(245, 158, 11, 0.1);
-            --tag-wen: #10B981;
-            --tag-wen-bg: rgba(16, 185, 129, 0.1);
-            --tag-bao: #3B82F6;
-            --tag-bao-bg: rgba(59, 130, 246, 0.1);
+            --tag-chong: #F59E0B; --tag-chong-bg: rgba(245,158,11,0.1);
+            --tag-wen: #10B981;   --tag-wen-bg: rgba(16,185,129,0.1);
+            --tag-bao: #3B82F6;   --tag-bao-bg: rgba(59,130,246,0.1);
             --text-primary: #1E293B;
             --text-secondary: #475569;
             --text-tertiary: #94A3B8;
-            --shadow-lg: 0 8px 32px rgba(30, 58, 138, 0.18);
-            --shadow-xl: 0 12px 48px rgba(30, 58, 138, 0.22);
         }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        * { margin:0; padding:0; box-sizing:border-box; }
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
-            background: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%);
-            min-height: 100vh;
-            padding: 20px;
+            background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%);
+            min-height: 100vh; padding: 20px;
         }
+        @media(max-width:768px){ body{padding:10px} }
 
         .main-container {
-            max-width: 1600px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: 380px 1fr;
-            gap: 32px;
-            align-items: start;
+            max-width: 1600px; margin: 0 auto;
+            display: flex; flex-direction: row; gap: 32px; align-items: start;
+        }
+        @media(max-width:768px), (orientation: portrait){
+            .main-container{flex-direction:column;gap:16px}
         }
 
-        @media (max-width: 1200px) {
-            .main-container {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        /* 左侧输入面板 */
         .input-panel {
-            position: sticky;
-            top: 20px;
-            background: var(--glass-bg);
-            backdrop-filter: blur(20px);
-            border-radius: var(--radius-xl);
-            padding: 32px;
+            width: 380px; flex-shrink: 0; position: sticky; top: 20px;
+            background: var(--glass-bg); backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: var(--radius-xl); padding: 32px;
             border: 1px solid var(--glass-border);
-            box-shadow: var(--shadow-xl);
+            box-shadow: 0 12px 48px rgba(30,58,138,0.22); z-index: 10;
+        }
+        @media(max-width:768px){
+            .input-panel{position:static!important;width:100%!important;padding:20px 16px;box-shadow:0 8px 32px rgba(30,58,138,0.18)}
         }
 
-        .panel-header {
-            text-align: center;
-            margin-bottom: 28px;
-        }
+        .panel-header{text-align:center;margin-bottom:28px}
+        .panel-header h1{font-size:1.6rem;color:var(--primary-blue);font-weight:800;margin-bottom:8px}
+        .panel-header p{font-size:0.9rem;color:var(--text-secondary)}
 
-        .panel-header h1 {
-            font-size: 1.6rem;
-            color: var(--primary-blue);
-            font-weight: 800;
-            margin-bottom: 8px;
+        .input-group{margin-bottom:20px}
+        .input-group label{display:block;font-size:0.95rem;font-weight:700;color:var(--text-primary);margin-bottom:8px}
+        .input-group input,.input-group select{
+            width:100%;padding:12px 16px;border:2px solid var(--border-light);
+            border-radius:var(--radius-md);font-size:1rem;transition:all 0.3s;background:white
         }
-
-        .panel-header p {
-            font-size: 0.9rem;
-            color: var(--text-secondary);
+        .input-group input:focus,.input-group select:focus{outline:none;border-color:var(--primary-blue-light);box-shadow:0 0 0 4px rgba(37,99,235,0.15)}
+        .btn-calculate{
+            width:100%;padding:14px;color:white;border:none;border-radius:var(--radius-md);
+            font-size:1.1rem;font-weight:700;cursor:pointer;
+            background:linear-gradient(135deg,var(--primary-blue)0%,var(--primary-blue-light)100%);
+            box-shadow:0 4px 16px rgba(30,58,138,0.3);transition:all 0.3s
         }
+        .btn-calculate:hover{transform:translateY(-2px);box-shadow:0 6px 24px rgba(30,58,138,0.4)}
+        .btn-calculate:active{transform:translateY(0)}
 
-        .input-group {
-            margin-bottom: 20px;
-        }
-
-        .input-group label {
-            display: block;
-            font-size: 0.95rem;
-            font-weight: 700;
-            color: var(--text-primary);
-            margin-bottom: 8px;
-        }
-
-        .input-group input,
-        .input-group select {
-            width: 100%;
-            padding: 12px 16px;
-            border: 2px solid var(--border-light);
-            border-radius: var(--radius-md);
-            font-size: 1rem;
-            transition: all 0.3s ease;
-            background: white;
-        }
-
-        .input-group input:focus,
-        .input-group select:focus {
-            outline: none;
-            border-color: var(--primary-blue-light);
-            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.15);
-        }
-
-        .btn-calculate {
-            width: 100%;
-            padding: 14px;
-            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--primary-blue-light) 100%);
-            color: white;
-            border: none;
-            border-radius: var(--radius-md);
-            font-size: 1.1rem;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 16px rgba(30, 58, 138, 0.3);
-        }
-
-        .btn-calculate:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 24px rgba(30, 58, 138, 0.4);
-        }
-
-        .btn-calculate:active {
-            transform: translateY(0);
-        }
-
-        /* 右侧结果面板 */
-        .result-panel {
-            background: var(--surface-bg);
-            backdrop-filter: blur(20px);
-            border-radius: var(--radius-xl);
-            padding: 32px;
+        .result-panel{
+            flex:1;min-width:0;
+            background: rgba(255,255,255,0.95); backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: var(--radius-xl); padding: 32px;
             border: 1px solid var(--glass-border);
-            box-shadow: var(--shadow-xl);
+            box-shadow: 0 12px 48px rgba(30,58,138,0.22);
+        }
+        @media(max-width:768px){.result-panel{width:100%!important;padding:20px 16px;box-shadow:0 8px 32px rgba(30,58,138,0.18)}}
+
+        /* 横屏（手机翻转）：左右分栏 + 右侧上下滑动 */
+        @media(orientation: landscape) and (max-height: 768px){
+            body{padding:8px}
+            .main-container{flex-direction:row;gap:12px}
+            .input-panel{width:340px!important;flex-shrink:0;position:sticky!important;top:8px;padding:16px!important;z-index:10}
+            .result-panel{flex:1;min-width:0;padding:16px!important;overflow-y:auto;max-height:calc(100vh - 16px)}
+            .dashboard.visible{grid-template-columns:repeat(3,1fr);gap:8px}
+            .dash-val{font-size:1.6rem}
+            .dash-card{padding:14px}
+            .filter-bar{gap:4px;padding:8px;flex-wrap:nowrap;overflow-x:auto}
+            .filter-label{font-size:0.7rem}
+            .school-list{flex-direction:column}
+            .school-card{padding:12px;min-width:auto}
         }
 
-        /* 数据看板 - 三段式设计 */
-        .dashboard {
-            display: none;
-            margin-bottom: 32px;
-        }
+        .dashboard{display:none;margin-bottom:32px}
+        .dashboard.visible{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;animation:fadeIn 0.5s}
+        @media(max-width:768px){.dashboard.visible{grid-template-columns:1fr;gap:10px}}
+        @keyframes fadeIn{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:translateY(0)}}
 
-        .dashboard.visible {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
-            animation: fadeIn 0.5s ease;
+        .dash-card{
+            background:white;padding:24px;border-radius:var(--radius-lg);text-align:center;
+            box-shadow:0 4px 16px rgba(0,0,0,0.08);border:2px solid transparent;transition:all 0.3s
         }
+        .dash-card:hover{transform:translateY(-4px);box-shadow:0 8px 24px rgba(0,0,0,0.12)}
+        .dash-card.score{border-color:rgba(30,58,138,0.2);background:linear-gradient(135deg,rgba(30,58,138,0.05),rgba(37,99,235,0.05))}
+        .dash-card.rank{border-color:rgba(180,83,9,0.2);background:linear-gradient(135deg,rgba(180,83,9,0.05),rgba(217,119,6,0.05))}
+        .dash-card.logic{border-color:rgba(16,185,129,0.2);background:linear-gradient(135deg,rgba(16,185,129,0.05),rgba(5,150,105,0.05))}
+        .dash-card>div:first-child{font-size:0.9rem;color:var(--text-secondary);margin-bottom:12px;font-weight:600}
+        .dash-val{font-size:2.4rem;font-weight:900;color:var(--primary-blue);line-height:1.2;margin-bottom:8px}
+        @media(max-width:768px){.dash-val{font-size:1.8rem}}
 
-        @media (max-width: 1200px) {
-            .dashboard.visible {
-                grid-template-columns: 1fr;
+        /* 竖屏：学校卡片横向滑动 */
+        @media(orientation: portrait){
+            .main-container{flex-direction:column;gap:16px}
+            .input-panel{position:static!important;width:100%!important;padding:20px 16px;box-shadow:0 8px 32px rgba(30,58,138,0.18)}
+            .result-panel{width:100%!important;padding:16px 12px}
+            .school-list{
+                display: flex; flex-direction: row; gap: 10px;
+                overflow-x: auto; overflow-y: hidden;
+                -webkit-overflow-scrolling: touch;
+                scroll-snap-type: x mandatory;
+                padding-bottom: 8px;
             }
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .dash-card {
-            background: white;
-            padding: 24px;
-            border-radius: var(--radius-lg);
-            text-align: center;
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
-            border: 2px solid transparent;
-            transition: all 0.3s ease;
-        }
-
-        .dash-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
-        }
-
-        .dash-card.score {
-            border-color: rgba(30, 58, 138, 0.2);
-            background: linear-gradient(135deg, rgba(30, 58, 138, 0.05) 0%, rgba(37, 99, 235, 0.05) 100%);
-        }
-
-        .dash-card.rank {
-            border-color: rgba(180, 83, 9, 0.2);
-            background: linear-gradient(135deg, rgba(180, 83, 9, 0.05) 0%, rgba(217, 119, 6, 0.05) 100%);
-        }
-
-        .dash-card.logic {
-            border-color: rgba(16, 185, 129, 0.2);
-            background: linear-gradient(135deg, rgba(16, 185, 129, 0.05) 0%, rgba(5, 150, 105, 0.05) 100%);
-        }
-
-        .dash-card>div:first-child {
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-            margin-bottom: 12px;
-            font-weight: 600;
-        }
-
-        .dash-val {
-            font-size: 2.4rem;
-            font-weight: 900;
-            color: var(--primary-blue);
-            line-height: 1.2;
-            margin-bottom: 8px;
-        }
-
-        .dash-sub {
-            font-size: 0.82rem;
-            color: var(--text-tertiary);
-            font-weight: 500;
-            line-height: 1.5;
-        }
-
-        /* ===== 冲稳保统计条 ===== */
-        .stats-bar {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 16px;
-            padding: 10px 14px;
-            background: white;
-            border-radius: var(--radius-md);
-            border: 1px solid var(--border-light);
-            font-size: 0.85rem;
-            font-weight: 700;
-        }
-
-        .stat-item {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-            padding: 8px 12px;
-            border-radius: var(--radius-sm);
-            color: white;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        .stat-item:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
-        .stat-item.active {
-            box-shadow: inset 0 2px 6px rgba(0,0,0,0.35), 0 0 0 3px rgba(30,41,59,0.8);
-            transform: scale(1.04);
-            font-weight: 800;
-        }
-        .stats-bar.filtering .stat-item:not(.active) {
-            opacity: 0.45;
-        }
-
-        .stat-num {
-            font-size: 1.3rem;
-            font-weight: 900;
-            min-width: 28px;
-            text-align: center;
-        }
-
-        .stat-bao { background: linear-gradient(135deg, #3B82F6, #2563EB); }
-        .stat-wen { background: linear-gradient(135deg, #10B981, #059669); }
-        .stat-chong { background: linear-gradient(135deg, #F59E0B, #D97706); }
-
-        /* ===== 高级筛选栏 ===== */
-        .filter-bar {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
-            align-items: center;
-            margin-bottom: 20px;
-            padding: 16px;
-            background: rgba(30, 58, 138, 0.03);
-            border-radius: var(--radius-md);
-            border: 1px solid var(--border-light);
-        }
-
-        .filter-label {
-            font-size: 0.85rem;
-            font-weight: 700;
-            color: var(--text-secondary);
-            white-space: nowrap;
-        }
-
-        /* 省份多选下拉 */
-        .multi-select-wrapper {
-            position: relative;
-            min-width: 130px;
-        }
-
-        .multi-select-trigger {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 8px 12px;
-            background: white;
-            border: 2px solid var(--border-light);
-            border-radius: var(--radius-sm);
-            font-size: 0.9rem;
-            color: var(--text-primary);
-            cursor: pointer;
-            transition: all 0.3s ease;
-            gap: 8px;
-            white-space: nowrap;
-        }
-
-        .multi-select-trigger:hover {
-            border-color: var(--primary-blue-light);
-        }
-
-        .multi-select-trigger .arrow {
-            font-size: 0.7rem;
-            transition: transform 0.3s ease;
-        }
-
-        .multi-select-trigger.open .arrow {
-            transform: rotate(180deg);
-        }
-
-        .multi-select-dropdown {
-            display: none;
-            position: absolute;
-            top: calc(100% + 4px);
-            left: 0;
-            min-width: 200px;
-            max-height: 240px;
-            overflow-y: auto;
-            background: white;
-            border: 2px solid var(--primary-blue-light);
-            border-radius: var(--radius-sm);
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
-            z-index: 100;
-            padding: 4px 0;
-        }
-
-        .multi-select-dropdown.show {
-            display: block;
-        }
-
-        .multi-select-dropdown .option {
-            display: flex;
-            align-items: center;
-            padding: 8px 12px;
-            cursor: pointer;
-            font-size: 0.9rem;
-            color: var(--text-primary);
-            transition: background 0.2s ease;
-            gap: 8px;
-        }
-
-        .multi-select-dropdown .option:hover {
-            background: rgba(37, 99, 235, 0.08);
-        }
-
-        .multi-select-dropdown .option input[type="checkbox"] {
-            accent-color: var(--primary-blue-light);
-            width: 16px;
-            height: 16px;
-        }
-
-        .multi-select-dropdown .actions {
-            display: flex;
-            gap: 8px;
-            padding: 8px 12px;
-            border-top: 1px solid var(--border-light);
-            position: sticky;
-            bottom: 0;
-            background: white;
-        }
-
-        .multi-select-dropdown .actions button {
-            flex: 1;
-            padding: 6px 12px;
-            border: 1px solid var(--border-light);
-            border-radius: var(--radius-sm);
-            font-size: 0.8rem;
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.2s ease;
-        }
-
-        .multi-select-dropdown .btn-select-all {
-            background: rgba(37, 99, 235, 0.1);
-            color: var(--primary-blue-light);
-            border-color: var(--primary-blue-light);
-        }
-
-        .multi-select-dropdown .btn-select-all:hover {
-            background: var(--primary-blue-light);
-            color: white;
-        }
-
-        .multi-select-dropdown .btn-clear {
-            background: rgba(239, 68, 68, 0.1);
-            color: #EF4444;
-            border-color: #EF4444;
-        }
-
-        .multi-select-dropdown .btn-clear:hover {
-            background: #EF4444;
-            color: white;
-        }
-
-        /* 办学性质 和 学历层次 下拉 */
-        .select-wrapper select {
-            padding: 8px 12px;
-            background: white;
-            border: 2px solid var(--border-light);
-            border-radius: var(--radius-sm);
-            font-size: 0.9rem;
-            color: var(--text-primary);
-            cursor: pointer;
-            transition: all 0.3s ease;
-            min-width: 110px;
-        }
-
-        .select-wrapper select:focus {
-            outline: none;
-            border-color: var(--primary-blue-light);
-        }
-
-        /* 已选过滤标签 */
-        .active-filters {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 6px;
-            margin-bottom: 12px;
-        }
-
-        .filter-tag {
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
-            padding: 4px 10px;
-            background: rgba(37, 99, 235, 0.1);
-            color: var(--primary-blue-light);
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            border: 1px solid rgba(37, 99, 235, 0.2);
-        }
-
-        .filter-tag .remove-tag {
-            cursor: pointer;
-            font-size: 1.1rem;
-            line-height: 1;
-            color: var(--primary-blue-light);
-            margin-left: 2px;
-        }
-
-        .filter-tag .remove-tag:hover {
-            color: #EF4444;
-        }
-
-        /* 学校列表 */
-        .school-list-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            padding-bottom: 16px;
-            border-bottom: 2px solid var(--border-light);
-        }
-
-        .school-list-title {
-            font-size: 1.2rem;
-            font-weight: 700;
-            color: var(--text-primary);
-        }
-
-        .school-count {
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-            background: rgba(30, 58, 138, 0.1);
-            padding: 6px 12px;
-            border-radius: var(--radius-sm);
-        }
-
-        /* 批次分组标题 */
-        .batch-group-header {
-            margin: 16px 0 12px;
-            padding: 10px 16px;
-            background: linear-gradient(135deg, rgba(30, 58, 138, 0.08) 0%, rgba(37, 99, 235, 0.05) 100%);
-            border-left: 4px solid var(--primary-blue);
-            border-radius: var(--radius-sm);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .batch-group-title {
-            font-size: 1rem;
-            font-weight: 700;
-            color: var(--primary-blue);
-        }
-
-        .batch-group-count {
-            font-size: 0.85rem;
-            color: var(--text-secondary);
-            font-weight: 600;
-        }
-
-        .school-list {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .school-card {
-            background: white;
-            border-radius: var(--radius-md);
-            padding: 20px;
-            border: 2px solid transparent;
-            transition: all 0.3s ease;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-        }
-
-        .school-card:hover {
-            transform: translateY(-3px) scale(1.01);
-            box-shadow: 0 8px 28px rgba(30, 58, 138, 0.18), 0 2px 8px rgba(0,0,0,0.08);
-            border-color: var(--primary-blue-light);
-            transition: all 0.3s ease;
-        }
-
-        .card-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 12px;
-        }
-
-        .school-name {
-            font-size: 1.15rem;
-            font-weight: 700;
-            color: var(--text-primary);
-            flex: 1;
-        }
-
-        .tag-badge {
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 700;
-            margin-left: 12px;
-            white-space: nowrap;
-        }
-
-        .tag-chong {
-            background: var(--tag-chong-bg);
-            color: var(--tag-chong);
-            border: 1.5px solid rgba(245, 158, 11, 0.3);
-        }
-
-        .tag-wen {
-            background: var(--tag-wen-bg);
-            color: var(--tag-wen);
-            border: 1.5px solid rgba(16, 185, 129, 0.3);
-        }
-
-        .tag-bao {
-            background: var(--tag-bao-bg);
-            color: var(--tag-bao);
-            border: 1.5px solid rgba(59, 130, 246, 0.3);
-        }
-
-        /* 院校元信息标签行 */
-        .card-meta {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 6px;
-            margin-bottom: 10px;
-        }
-
-        .meta-tag {
-            padding: 3px 8px;
-            border-radius: 4px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            background: #F1F5F9;
-            color: var(--text-secondary);
-        }
-
-        .meta-tag.level-bachelor {
-            background: rgba(37, 99, 235, 0.08);
-            color: #2563EB;
-        }
-
-        .meta-tag.level-associate {
-            background: rgba(245, 158, 11, 0.08);
-            color: #D97706;
-        }
-
-        .meta-tag.nature-public {
-            background: rgba(16, 185, 129, 0.08);
-            color: #059669;
-        }
-
-        .meta-tag.nature-private {
-            background: rgba(139, 92, 246, 0.08);
-            color: #7C3AED;
-        }
-
-        .card-body {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
-            margin-top: 12px;
-        }
-
-        .info-item {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .info-label {
-            font-size: 0.8rem;
-            color: var(--text-secondary);
-            margin-bottom: 4px;
-        }
-
-        .info-value {
-            font-size: 0.95rem;
-            font-weight: 600;
-            color: var(--text-primary);
-        }
-
-        .diff-indicator {
-            margin-top: 12px;
-            padding: 10px;
-            background: rgba(30, 58, 138, 0.05);
-            border-radius: var(--radius-sm);
-            text-align: center;
-            font-size: 0.9rem;
-            font-weight: 600;
-        }
-
-        .diff-positive {
-            color: var(--tag-wen);
-        }
-
-        .diff-negative {
-            color: var(--tag-chong);
-        }
-
-        .empty-state {
-            text-align: center;
-            padding: 60px 20px;
-            color: var(--text-secondary);
-        }
-
-        .empty-state-icon {
-            font-size: 4rem;
-            margin-bottom: 16px;
-        }
-
-        .empty-state-text {
-            font-size: 1.1rem;
-            font-weight: 600;
-        }
+            .school-list > * { min-width: 300px; flex-shrink: 0; scroll-snap-align: start; }
+            .batch-group-header{min-width:300px;flex-shrink:0}
+            .school-card{min-width:300px;flex-shrink:0}
+        }
+        .dash-sub{font-size:0.82rem;color:var(--text-tertiary);font-weight:500;line-height:1.5}
+
+        .stats-bar{display:flex;gap:8px;margin-bottom:16px;padding:10px 14px;background:white;border-radius:var(--radius-md);border:1px solid var(--border-light);font-size:0.85rem;font-weight:700}
+        @media(max-width:768px){.stats-bar{gap:4px;padding:6px 8px;font-size:0.75rem}}
+        .stat-item{display:flex;align-items:center;justify-content:center;gap:6px;padding:8px 12px;border-radius:var(--radius-sm);color:white;cursor:pointer;transition:all 0.3s}
+        @media(max-width:768px){.stat-item{padding:6px 8px}}
+        .stat-item:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,0,0,0.3)}
+        .stat-item.active{box-shadow:inset 0 2px 6px rgba(0,0,0,0.35),0 0 0 3px rgba(30,41,59,0.8);transform:scale(1.04);font-weight:800}
+        .stats-bar.filtering .stat-item:not(.active){opacity:0.45}
+        .stat-num{font-size:1.3rem;font-weight:900;min-width:28px;text-align:center}
+        @media(max-width:768px){.stat-num{font-size:1rem}}
+        .stat-bao{background:linear-gradient(135deg,#3B82F6,#2563EB)}
+        .stat-wen{background:linear-gradient(135deg,#10B981,#059669)}
+        .stat-chong{background:linear-gradient(135deg,#F59E0B,#D97706)}
+
+        .filter-bar{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-bottom:20px;padding:16px;background:rgba(30,58,138,0.03);border-radius:var(--radius-md);border:1px solid var(--border-light)}
+        @media(max-width:768px){.filter-bar{gap:6px;padding:10px;flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch}}
+        .filter-label{font-size:0.85rem;font-weight:700;color:var(--text-secondary);white-space:nowrap}
+        @media(max-width:768px){.filter-label{font-size:0.75rem}}
+        .multi-select-wrapper{position:relative;min-width:130px}
+        .multi-select-trigger{display:flex;align-items:center;justify-content:space-between;padding:8px 12px;background:white;border:2px solid var(--border-light);border-radius:var(--radius-sm);font-size:0.9rem;color:var(--text-primary);cursor:pointer;transition:all 0.3s;gap:8px;white-space:nowrap}
+        @media(max-width:768px){.multi-select-trigger{font-size:0.8rem;padding:6px 8px}}
+        .multi-select-trigger:hover{border-color:var(--primary-blue-light)}
+        .multi-select-trigger .arrow{font-size:0.7rem;transition:transform 0.3s}
+        .multi-select-trigger.open .arrow{transform:rotate(180deg)}
+        .multi-select-dropdown{display:none;position:absolute;top:calc(100%+4px);left:0;min-width:200px;max-height:240px;overflow-y:auto;background:white;border:2px solid var(--primary-blue-light);border-radius:var(--radius-sm);box-shadow:0 8px 24px rgba(0,0,0,0.15);z-index:100;padding:4px 0}
+        .multi-select-dropdown.show{display:block}
+        .multi-select-dropdown .option{display:flex;align-items:center;padding:8px 12px;cursor:pointer;font-size:0.9rem;color:var(--text-primary);transition:background 0.2s;gap:8px}
+        .multi-select-dropdown .option:hover{background:rgba(37,99,235,0.08)}
+        .multi-select-dropdown .option input[type="checkbox"]{accent-color:var(--primary-blue-light);width:16px;height:16px}
+        .multi-select-dropdown .actions{display:flex;gap:8px;padding:8px 12px;border-top:1px solid var(--border-light);position:sticky;bottom:0;background:white}
+        .multi-select-dropdown .actions button{flex:1;padding:6px 12px;border:1px solid var(--border-light);border-radius:var(--radius-sm);font-size:0.8rem;cursor:pointer;font-weight:600;transition:all 0.2s}
+        .multi-select-dropdown .btn-select-all{background:rgba(37,99,235,0.1);color:var(--primary-blue-light);border-color:var(--primary-blue-light)}
+        .multi-select-dropdown .btn-select-all:hover{background:var(--primary-blue-light);color:white}
+        .multi-select-dropdown .btn-clear{background:rgba(239,68,68,0.1);color:#EF4444;border-color:#EF4444}
+        .multi-select-dropdown .btn-clear:hover{background:#EF4444;color:white}
+        .select-wrapper select{padding:8px 12px;background:white;border:2px solid var(--border-light);border-radius:var(--radius-sm);font-size:0.9rem;color:var(--text-primary);cursor:pointer;transition:all 0.3s;min-width:110px}
+        @media(max-width:768px){.select-wrapper select{font-size:0.8rem;padding:6px 8px;min-width:auto}}
+        .select-wrapper select:focus{outline:none;border-color:var(--primary-blue-light)}
+
+        .active-filters{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+        .filter-tag{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;background:rgba(37,99,235,0.1);color:var(--primary-blue-light);border-radius:20px;font-size:0.8rem;font-weight:600;border:1px solid rgba(37,99,235,0.2)}
+        .filter-tag .remove-tag{cursor:pointer;font-size:1.1rem;line-height:1;color:var(--primary-blue-light);margin-left:2px}
+        .filter-tag .remove-tag:hover{color:#EF4444}
+
+        .school-list-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;padding-bottom:16px;border-bottom:2px solid var(--border-light)}
+        .school-list-title{font-size:1.2rem;font-weight:700;color:var(--text-primary)}
+        .school-count{font-size:0.9rem;color:var(--text-secondary);background:rgba(30,58,138,0.1);padding:6px 12px;border-radius:var(--radius-sm)}
+        .batch-group-header{margin:16px 0 12px;padding:10px 16px;background:linear-gradient(135deg,rgba(30,58,138,0.08),rgba(37,99,235,0.05));border-left:4px solid var(--primary-blue);border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:space-between}
+        .batch-group-title{font-size:1rem;font-weight:700;color:var(--primary-blue)}
+        .batch-group-count{font-size:0.85rem;color:var(--text-secondary);font-weight:600}
+        .school-list{display:flex;flex-direction:column;gap:12px}
+
+        .school-card{background:white;border-radius:var(--radius-md);padding:20px;border:2px solid transparent;transition:all 0.3s;box-shadow:0 2px 8px rgba(0,0,0,0.06)}
+        .school-card:hover{transform:translateY(-3px) scale(1.01);box-shadow:0 8px 28px rgba(30,58,138,0.18),0 2px 8px rgba(0,0,0,0.08);border-color:var(--primary-blue-light)}
+        @media(max-width:768px){.school-card{padding:14px}}
+        .card-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px}
+        .school-name{font-size:1.15rem;font-weight:700;color:var(--text-primary);flex:1}
+        @media(max-width:768px){.school-name{font-size:1rem}}
+        .school-code-inline{font-size:1.05rem;font-weight:600;color:#6366F1;margin-left:6px}
+        @media(max-width:768px){.school-code-inline{font-size:0.9rem}}
+        .tag-badge{padding:4px 12px;border-radius:20px;font-size:0.8rem;font-weight:700;margin-left:12px;white-space:nowrap}
+        .tag-chong{background:var(--tag-chong-bg);color:var(--tag-chong);border:1.5px solid rgba(245,158,11,0.3)}
+        .tag-wen{background:var(--tag-wen-bg);color:var(--tag-wen);border:1.5px solid rgba(16,185,129,0.3)}
+        .tag-bao{background:var(--tag-bao-bg);color:var(--tag-bao);border:1.5px solid rgba(59,130,246,0.3)}
+        .card-meta{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
+        .meta-tag{padding:3px 8px;border-radius:4px;font-size:0.75rem;font-weight:600;background:#F1F5F9;color:var(--text-secondary)}
+        .meta-tag.level-bachelor{background:rgba(37,99,235,0.08);color:#2563EB}
+        .meta-tag.level-associate{background:rgba(245,158,11,0.08);color:#D97706}
+        .meta-tag.nature-public{background:rgba(16,185,129,0.08);color:#059669}
+        .meta-tag.nature-private{background:rgba(139,92,246,0.08);color:#7C3AED}
+        .card-body{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:12px}
+        @media(max-width:768px){.card-body{grid-template-columns:1fr 1fr;gap:8px}}
+        .info-item{display:flex;flex-direction:column}
+        .info-label{font-size:0.8rem;color:var(--text-secondary);margin-bottom:4px}
+        .info-value{font-size:0.95rem;font-weight:600;color:var(--text-primary)}
+        .major-code-inline{font-size:0.85rem;font-weight:600;color:#EC4899;margin-left:4px}
+        @media(max-width:768px){.major-code-inline{font-size:0.78rem}}
+        .diff-indicator{margin-top:12px;padding:10px;background:rgba(30,58,138,0.05);border-radius:var(--radius-sm);text-align:center;font-size:0.9rem;font-weight:600}
+        .diff-positive{color:var(--tag-wen)}
+        .diff-negative{color:var(--tag-chong)}
+        .empty-state{text-align:center;padding:60px 20px;color:var(--text-secondary)}
+        .empty-state-icon{font-size:4rem;margin-bottom:16px}
+        .empty-state-text{font-size:1.1rem;font-weight:600}
+
+        .export-bar{display:none;gap:10px;margin-bottom:16px;flex-wrap:wrap}
+        .export-bar.visible{display:flex}
+        @media(max-width:768px){.export-bar{gap:6px}}
+        .btn-export{padding:8px 16px;border:none;border-radius:var(--radius-sm);font-size:0.85rem;font-weight:700;cursor:pointer;transition:all 0.3s;white-space:nowrap}
+        .btn-export:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,0,0,0.2)}
+        .btn-export-xlsx{background:linear-gradient(135deg,#059669,#10B981);color:white}
+        .btn-export-csv{background:linear-gradient(135deg,#6366F1,#818CF8);color:white}
+        .btn-export-copy{background:linear-gradient(135deg,#D97706,#F59E0B);color:white}
+
+        .card-remark{margin-top:8px;padding:8px 10px;background:rgba(245,158,11,0.06);border-left:3px solid #F59E0B;border-radius:0 var(--radius-sm) var(--radius-sm) 0;font-size:0.8rem;color:#92400E;line-height:1.5}
+        .card-remark.empty{background:rgba(148,163,184,0.06);border-left-color:#94A3B8;color:var(--text-tertiary);font-style:italic}
     </style>
 </head>
 <body>
-    <div class="main-container">
-        <!-- ========== 左侧输入面板 ========== -->
-        <div class="input-panel">
-            <div class="panel-header">
-                <h1>🎵 音乐类志愿智投</h1>
-                <p>精准预测 · 科学填报</p>
-            </div>
-
-            <div class="input-group">
-                <label for="cultureScore">📚 高考文化课分数</label>
-                <input type="number" id="cultureScore" placeholder="例如：450" min="0" max="750">
-            </div>
-
-            <div class="input-group">
-                <label for="musicScore">🎹 音乐专业统考分数</label>
-                <input type="number" id="musicScore" placeholder="例如：240" min="0" max="300">
-            </div>
-
-            <div class="input-group">
-                <label for="directionSelect">🎯 专业方向</label>
-                <select id="directionSelect">
-                    <option value="vocal">🎤 声乐</option>
-                    <option value="instrumental">🎸 器乐</option>
-                    <option value="education">🏫 音乐教育</option>
-                </select>
-            </div>
-
-            <button class="btn-calculate" id="btnCalculate">
-                🚀 开始智能预测
-            </button>
-        </div>
-
-        <!-- ========== 右侧结果面板 ========== -->
-        <div class="result-panel">
-            <!-- 数据看板 -->
-            <div class="dashboard" id="dashboard">
-                <div class="dash-card score">
-                    <div>预估综合分（等位分校准）</div>
-                    <div class="dash-val" id="comprehensiveScore">0.00</div>
-                    <div class="dash-sub" id="predictedRank">综合全省第 -- 名</div>
-                </div>
-                <div class="dash-card rank">
-                    <div>综合排名 ➔ 2025等位换算</div>
-                    <div class="dash-val" id="pureArtRank" style="color: #b45309;">--</div>
-                    <div class="dash-sub" id="pureArtYear">等位综合分校准中</div>
-                </div>
-                <div class="dash-card logic">
-                    <div>艺术赛道文化超越率</div>
-                    <div class="dash-val" id="culturePercent" style="color: #10b981;">0.0%</div>
-                    <div class="dash-sub" id="cultureRankDetail">文化全省第 -- 名</div>
-                </div>
-            </div>
-
-            <!-- ========== 冲稳保统计条 ========== -->
-            <div class="stats-bar" id="statsBar" style="display:none;"></div>
-
-            <!-- ========== 高级筛选栏 ========== -->
-            <div class="filter-bar" id="filterBar" style="display: none;">
-                <span class="filter-label">🔍 高级筛选：</span>
-
-                <!-- 省份多选 -->
-                <div class="multi-select-wrapper" id="provinceSelectWrapper">
-                    <div class="multi-select-trigger" id="provinceTrigger" onclick="toggleProvinceDropdown()">
-                        <span id="provinceTriggerText">全部省份</span>
-                        <span class="arrow">▼</span>
-                    </div>
-                    <div class="multi-select-dropdown" id="provinceDropdown">
-                        <div class="actions">
-                            <button class="btn-select-all" onclick="selectAllProvinces()">全选</button>
-                            <button class="btn-clear" onclick="clearAllProvinces()">清空</button>
-                        </div>
-                        <div id="provinceOptions"></div>
-                    </div>
-                </div>
-
-                <!-- 办学性质 -->
-                <span class="filter-label">性质</span>
-                <div class="select-wrapper">
-                    <select id="natureSelect" onchange="applyFilters()">
-                        <option value="">全部性质</option>
-                        <option value="公办">🏫 公办</option>
-                        <option value="民办">🏢 民办</option>
-                        <option value="中外合作">🌐 中外合作</option>
-                    </select>
-                </div>
-
-                <!-- 学历层次 -->
-                <span class="filter-label">层次</span>
-                <div class="select-wrapper">
-                    <select id="levelSelect" onchange="applyFilters()">
-                        <option value="">全部层次</option>
-                        <option value="本科">🎓 本科</option>
-                        <option value="专科">📋 专科</option>
-                    </select>
-                </div>
-
-                <!-- 投档批次 -->
-                <span class="filter-label">批次</span>
-                <div class="select-wrapper">
-                    <select id="batchSelect" onchange="applyFilters()">
-                        <option value="">全部批次</option>
-                        <option value="本科批第1次投档">本科批·第1次投档</option>
-                        <option value="本科批第1次录取">本科批·第1次录取</option>
-                        <option value="本科批第2次投档">本科批·第2次投档</option>
-                        <option value="专科批第1次投档">专科批·第1次投档</option>
-                        <option value="专科批第2次投档">专科批·第2次投档</option>
-                    </select>
-                </div>
-            </div>
-
-            <!-- 已选过滤标签 -->
-            <div class="active-filters" id="activeFilters"></div>
-
-            <!-- 学校列表头 -->
-            <div class="school-list-header">
-                <div class="school-list-title">🏫 推荐院校梯度列表</div>
-                <div class="school-count" id="schoolCount">0 所</div>
-            </div>
-
-            <!-- 学校列表容器 -->
-            <div class="school-list" id="schoolList">
-                <div class="empty-state">
-                    <div class="empty-state-icon">📝</div>
-                    <div class="empty-state-text">请输入分数并点击"开始智能预测"</div>
-                </div>
-            </div>
-        </div>
+<div class="main-container">
+<div class="input-panel">
+    <div class="panel-header">
+        <h1>🎵 音乐类志愿智投</h1>
+        <p>精准预测 · 科学填报</p>
     </div>
+    <div class="input-group"><label for="cultureScore">📚 高考文化课分数</label><input type="number" id="cultureScore" placeholder="例如：450" min="0" max="750"></div>
+    <div class="input-group"><label for="musicScore">🎹 音乐专业统考分数</label><input type="number" id="musicScore" placeholder="例如：240" min="0" max="300"></div>
+    <div class="input-group"><label for="directionSelect">🎯 专业方向</label>
+        <select id="directionSelect">
+            <option value="vocal">🎤 声乐</option>
+            <option value="instrumental">🎸 器乐</option>
+            <option value="education">🏫 音乐教育</option>
+        </select>
+    </div>
+    <button type="button" class="btn-calculate" id="btnCalculate">🚀 开始智能预测</button>
+</div>
+<div class="result-panel" id="resultPanelAnchor">
+    <div class="dashboard" id="dashboard">
+        <div class="dash-card score"><div>预估综合分（等位分校准）</div><div class="dash-val" id="comprehensiveScore">0.00</div><div class="dash-sub" id="predictedRank">综合全省第 -- 名</div></div>
+        <div class="dash-card rank"><div>综合排名 ➔ 2025等位换算</div><div class="dash-val" id="pureArtRank" style="color:#b45309;">--</div><div class="dash-sub" id="pureArtYear">等位综合分校准中</div></div>
+        <div class="dash-card logic"><div>艺术赛道文化超越率</div><div class="dash-val" id="culturePercent" style="color:#10b981;">0.0%</div><div class="dash-sub" id="cultureRankDetail">文化全省第 -- 名</div></div>
+    </div>
+    <div class="stats-bar" id="statsBar" style="display:none;"></div>
+    <div class="filter-bar" id="filterBar" style="display:none;">
+        <span class="filter-label">🔍 筛选：</span>
+        <div class="multi-select-wrapper" id="provinceSelectWrapper">
+            <div class="multi-select-trigger" id="provinceTrigger" onclick="toggleProvinceDropdown()"><span id="provinceTriggerText">全部省份</span><span class="arrow">▼</span></div>
+            <div class="multi-select-dropdown" id="provinceDropdown">
+                <div class="actions"><button class="btn-select-all" onclick="selectAllProvinces()">全选</button><button class="btn-clear" onclick="clearAllProvinces()">清空</button></div>
+                <div id="provinceOptions"></div>
+            </div>
+        </div>
+        <span class="filter-label">性质</span>
+        <div class="select-wrapper"><select id="natureSelect" onchange="applyFilters()"><option value="">全部</option><option value="公办">公办</option><option value="民办">民办</option></select></div>
+        <span class="filter-label">层次</span>
+        <div class="select-wrapper"><select id="levelSelect" onchange="applyFilters()"><option value="">全部</option><option value="本科">本科</option><option value="专科">专科</option></select></div>
+        <span class="filter-label">批次</span>
+        <div class="select-wrapper"><select id="batchSelect" onchange="applyFilters()"><option value="">全部</option><option value="本科批第1次投档">第1次投档</option><option value="本科批第1次录取">第1次录取</option><option value="本科批第2次投档">第2次投档</option><option value="专科批第1次投档">专科1次</option><option value="专科批第2次投档">专科2次</option></select></div>
+    </div>
+    <div class="active-filters" id="activeFilters"></div>
+    <div class="export-bar" id="exportBar">
+        <button class="btn-export btn-export-xlsx" onclick="exportToExcel()" title="导出 Excel 文件，可用 WPS/Office 打开">📥 导出 Excel</button>
+        <button class="btn-export btn-export-csv" onclick="exportToCSV()" title="导出 CSV 通用格式">📄 导出 CSV</button>
+        <button class="btn-export btn-export-copy" onclick="copyForFill()" title="一键复制学校代码+专业代码，直接粘贴到志愿填报系统">📋 复制志愿代码</button>
+    </div>
+    <div class="school-list-header"><div class="school-list-title">🏫 推荐院校梯度列表</div><div class="school-count" id="schoolCount">0 所</div></div>
+    <div class="school-list" id="schoolList"><div class="empty-state"><div class="empty-state-icon">📝</div><div class="empty-state-text">请输入分数并点击"开始智能预测"</div></div></div>
+</div>
+</div>
 
-    <script>
-        // ==================== 状态管理 ====================
-        const state = {
-            schools: [],
-            rankData: {},
-            calcResult: null,
-            // 筛选状态
-            filters: {
-                provinces: [],      // 选中的省份列表（空=全选）
-                nature: '',        // 办学性质
-                level: '',         // 学历层次
-                batch: '',         // 投档批次
-            gradient: ''       // 梯度筛选: ''=全部, 'bao'/'wen'/'chong'
-            },
-            allProvinces: []       // 所有可用省份
-        };
+<script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script>
+<script>
+// ==================== 状态管理 ====================
+const state = {
+    schools: [], rankData: {}, calcResult: null,
+    filters: { provinces: [], nature: '', level: '', batch: '', gradient: '' },
+    allProvinces: [], currentDisplay: []
+};
+const E = {
+    cultureScore: gid('cultureScore'), musicScore: gid('musicScore'),
+    directionSelect: gid('directionSelect'), btnCalculate: gid('btnCalculate'),
+    dashboard: gid('dashboard'), comprehensiveScore: gid('comprehensiveScore'),
+    predictedRank: gid('predictedRank'), pureArtRank: gid('pureArtRank'),
+    pureArtYear: gid('pureArtYear'), culturePercent: gid('culturePercent'),
+    cultureRankDetail: gid('cultureRankDetail'), schoolList: gid('schoolList'),
+    schoolCount: gid('schoolCount'), filterBar: gid('filterBar'),
+    provinceTrigger: gid('provinceTrigger'), provinceDropdown: gid('provinceDropdown'),
+    provinceOptions: gid('provinceOptions'), provinceTriggerText: gid('provinceTriggerText'),
+    natureSelect: gid('natureSelect'), levelSelect: gid('levelSelect'),
+    batchSelect: gid('batchSelect'), activeFilters: gid('activeFilters'),
+    exportBar: gid('exportBar')
+};
+function gid(id){return document.getElementById(id)}
 
-        // ==================== DOM元素缓存 ====================
-        const elements = {
-            cultureScore: document.getElementById('cultureScore'),
-            musicScore: document.getElementById('musicScore'),
-            directionSelect: document.getElementById('directionSelect'),
-            btnCalculate: document.getElementById('btnCalculate'),
-            dashboard: document.getElementById('dashboard'),
-            comprehensiveScore: document.getElementById('comprehensiveScore'),
-            predictedRank: document.getElementById('predictedRank'),
-            pureArtRank: document.getElementById('pureArtRank'),
-            pureArtYear: document.getElementById('pureArtYear'),
-            culturePercent: document.getElementById('culturePercent'),
-            cultureRankDetail: document.getElementById('cultureRankDetail'),
-            schoolList: document.getElementById('schoolList'),
-            schoolCount: document.getElementById('schoolCount'),
-            filterBar: document.getElementById('filterBar'),
-            provinceTrigger: document.getElementById('provinceTrigger'),
-            provinceDropdown: document.getElementById('provinceDropdown'),
-            provinceOptions: document.getElementById('provinceOptions'),
-            provinceTriggerText: document.getElementById('provinceTriggerText'),
-            natureSelect: document.getElementById('natureSelect'),
-            levelSelect: document.getElementById('levelSelect'),
-            batchSelect: document.getElementById('batchSelect'),
-            activeFilters: document.getElementById('activeFilters')
-        };
+// ==================== 初始化 ====================
+async function init(){
+    await Promise.all([loadSchools(), loadRanks()]);
+    E.btnCalculate.addEventListener('click', handleCalculate);
+    document.addEventListener('click', function(e){
+        const w = gid('provinceSelectWrapper');
+        if(w && !w.contains(e.target)){E.provinceDropdown.classList.remove('show');E.provinceTrigger.classList.remove('open')}
+    });
+}
+async function loadSchools(){
+    try{
+        const d = await (await fetch('./data.json')).json();
+        state.schools = d.schools || [];
+        state.allProvinces = [...new Set(state.schools.map(s=>s.province))].sort();
+        initProvinceDropdown();
+        console.log('Schools:', state.schools.length);
+    }catch(e){alert('data.json 加载失败')}
+}
+async function loadRanks(){
+    try{
+        state.rankData = await (await fetch('./compressed_ranks.json')).json();
+        console.log('Ranks:', Object.keys(state.rankData).length, 'dicts');
+    }catch(e){alert('compressed_ranks.json 加载失败'); state.rankData={}}
+}
+function initProvinceDropdown(){
+    E.provinceOptions.innerHTML = state.allProvinces.map(p=>`<div class="option" onclick="toggleProvince('${p}',event)"><input type="checkbox" value="${p}" checked id="prov_${p}" onclick="event.stopPropagation();toggleProvince('${p}')"><label for="prov_${p}" style="cursor:pointer;flex:1;">📍 ${p}</label></div>`).join('');
+}
 
-        // ==================== 初始化 ====================
-        async function init() {
-            await Promise.all([
-                loadSchoolData(),
-                loadRankData()
-            ]);
-            bindEvents();
+// ==================== 省份多选 ====================
+function toggleProvinceDropdown(){const o=E.provinceDropdown.classList.contains('show');if(o){E.provinceDropdown.classList.remove('show');E.provinceTrigger.classList.remove('open')}else{E.provinceDropdown.classList.add('show');E.provinceTrigger.classList.add('open')}}
+function toggleProvince(p,e){if(e)e.stopPropagation();const i=state.filters.provinces.indexOf(p);if(i>=0)state.filters.provinces.splice(i,1);else state.filters.provinces.push(p);updateProvinceCheckboxes();updateProvinceTriggerText();applyFilters()}
+function selectAllProvinces(){state.filters.provinces=[];updateProvinceCheckboxes();updateProvinceTriggerText();applyFilters()}
+function clearAllProvinces(){state.filters.provinces=[...state.allProvinces];updateProvinceCheckboxes();updateProvinceTriggerText();applyFilters()}
+function updateProvinceCheckboxes(){state.allProvinces.forEach(p=>{const c=gid('prov_'+p);if(c)c.checked=!state.filters.provinces.includes(p)})}
+function updateProvinceTriggerText(){const s=state.allProvinces.filter(p=>!state.filters.provinces.includes(p));if(!s.length||s.length===state.allProvinces.length)E.provinceTriggerText.textContent='全部省份';else if(s.length<=3)E.provinceTriggerText.textContent=s.join('、');else E.provinceTriggerText.textContent=`已选 ${s.length} 省`}
+
+// ==================== 等位分标准化4步流程 ====================
+// STEP 1: 原始综合分 = 文化×0.5 + 专业×2.5×0.5
+// STEP 2: 专业分 → 查2026_art表 → 2026专业位次
+// STEP 3: 位次 → 反查2025_art表 → 2025等位专业分
+// STEP 4: 等位综合分 = 文化×0.5 + 等位专业分×2.5×0.5 → 查2025综合表 → 综合位次
+function handleCalculate(){
+    try{
+        const culture = parseFloat(E.cultureScore.value);
+        const pro = parseFloat(E.musicScore.value);
+        const dir = E.directionSelect.value;
+        if(isNaN(culture)||isNaN(pro)){alert('请输入分数');return}
+
+        // 重置筛选条件
+        state.filters = { provinces: [], nature: '', level: '', batch: '', gradient: '' };
+        if(E.natureSelect) E.natureSelect.value = '';
+        if(E.levelSelect) E.levelSelect.value = '';
+        if(E.batchSelect) E.batchSelect.value = '';
+        updateProvinceCheckboxes();
+        updateProvinceTriggerText();
+
+        const art2026 = state.rankData[dir+'_art_2026'];
+        const art2025 = state.rankData[dir+'_art_2025'];
+        const comp2025 = state.rankData[dir+'_2025'];
+        const cult2025 = state.rankData[dir+'_culture_2025'];
+
+        // STEP 1
+        const rawComp = +(culture*0.5 + pro*2.5*0.5).toFixed(2);
+
+        // STEP 2
+        let artRank = null;
+        if(art2026) artRank = rankFromDict(art2026, pro);
+        else if(art2025) artRank = rankFromDict(art2025, pro);
+
+        // STEP 3
+        let equivPro = pro;
+        if(art2026 && art2025 && artRank){
+            const eq = scoreFromRank(art2025, artRank);
+            if(eq) equivPro = eq;
         }
 
-        // ==================== 加载学校数据 ====================
-        async function loadSchoolData() {
-            try {
-                const response = await fetch('./data.json');
-                if (!response.ok) throw new Error('HTTP error');
-                const data = await response.json();
-                state.schools = data.schools || [];
-                // 收集所有省份
-                const provinceSet = new Set();
-                state.schools.forEach(s => { if (s.province) provinceSet.add(s.province); });
-                state.allProvinces = Array.from(provinceSet).sort();
-                initProvinceDropdown();
-                console.log(`✅ 加载 ${state.schools.length} 所学校数据`);
-            } catch (error) {
-                console.error('❌ 加载学校数据失败:', error);
-                alert('学校数据加载失败，请检查 data.json 文件');
-            }
+        // STEP 4
+        const equivComp = +(culture*0.5 + equivPro*2.5*0.5).toFixed(2);
+        let compRank = null;
+        if(comp2025) compRank = rankFromDict(comp2025, equivComp);
+
+        // 文化课超越率
+        let culturePct=0, cultureRank=null, cultureTotal=0;
+        if(cult2025){
+            cultureRank = rankFromDict(cult2025, culture);
+            const vals = Object.values(cult2025);
+            if(vals.length > 0) cultureTotal = Math.max(...vals);
+            if(cultureRank && cultureTotal>0) culturePct = ((1-cultureRank/cultureTotal)*100).toFixed(1);
         }
 
-        // ==================== 加载艺术类位次数据 ====================
-        async function loadRankData() {
-            try {
-                const response = await fetch('./compressed_ranks.json');
-                if (!response.ok) throw new Error('HTTP error');
-                state.rankData = await response.json();
+        state.calcResult = {rawComp, comprehensive:equivComp, comprehensiveRank:compRank, musicScore:pro, equivalentProf2025:equivPro, pureArtRank:artRank, culturePct, cultureRank, cultureTotal, direction:dir};
+        renderResults(state.calcResult);
+        console.log('✅ 计算完成:', state.calcResult);
+    }catch(e){
+        console.error('❌ 计算失败:', e);
+        alert('计算出错：' + e.message);
+    }
+}
 
-                console.log('✅ 艺术类位次数据加载成功！');
-                console.log(`   - 包含数据集: ${Object.keys(state.rankData).join(', ')}`);
-            } catch (error) {
-                console.error('❌ 加载位次数据失败:', error);
-                alert('位次数据加载失败，请检查 compressed_ranks.json 文件');
-                state.rankData = {};
-            }
+// ==================== 插值算法 ====================
+function rankFromDict(dict, score){
+    if(!dict) return null;
+    const arr = Object.entries(dict).map(([s,c])=>({score:parseFloat(s),cum:c})).sort((a,b)=>b.score-a.score);
+    return interp(arr, score, 'score', 'cum');
+}
+function scoreFromRank(dict, rank){
+    if(!dict) return null;
+    const arr = Object.entries(dict).map(([s,c])=>({score:parseFloat(s),rank:c})).sort((a,b)=>b.score-a.score);
+    if(rank <= arr[0].rank) return arr[0].score;
+    for(let i=0;i<arr.length-1;i++){
+        if(arr[i].rank <= rank && arr[i+1].rank >= rank){
+            const t = (rank-arr[i].rank)/(arr[i+1].rank-arr[i].rank);
+            return +(arr[i].score + t*(arr[i+1].score-arr[i].score)).toFixed(2);
+        }
+    }
+    return arr[arr.length-1].score;
+}
+function interp(arr, target, keyS, keyR){
+    if(!arr||!arr.length) return null;
+    if(target >= arr[0][keyS]) return arr[0][keyR];
+    if(target <= arr[arr.length-1][keyS]) return arr[arr.length-1][keyR];
+    for(let i=0;i<arr.length-1;i++){
+        if(arr[i][keyS] > target && arr[i+1][keyS] <= target){
+            const t = (target-arr[i][keyS])/(arr[i+1][keyS]-arr[i][keyS]);
+            return Math.round(arr[i][keyR] + t*(arr[i+1][keyR]-arr[i][keyR]));
+        }
+    }
+    return null;
+}
+
+// ==================== 筛选 ====================
+function applyFilters(){
+    if(!state.calcResult) return; // 没有查询结果时不处理筛选
+    E.natureSelect&&(state.filters.nature=E.natureSelect.value);
+    E.levelSelect&&(state.filters.level=E.levelSelect.value);
+    E.batchSelect&&(state.filters.batch=E.batchSelect.value);
+    updateProvinceTriggerText(); updateActiveFilterTags();
+    renderSchoolList(state.calcResult);
+}
+function updateActiveFilterTags(){
+    const tags=[];
+    const sel = state.allProvinces.filter(p=>!state.filters.provinces.includes(p));
+    if(sel.length>0&&sel.length<state.allProvinces.length)sel.forEach(p=>tags.push({label:`📍 ${p}`,key:'province',value:p}));
+    if(state.filters.nature)tags.push({label:`🏫 ${state.filters.nature}`,key:'nature'});
+    if(state.filters.level)tags.push({label:`🎓 ${state.filters.level}`,key:'level'});
+    if(state.filters.batch)tags.push({label:`📋 ${state.filters.batch}`,key:'batch'});
+    E.activeFilters.innerHTML = tags.map(t=>`<span class="filter-tag">${t.label}<span class="remove-tag" onclick="removeFilter('${t.key}','${t.value||''}')">×</span></span>`).join('');
+}
+function removeFilter(key,val){
+    if(key==='province'){state.filters.provinces.push(val);updateProvinceCheckboxes();updateProvinceTriggerText()}
+    else if(key==='nature'){E.natureSelect.value='';state.filters.nature=''}
+    else if(key==='level'){E.levelSelect.value='';state.filters.level=''}
+    else if(key==='batch'){E.batchSelect.value='';state.filters.batch=''}
+    applyFilters();
+}
+function getFilteredSchools(result){
+    let f = state.schools.filter(s=>s.direction===result.direction);
+    const exp = new Set(state.filters.provinces);
+    if(exp.size>0) f = f.filter(s=>!exp.has(s.province));
+    if(state.filters.nature) f = f.filter(s=>s.nature===state.filters.nature);
+    if(state.filters.level) f = f.filter(s=>s.level===state.filters.level);
+    if(state.filters.batch) f = f.filter(s=>s.batch===state.filters.batch);
+    return f;
+}
+
+// ==================== 渲染 ====================
+function renderResults(result){
+    try{
+        if(E.dashboard) E.dashboard.classList.add('visible');
+        if(E.filterBar) E.filterBar.style.display='flex';
+
+        if(E.comprehensiveScore) E.comprehensiveScore.textContent = result.comprehensive.toFixed(2);
+        if(E.predictedRank) E.predictedRank.textContent = result.comprehensiveRank ? `综合全省第 ${result.comprehensiveRank.toLocaleString()} 名` : '综合全省第 -- 名';
+
+        if(result.pureArtRank){
+            if(E.pureArtRank) E.pureArtRank.textContent = `第 ${result.pureArtRank.toLocaleString()} 名`;
+            const raw = (result.rawComp||result.comprehensive).toFixed(2);
+            const diff = (result.rawComp-result.comprehensive).toFixed(2);
+            const sign = diff>=0?'+':'';
+            if(E.pureArtYear) E.pureArtYear.innerHTML = `2026原始综合分 <b>${raw}</b><br>➔ 2026全省第<b>${result.pureArtRank.toLocaleString()}</b>名<br>➔ 2025等位综合分 <b>${result.comprehensive.toFixed(2)}</b><br><span style="font-size:0.75rem;color:${diff>=0?'#ef4444':'#10b981'}">综合分年份差 ${sign}${diff}</span>`;
+        }else{
+            if(E.pureArtRank) E.pureArtRank.textContent = '--';
+            if(E.pureArtYear) E.pureArtYear.textContent = '等位综合分校准中';
         }
 
-        // ==================== 初始化省份多选下拉 ====================
-        function initProvinceDropdown() {
-            const optsDiv = elements.provinceOptions;
-            optsDiv.innerHTML = state.allProvinces.map(p => `
-                <div class="option" onclick="toggleProvince('${p}', event)">
-                    <input type="checkbox" value="${p}" checked id="prov_${p}" onclick="event.stopPropagation(); toggleProvince('${p}')">
-                    <label for="prov_${p}" style="cursor:pointer;flex:1;">📍 ${p}</label>
-                </div>
-            `).join('');
+        if(result.culturePct>0){
+            if(E.culturePercent) E.culturePercent.textContent = result.culturePct+'%';
+            const tt = result.cultureTotal ? ' / 共'+result.cultureTotal.toLocaleString()+'人' : '';
+            if(E.cultureRankDetail) E.cultureRankDetail.textContent = result.cultureRank ? `文化全省第 ${result.cultureRank.toLocaleString()} 名${tt}` : '文化全省第 -- 名'+tt;
+        }else{
+            if(E.culturePercent) E.culturePercent.textContent = '0.0%';
+            if(E.cultureRankDetail) E.cultureRankDetail.textContent = '文化全省第 -- 名';
         }
 
-        // ==================== 事件绑定 ====================
-        function bindEvents() {
-            elements.btnCalculate.addEventListener('click', handleCalculate);
-            // 点击外部关闭省份下拉
-            document.addEventListener('click', function(e) {
-                const wrapper = document.getElementById('provinceSelectWrapper');
-                if (wrapper && !wrapper.contains(e.target)) {
-                    elements.provinceDropdown.classList.remove('show');
-                    elements.provinceTrigger.classList.remove('open');
-                }
-            });
-        }
+        renderSchoolList(result);
+        if(window.innerWidth<=768||window.innerHeight>window.innerWidth) setTimeout(()=>{const a=gid('resultPanelAnchor');if(a)a.scrollIntoView({behavior:'smooth',block:'start'})},150);
+    }catch(e){
+        console.error('❌ 结果渲染失败:', e);
+    }
+}
 
-        // ==================== 省份多选逻辑 ====================
-        function toggleProvinceDropdown() {
-            const isOpen = elements.provinceDropdown.classList.contains('show');
-            if (isOpen) {
-                elements.provinceDropdown.classList.remove('show');
-                elements.provinceTrigger.classList.remove('open');
-            } else {
-                elements.provinceDropdown.classList.add('show');
-                elements.provinceTrigger.classList.add('open');
-            }
-        }
-
-        function toggleProvince(province, event) {
-            if (event) event.stopPropagation();
-            const idx = state.filters.provinces.indexOf(province);
-            if (idx >= 0) {
-                state.filters.provinces.splice(idx, 1);
-            } else {
-                state.filters.provinces.push(province);
-            }
-            // 同步checkbox状态（已在state中管理，重绘即可）
-            updateProvinceCheckboxes();
-            updateProvinceTriggerText();
-            applyFilters();
-        }
-
-        function selectAllProvinces() {
-            state.filters.provinces = [];
-            updateProvinceCheckboxes();
-            updateProvinceTriggerText();
-            applyFilters();
-        }
-
-        function clearAllProvinces() {
-            state.filters.provinces = [...state.allProvinces];
-            updateProvinceCheckboxes();
-            updateProvinceTriggerText();
-            applyFilters();
-        }
-
-        function updateProvinceCheckboxes() {
-            state.allProvinces.forEach(p => {
-                const cb = document.getElementById('prov_' + p);
-                if (cb) cb.checked = !state.filters.provinces.includes(p);
-            });
-        }
-
-        function updateProvinceTriggerText() {
-            const selected = state.allProvinces.filter(p => !state.filters.provinces.includes(p));
-            if (selected.length === 0 || selected.length === state.allProvinces.length) {
-                elements.provinceTriggerText.textContent = '全部省份';
-            } else if (selected.length <= 3) {
-                elements.provinceTriggerText.textContent = selected.join('、');
-            } else {
-                elements.provinceTriggerText.textContent = `已选 ${selected.length} 省`;
-            }
-        }
-
-        // =========================================================
-        //  等位分标准化4步流程 (数学绝对严谨！)
-        //  STEP 1: 原始综合分 = 文化×0.5 + 专业×2.5×0.5
-        //  STEP 2: 专业分 → 查2026_art表 → 2026专业位次
-        //  STEP 3: 位次 → 反查2025_art表 → 2025等位专业分
-        //  STEP 4: 等位综合分 = 文化×0.5 + 等位专业分×2.5×0.5
-        //         然后查2025综合表 → 综合位次 → 用于线差
-        //  余量 = 等位综合分 - 院校2025投档线
-        // =========================================================
-        function handleCalculate() {
-            const cultureScore = parseFloat(elements.cultureScore.value);
-            const musicScore = parseFloat(elements.musicScore.value);
-            const direction = elements.directionSelect.value;
-            if (isNaN(cultureScore) || isNaN(musicScore)) {
-                alert('请输入文化课和专业课分数');
-                return;
-            }
-
-            // 查表键名
-            const art2026 = state.rankData[`${direction}_art_2026`];
-            const art2025 = state.rankData[`${direction}_art_2025`];
-            const comp2025 = state.rankData[`${direction}_2025`];
-            const cult2025 = state.rankData[`${direction}_culture_2025`];
-
-            // ==== STEP 1: 2026原始综合分 ====
-            const rawComprehensive = cultureScore * 0.5 + musicScore * 2.5 * 0.5;
-            const rawCompRounded = Math.round(rawComprehensive * 100) / 100;
-
-            // ==== STEP 2: 2026专业分 → 2026专业位次 ====
-            let pureArtRank = null;
-            if (art2026) pureArtRank = getRankFromDict(art2026, musicScore);
-            else if (art2025) pureArtRank = getRankFromDict(art2025, musicScore);
-
-            // ==== STEP 3: 位次 → 2025等位专业分 ====
-            let equivalentProf2025 = musicScore;
-            if (art2026 && art2025 && pureArtRank) {
-                const eq = getScoreFromRank(art2025, pureArtRank);
-                if (eq) equivalentProf2025 = eq;
-            }
-
-            // ==== STEP 4: 2025等位综合分 & 综合位次 ====
-            const equivComprehensive = cultureScore * 0.5 + equivalentProf2025 * 2.5 * 0.5;
-            const equivCompRounded = Math.round(equivComprehensive * 100) / 100;
-
-            let comprehensiveRank = null;
-            if (comp2025) {
-                comprehensiveRank = getRankFromDict(comp2025, equivCompRounded);
-            }
-
-            // ==== 文化课超越率 ====
-            let culturePct = 0, cultureRank = null, cultureTotal = 0;
-            if (cult2025) {
-                cultureRank = getRankFromDict(cult2025, cultureScore);
-                cultureTotal = Math.max(...Object.values(cult2025));
-                if (cultureRank && cultureTotal > 0) {
-                    culturePct = ((1 - cultureRank / cultureTotal) * 100).toFixed(1);
-                }
-            }
-
-            state.calcResult = {
-                rawComp: rawCompRounded,
-                comprehensive: equivCompRounded,
-                comprehensiveRank,
-                musicScore,
-                equivalentProf2025,
-                pureArtRank,
-                culturePct,
-                cultureRank,
-                cultureTotal,
-                direction
-            };
-
-            renderResults(state.calcResult);
-        }
-
-        // ==================== 线性插值算法 ====================
-        function getRankByInterpolation(dataArray, targetScore) {
-            if (!dataArray || dataArray.length === 0) return null;
-
-            if (targetScore >= dataArray[0].score) return dataArray[0].cumulativeCount;
-            if (targetScore <= dataArray[dataArray.length - 1].score) return dataArray[dataArray.length - 1].cumulativeCount;
-
-            for (const item of dataArray) {
-                if (Math.abs(item.score - targetScore) < 0.01) return item.cumulativeCount;
-            }
-
-            for (let i = 0; i < dataArray.length - 1; i++) {
-                if (dataArray[i].score > targetScore && dataArray[i + 1].score <= targetScore) {
-                    const scoreUp = dataArray[i].score;
-                    const rankUp = dataArray[i].cumulativeCount;
-                    const scoreDown = dataArray[i + 1].score;
-                    const rankDown = dataArray[i + 1].cumulativeCount;
-
-                    const rank = rankUp + ((targetScore - scoreUp) / (scoreDown - scoreUp)) * (rankDown - rankUp);
-                    return Math.round(rank);
-                }
-            }
-
+function renderSchoolList(result){
+    try{
+        const filtered = getFilteredSchools(result);
+        const processed = filtered.map(school=>{
+            const line = typeof school.line === 'number' ? school.line : parseFloat(school.line) || 0;
+            const diff = result.comprehensive - line;
+            if(diff > 15) return {...school, diff, gradient:'bao', tagClass:'tag-bao', tagText:'保'};
+            if(diff >= 0) return {...school, diff, gradient:'wen', tagClass:'tag-wen', tagText:'稳'};
+            if(diff >= -5) return {...school, diff, gradient:'chong', tagClass:'tag-chong', tagText:'冲'};
             return null;
+        }).filter(Boolean).sort((a,b)=>{
+            const order = {chong:1, wen:2, bao:3};
+            const c = order[a.gradient] - order[b.gradient];
+            return c !== 0 ? c : b.diff - a.diff;
+        });
+
+        const bao = processed.filter(s=>s.gradient==='bao').length;
+        const wen = processed.filter(s=>s.gradient==='wen').length;
+        const chong = processed.filter(s=>s.gradient==='chong').length;
+        updateStatsBar(bao, wen, chong);
+
+        let display = processed;
+        const gf = state.filters.gradient;
+        if(gf) display = processed.filter(s=>s.gradient===gf);
+
+        state.currentDisplay = display;
+
+        if(E.exportBar) E.exportBar.classList.add('visible');
+        if(E.schoolCount) E.schoolCount.textContent = display.length+' 所';
+        if(!display.length){
+            if(E.schoolList) E.schoolList.innerHTML = '<div class="empty-state"><div class="empty-state-icon">😕</div><div class="empty-state-text">暂无匹配院校</div><p style="margin-top:8px;font-size:0.9rem">请调整分数或筛选条件</p></div>';
+            return;
         }
 
-        // ==================== 字典格式的插值查询 ====================
-        function getRankFromDict(dataDict, targetScore) {
-            if (!dataDict || typeof dataDict !== 'object') return null;
+        const bo = ['本科批第1次投档','本科批第1次录取','本科批第2次投档','专科批第1次投档','专科批第2次投档'];
+        const bg = {};
+        display.forEach(s=>{const b=s.batch||'其他';if(!bg[b])bg[b]=[];bg[b].push(s)});
+        let html = '';
+        Object.keys(bg).sort((a,b)=>(bo.indexOf(a)===-1?99:bo.indexOf(a))-(bo.indexOf(b)===-1?99:bo.indexOf(b))).forEach(batch=>{
+            html += `<div class="batch-group-header"><span class="batch-group-title">📋 ${batch}</span><span class="batch-group-count">${bg[batch].length} 个志愿</span></div>`;
+            html += bg[batch].map(createSchoolCard).join('');
+        });
+        if(E.schoolList) E.schoolList.innerHTML = html;
+        console.log('✅ 列表渲染完成:', display.length, '所院校');
+    }catch(e){
+        console.error('❌ 列表渲染失败:', e);
+    }
+}
 
-            const dataArray = Object.entries(dataDict)
-                .map(([score, count]) => ({ score: parseFloat(score), cumulativeCount: count }))
-                .sort((a, b) => b.score - a.score);
+function createSchoolCard(school){
+    const cleanMajor = (school.major||'').replace(/^\*+|\*+$/g,'').trim();
+    const diffText = school.diff>=0?`<span class="diff-positive">余 +${school.diff.toFixed(2)} 分</span>`:`<span class="diff-negative">差 ${school.diff.toFixed(2)} 分</span>`;
+    const lc = school.level==='本科'?'level-bachelor':'level-associate';
+    const nc = school.nature==='公办'?'nature-public':'nature-private';
+    const remark = school.remark || '';
+    const remarkHtml = remark
+        ? `<div class="card-remark">📌 ${remark}</div>`
+        : `<div class="card-remark empty">📌 暂无特殊报考要求</div>`;
+    return `<div class="school-card"><div class="card-header"><div class="school-name">${school.name}<span class="school-code-inline">${school.code||''}</span></div><span class="tag-badge ${school.tagClass}">${school.tagText}</span></div><div class="card-meta"><span class="meta-tag ${lc}">${school.level}</span><span class="meta-tag ${nc}">${school.nature}</span><span class="meta-tag">📍 ${school.province}</span></div><div class="card-body"><div class="info-item"><div class="info-label">专业名称</div><div class="info-value">${cleanMajor}<span class="major-code-inline">${school.major_code||''}</span></div></div><div class="info-item"><div class="info-label">2025投档线</div><div class="info-value">${school.line.toFixed(2)} 分</div></div><div class="info-item"><div class="info-label">招生计划</div><div class="info-value">${school.plan} 人</div></div></div>${remarkHtml}<div class="diff-indicator">${school.tagText} 🌟 ${diffText}</div></div>`;
+}
 
-            return getRankByInterpolation(dataArray, targetScore);
-        }
+function updateStatsBar(bao,wen,chong){
+    const el = gid('statsBar');
+    if(!el) return;
+    if(bao+wen+chong===0){el.style.display='none';return}
+    el.style.display='flex';
+    const a = state.filters.gradient;
+    el.className = 'stats-bar'+(a?' filtering':'');
+    el.innerHTML = `<div onclick="setGradientFilter('chong')" class="stat-item stat-chong ${a==='chong'?'active':''}" style="flex:${chong||0.1}"><span class="stat-num">${chong}</span><span>冲刺</span></div><div onclick="setGradientFilter('wen')" class="stat-item stat-wen ${a==='wen'?'active':''}" style="flex:${wen||0.1}"><span class="stat-num">${wen}</span><span>稳妥</span></div><div onclick="setGradientFilter('bao')" class="stat-item stat-bao ${a==='bao'?'active':''}" style="flex:${bao||0.1}"><span class="stat-num">${bao}</span><span>保底</span></div>${a?`<div onclick="setGradientFilter('')" class="stat-item" style="background:#64748b;cursor:pointer;flex:0.3"><span>✕ 全部</span></div>`:''}`;
+}
+function setGradientFilter(g){state.filters.gradient=state.filters.gradient===g?'':g;if(state.calcResult)renderSchoolList(state.calcResult)}
 
-        // ==================== 反向查询：排名 → 分数 ====================
-        function getScoreFromRank(dataDict, targetRank) {
-            if (!dataDict || typeof dataDict !== 'object') return null;
+// ==================== 导出功能 ====================
+function getExportData(){
+    if(!state.currentDisplay||!state.currentDisplay.length) return [];
+    return state.currentDisplay.map((s,i)=>{
+        const cleanMajor = (s.major||'').replace(/^\*+|\*+$/g,'').trim();
+        const diffSign = s.diff>=0?'+':'';
+        const gradMap = {bao:'保底',wen:'稳妥',chong:'冲刺'};
+        return {
+            '序号':i+1,
+            '梯度':gradMap[s.gradient]||s.gradient,
+            '学校代码':s.code||'',
+            '学校名称':s.name,
+            '专业代码':s.major_code||'',
+            '专业名称':cleanMajor,
+            '2025投档线':s.line.toFixed(2),
+            '等位综合分':state.calcResult.comprehensive.toFixed(2),
+            '分差(余量)':`${diffSign}${s.diff.toFixed(2)}`,
+            '招生计划':s.plan,
+            '省份':s.province,
+            '层次':s.level,
+            '性质':s.nature,
+            '投档批次':s.batch||'',
+            '报考要求':s.remark||'无特殊要求'
+        };
+    });
+}
 
-            const dataArray = Object.entries(dataDict)
-                .map(([score, count]) => ({ score: parseFloat(score), rank: count }))
-                .sort((a, b) => b.score - a.score);
+function buildExportInfo(){
+    const r=state.calcResult;if(!r)return'';
+    const dirMap={vocal:'声乐',instrumental:'器乐',education:'音乐教育'};
+    return `【2026年山东省音乐类志愿填报方案】
+文化分：${parseFloat(E.cultureScore.value)} | 专业分：${parseFloat(E.musicScore.value)} | 方向：${dirMap[r.direction]||r.direction}
+等位综合分：${r.comprehensive.toFixed(2)} | 综合位次：${r.comprehensiveRank?r.comprehensiveRank.toLocaleString()+'名':'--'} | 文化超越率：${r.culturePct}%
+原始综合分：${r.rawComp.toFixed(2)} | 2026专业位次：${r.pureArtRank?r.pureArtRank.toLocaleString()+'名':'--'}
+导出时间：${new Date().toLocaleString('zh-CN')}
+注：分差=等位综合分-2025投档线，保>15分、稳0~15分、冲-5~0分`;
+}
 
-            if (targetRank <= dataArray[0].rank) return dataArray[0].score;
-            if (targetRank >= dataArray[dataArray.length - 1].rank) return dataArray[dataArray.length - 1].score;
+function exportToExcel(){
+    const data = getExportData();
+    if(!data.length){alert('没有可导出的数据，请先查询');return}
+    const info = buildExportInfo();
+    const wb = XLSX.utils.book_new();
+    const rows = [
+        ['2026年山东省音乐类志愿填报方案'],
+        [''],
+        ['文化分',parseFloat(E.cultureScore.value),'专业分',parseFloat(E.musicScore.value),'方向',(()=>{const m={vocal:'声乐',instrumental:'器乐',education:'音乐教育'};return m[state.calcResult.direction]||state.calcResult.direction})()],
+        ['等位综合分',state.calcResult.comprehensive.toFixed(2),'综合位次',state.calcResult.comprehensiveRank?state.calcResult.comprehensiveRank.toLocaleString()+'名':'--','文化超越率',state.calcResult.culturePct+'%'],
+        ['导出时间',new Date().toLocaleString('zh-CN')],
+        [''],
+        Object.keys(data[0])
+    ];
+    data.forEach(d=>rows.push(Object.values(d)));
+    rows.push([],[
+        '说明：分差=等位综合分-2025投档线。保>15分 | 稳0~15分 | 冲-5~0分。报考要求请以各校招生章程为准。'
+    ]);
+    const ws = XLSX.utils.aoa_to_sheet(rows);
+    ws['!cols'] = [
+        {wch:5},{wch:6},{wch:8},{wch:22},{wch:8},{wch:18},
+        {wch:12},{wch:12},{wch:12},{wch:8},{wch:8},{wch:6},{wch:8},{wch:18},{wch:30}
+    ];
+    ws['!merges'] = [{s:{r:0,c:0},e:{r:0,c:14}}];
+    XLSX.utils.book_append_sheet(wb, ws, '志愿填报方案');
+    XLSX.writeFile(wb, `2026山东音乐志愿方案_${new Date().toISOString().slice(0,10)}.xlsx`);
+}
 
-            for (let i = 0; i < dataArray.length - 1; i++) {
-                if (dataArray[i].rank <= targetRank && dataArray[i + 1].rank >= targetRank) {
-                    const rankLow = dataArray[i].rank;
-                    const scoreHigh = dataArray[i].score;
-                    const rankHigh = dataArray[i + 1].rank;
-                    const scoreLow = dataArray[i + 1].score;
-                    const score = scoreHigh + ((targetRank - rankLow) / (rankHigh - rankLow)) * (scoreLow - scoreHigh);
-                    return Math.round(score * 100) / 100;
-                }
-            }
-            return null;
-        }
+function exportToCSV(){
+    const data = getExportData();
+    if(!data.length){alert('没有可导出的数据，请先查询');return}
+    const keys = Object.keys(data[0]);
+    const info = buildExportInfo();
+    let csv = '\uFEFF' + info.split('\n').map(l=>'"'+l.replace(/"/g,'""')+'"').join('\n') + '\n\n';
+    csv += keys.map(k=>'"'+k+'"').join(',') + '\n';
+    data.forEach(d=>csv += keys.map(k=>'"'+String(d[k]).replace(/"/g,'""')+'"').join(',') + '\n');
+    const blob = new Blob([csv],{type:'text/csv;charset=utf-8'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');a.href=url;a.download=`2026山东音乐志愿方案_${new Date().toISOString().slice(0,10)}.csv`;
+    a.click();URL.revokeObjectURL(url);
+}
 
-        // ==================== 筛选逻辑 ====================
-        function applyFilters() {
-            state.filters.nature = elements.natureSelect.value;
-            state.filters.level = elements.levelSelect.value;
-            state.filters.batch = elements.batchSelect.value;
-            updateProvinceTriggerText();
-            updateActiveFilterTags();
+function copyForFill(){
+    const data = getExportData();
+    if(!data.length){alert('没有可导出的数据，请先查询');return}
+    const lines = data.map(d=>`${d['梯度']}\t${d['学校代码']}\t${d['学校名称']}\t${d['专业代码']}\t${d['专业名称']}\t${d['报考要求']}`);
+    const text = '梯度\t学校代码\t学校名称\t专业代码\t专业名称\t报考要求\n'+lines.join('\n');
+    navigator.clipboard.writeText(text).then(()=>{
+        const btn = document.querySelector('.btn-export-copy');
+        const orig = btn.textContent;
+        btn.textContent='✅ 已复制!';btn.style.background='linear-gradient(135deg,#059669,#10B981)';
+        setTimeout(()=>{btn.textContent=orig;btn.style.background='linear-gradient(135deg,#D97706,#F59E0B)'},2000);
+    }).catch(()=>{
+        const ta = document.createElement('textarea');ta.value=text;
+        document.body.appendChild(ta);ta.select();document.execCommand('copy');
+        document.body.removeChild(ta);alert('已复制到剪贴板');
+    });
+}
 
-            if (state.calcResult) {
-                renderSchoolList(state.calcResult);
-            }
-        }
-
-        function updateActiveFilterTags() {
-            const tags = [];
-            const selectedProvinces = state.allProvinces.filter(p => !state.filters.provinces.includes(p));
-            if (selectedProvinces.length > 0 && selectedProvinces.length < state.allProvinces.length) {
-                selectedProvinces.forEach(p => {
-                    tags.push({ label: `📍 ${p}`, key: 'province', value: p });
-                });
-            }
-            if (state.filters.nature) {
-                tags.push({ label: `🏫 ${state.filters.nature}`, key: 'nature', value: state.filters.nature });
-            }
-            if (state.filters.level) {
-                tags.push({ label: `🎓 ${state.filters.level}`, key: 'level', value: state.filters.level });
-            }
-            if (state.filters.batch) {
-                tags.push({ label: `📋 ${state.filters.batch}`, key: 'batch', value: state.filters.batch });
-            }
-
-            elements.activeFilters.innerHTML = tags.map(t => `
-                <span class="filter-tag">
-                    ${t.label}
-                    <span class="remove-tag" onclick="removeFilter('${t.key}', '${t.value}')">×</span>
-                </span>
-            `).join('');
-        }
-
-        function removeFilter(key, value) {
-            if (key === 'province') {
-                state.filters.provinces.push(value);
-                updateProvinceCheckboxes();
-                updateProvinceTriggerText();
-            } else if (key === 'nature') {
-                elements.natureSelect.value = '';
-                state.filters.nature = '';
-            } else if (key === 'level') {
-                elements.levelSelect.value = '';
-                state.filters.level = '';
-            } else if (key === 'batch') {
-                elements.batchSelect.value = '';
-                state.filters.batch = '';
-            }
-            applyFilters();
-        }
-
-        function getFilteredSchools(result) {
-            // Step 1: 方向筛选
-            let filtered = state.schools.filter(school => school.direction === result.direction);
-
-            // Step 2: 省份筛选（排除法：provinces里存的是要排除的）
-            const excludedProvinces = new Set(state.filters.provinces);
-            if (excludedProvinces.size > 0) {
-                filtered = filtered.filter(s => !excludedProvinces.has(s.province));
-            }
-
-            // Step 3: 办学性质
-            if (state.filters.nature) {
-                filtered = filtered.filter(s => s.nature === state.filters.nature);
-            }
-
-            // Step 4: 学历层次
-            if (state.filters.level) {
-                filtered = filtered.filter(s => s.level === state.filters.level);
-            }
-
-            // Step 5: 投档批次
-            if (state.filters.batch) {
-                filtered = filtered.filter(s => s.batch === state.filters.batch);
-            }
-
-            return filtered;
-        }
-
-        // ==================== 渲染学校列表（冲稳保统计 + 批次分组） ====================
-        function renderSchoolList(result) {
-            const filtered = getFilteredSchools(result);
-
-            // ===== 余量 = 2025等位综合分 - 院校2025投档线（严禁用原始分！）=====
-            // ===== 阈值：保>15, 稳0~15, 冲-5~0, <-5不显示 =====
-            const processed = filtered.map(school => {
-                const diff = result.comprehensive - school.line;
-                let gradient, tagClass, tagText;
-
-                if (diff > 15)         { gradient = 'bao';   tagClass = 'tag-bao';   tagText = '保'; }
-                else if (diff >= 0)    { gradient = 'wen';   tagClass = 'tag-wen';   tagText = '稳'; }
-                else if (diff >= -5)   { gradient = 'chong'; tagClass = 'tag-chong'; tagText = '冲'; }
-                else { return null; } // <-5分不显示
-
-                return { ...school, diff, gradient, tagClass, tagText };
-            }).filter(Boolean);
-
-            // 按分差降序
-            processed.sort((a, b) => b.diff - a.diff);
-
-            // ===== 冲稳保统计 =====
-            const baoCount = processed.filter(s => s.gradient === 'bao').length;
-            const wenCount = processed.filter(s => s.gradient === 'wen').length;
-            const chongCount = processed.filter(s => s.gradient === 'chong').length;
-            updateStatsBar(baoCount, wenCount, chongCount);
-
-            // ===== 梯度筛选联动 =====
-            let displayList = processed;
-            const gFilter = state.filters.gradient;
-            if (gFilter) {
-                displayList = processed.filter(s => s.gradient === gFilter);
-            }
-
-            elements.schoolCount.textContent = `${displayList.length} 所`;
-            if (displayList.length === 0) {
-                elements.schoolList.innerHTML = `
-                    <div class="empty-state">
-                        <div class="empty-state-icon">😕</div>
-                        <div class="empty-state-text">暂无匹配的院校</div>
-                        <p style="margin-top:8px;font-size:0.9rem">请尝试调整分数或筛选条件</p>
-                    </div>`;
-                return;
-            }
-
-            // ===== 按批次分组 =====
-            const batchOrder = ['本科批第1次投档','本科批第1次录取','本科批第2次投档','专科批第1次投档','专科批第2次投档'];
-            const batchGroups = {};
-            displayList.forEach(s => {
-                const b = s.batch || '其他';
-                if (!batchGroups[b]) batchGroups[b] = [];
-                batchGroups[b].push(s);
-            });
-
-            let html = '';
-            const orderedBatches = Object.keys(batchGroups).sort((a,b) => {
-                const ia = batchOrder.indexOf(a), ib = batchOrder.indexOf(b);
-                return (ia===-1?99:ia)-(ib===-1?99:ib);
-            });
-
-            orderedBatches.forEach(batch => {
-                html += `<div class="batch-group-header">
-                    <span class="batch-group-title">📋 ${batch}</span>
-                    <span class="batch-group-count">${batchGroups[batch].length} 个志愿</span>
-                </div>`;
-                html += batchGroups[batch].map(createSchoolCard).join('');
-            });
-
-            elements.schoolList.innerHTML = html;
-        }
-
-        function updateStatsBar(bao, wen, chong) {
-            const el = document.getElementById('statsBar');
-            if (!el) return;
-            if (bao+wen+chong === 0) { el.style.display = 'none'; return; }
-            el.style.display = 'flex';
-            const active = state.filters.gradient;
-            el.className = 'stats-bar' + (active ? ' filtering' : '');
-            el.innerHTML = `
-                <div onclick="setGradientFilter('bao')" class="stat-item stat-bao ${active==='bao'?'active':''}" style="flex:${bao||0.1}">
-                    <span class="stat-num">${bao}</span><span>保底</span>
-                </div>
-                <div onclick="setGradientFilter('wen')" class="stat-item stat-wen ${active==='wen'?'active':''}" style="flex:${wen||0.1}">
-                    <span class="stat-num">${wen}</span><span>稳妥</span>
-                </div>
-                <div onclick="setGradientFilter('chong')" class="stat-item stat-chong ${active==='chong'?'active':''}" style="flex:${chong||0.1}">
-                    <span class="stat-num">${chong}</span><span>冲刺</span>
-                </div>
-                ${active ? `<div onclick="setGradientFilter('')" class="stat-item" style="background:#64748b;cursor:pointer;flex:0.3">
-                    <span>✕ 全部</span>
-                </div>` : ''}`;
-        }
-
-        function setGradientFilter(g) {
-            state.filters.gradient = state.filters.gradient === g ? '' : g;
-            if (state.calcResult) renderSchoolList(state.calcResult);
-        }
-
-        // ==================== 渲染结果（入口） ====================
-        function renderResults(result) {
-            elements.dashboard.classList.add('visible');
-            elements.filterBar.style.display = 'flex';
-
-            // 1. 预估综合分（2025等位校准后分数）
-            elements.comprehensiveScore.textContent = result.comprehensive.toFixed(2);
-            if (result.comprehensiveRank) {
-                elements.predictedRank.textContent = `综合全省第 ${result.comprehensiveRank.toLocaleString()} 名`;
-            } else {
-                elements.predictedRank.textContent = '综合全省第 -- 名';
-            }
-
-            // 2. 综合排名 → 2025等位换算链
-            if (result.pureArtRank) {
-                elements.pureArtRank.textContent = `第 ${result.pureArtRank.toLocaleString()} 名`;
-                const rawCompStr = (result.rawComp || result.comprehensive).toFixed(2);
-                const compYearDiff = (result.rawComp - result.comprehensive).toFixed(2);
-                const sign2 = compYearDiff >= 0 ? '+' : '';
-                elements.pureArtYear.innerHTML = 
-                    `2026原始综合分 <b>${rawCompStr}</b>
-                     <br>➔ 2026全省第<b>${result.pureArtRank.toLocaleString()}</b>名
-                     <br>➔ 2025等位综合分 <b>${result.comprehensive.toFixed(2)}</b>
-                     <br><span style="font-size:0.75rem;color:${compYearDiff>=0?'#ef4444':'#10b981'}">综合分年份差 ${sign2}${compYearDiff}</span>`;
-            } else {
-                elements.pureArtRank.textContent = '--';
-                elements.pureArtYear.textContent = '等位综合分校准中';
-            }
-
-            // 3. 文化课超越率（分母=该方向双达线总人数，非所有考生）
-            if (result.culturePct > 0) {
-                elements.culturePercent.textContent = `${result.culturePct}%`;
-                const totalText = result.cultureTotal ? ` / 共${result.cultureTotal.toLocaleString()}人` : '';
-                if (result.cultureRank) {
-                    elements.cultureRankDetail.textContent = `文化全省第 ${result.cultureRank.toLocaleString()} 名${totalText}`;
-                } else {
-                    elements.cultureRankDetail.textContent = `文化全省第 -- 名${totalText}`;
-                }
-            } else {
-                elements.culturePercent.textContent = '0.0%';
-                elements.cultureRankDetail.textContent = '文化全省第 -- 名';
-            }
-
-            // 渲染学校列表
-            renderSchoolList(result);
-        }
-
-        // ==================== 创建学校卡片（等位分余量 + 计划强调 + 名称净化） ====================
-        function createSchoolCard(school) {
-            // 净化专业名称：去除首尾空格、Excel表尾备注标识符(*)
-            const cleanMajor = (school.major || '').replace(/^\*+|\*+$/g,'').trim();
-            
-            // 余量 = 考生等位综合分 - 院校2025投档线
-            const diffText = school.diff >= 0
-                ? `<span class="diff-positive">余 +${school.diff.toFixed(2)} 分</span>`
-                : `<span class="diff-negative">差 ${school.diff.toFixed(2)} 分</span>`;
-
-            const levelClass = school.level === '本科' ? 'level-bachelor' : 'level-associate';
-            const natureClass = school.nature === '公办' ? 'nature-public' : 'nature-private';
-            
-            // 计划数突出：>=30人加粗
-            const planClass = school.plan >= 30 ? 'info-value' : 'info-value';
-
-            return `
-                <div class="school-card">
-                    <div class="card-header">
-                        <div class="school-name">${school.name}</div>
-                        <span class="tag-badge ${school.tagClass}">${school.tagText}</span>
-                    </div>
-                    <div class="card-meta">
-                        <span class="meta-tag ${levelClass}">${school.level}</span>
-                        <span class="meta-tag ${natureClass}">${school.nature}</span>
-                        <span class="meta-tag">📍 ${school.province}</span>
-                    </div>
-                    <div class="card-body">
-                        <div class="info-item">
-                            <div class="info-label">专业名称</div>
-                            <div class="info-value">${cleanMajor}</div>
-                        </div>
-                        <div class="info-item">
-                            <div class="info-label">2025投档线</div>
-                            <div class="info-value">${school.line.toFixed(2)} 分</div>
-                        </div>
-                        <div class="info-item plan-item">
-                            <div class="info-label">招生计划</div>
-                            <div class="${planClass}">${school.plan} 人</div>
-                        </div>
-                        <div class="info-item">
-                            <div class="info-label">投档批次</div>
-                            <div class="info-value">${school.batch || '--'}</div>
-                        </div>
-                    </div>
-                    <div class="diff-indicator">
-                        ${school.tagText} 🌟 ${diffText}
-                    </div>
-                </div>
-            `;
-        }
-
-        // ==================== 启动应用 ====================
-        window.addEventListener('DOMContentLoaded', init);
-    </script>
+window.addEventListener('DOMContentLoaded', init);
+</script>
 </body>
 </html>
