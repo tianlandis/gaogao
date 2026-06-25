@@ -187,28 +187,99 @@
         .school-card:hover{transform:translateY(-3px) scale(1.01);box-shadow:0 8px 28px rgba(30,58,138,0.18),0 2px 8px rgba(0,0,0,0.08);border-color:var(--primary-blue-light)}
         @media(max-width:768px){.school-card{padding:14px}}
         .card-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px}
-        .school-name{font-size:1.15rem;font-weight:700;color:var(--text-primary);flex:1}
-        @media(max-width:768px){.school-name{font-size:1rem}}
-        .school-code-inline{font-size:1.05rem;font-weight:600;color:#6366F1;margin-left:6px}
-        @media(max-width:768px){.school-code-inline{font-size:0.9rem}}
-        .tag-badge{padding:4px 12px;border-radius:20px;font-size:0.8rem;font-weight:700;margin-left:12px;white-space:nowrap}
+        .school-name{font-size:1.5rem;font-weight:900;color:var(--text-primary);flex:1;letter-spacing:0.02em}
+        @media(max-width:768px){.school-name{font-size:1.2rem}}
+        .school-code-inline{font-size:1.25rem;font-weight:800;color:#6366F1;margin-left:6px}
+        @media(max-width:768px){.school-code-inline{font-size:1.05rem}}
+        .tag-badge{padding:6px 16px;border-radius:20px;font-size:0.95rem;font-weight:800;margin-left:12px;white-space:nowrap;letter-spacing:0.04em}
         .tag-chong{background:var(--tag-chong-bg);color:var(--tag-chong);border:1.5px solid rgba(245,158,11,0.3)}
         .tag-wen{background:var(--tag-wen-bg);color:var(--tag-wen);border:1.5px solid rgba(16,185,129,0.3)}
         .tag-bao{background:var(--tag-bao-bg);color:var(--tag-bao);border:1.5px solid rgba(59,130,246,0.3)}
         .card-meta{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
-        .meta-tag{padding:3px 8px;border-radius:4px;font-size:0.75rem;font-weight:600;background:#F1F5F9;color:var(--text-secondary)}
+        .meta-tag{padding:5px 12px;border-radius:4px;font-size:0.9rem;font-weight:700;background:#F1F5F9;color:var(--text-secondary)}
         .meta-tag.level-bachelor{background:rgba(37,99,235,0.08);color:#2563EB}
         .meta-tag.level-associate{background:rgba(245,158,11,0.08);color:#D97706}
         .meta-tag.nature-public{background:rgba(16,185,129,0.08);color:#059669}
         .meta-tag.nature-private{background:rgba(139,92,246,0.08);color:#7C3AED}
-        .card-body{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:12px}
-        @media(max-width:768px){.card-body{grid-template-columns:1fr 1fr;gap:8px}}
+        /* 年份分区标签 — 2024/2025 退为低饱和历史参考 */
+        .card-section-label{font-size:1.02rem;font-weight:900;letter-spacing:0.08em;margin-bottom:8px;display:flex;align-items:center;gap:5px;padding:5px 14px;border-radius:6px}
+        .card-section-label.s2024{color:#9A3412;background:rgba(249,115,22,0.08);border-left:3px solid rgba(249,115,22,0.5);font-weight:800;opacity:1}
+        .card-section-label.s2025{color:#1E3A8A;background:none;border-left:2px solid rgba(37,99,235,0.4);font-weight:700;opacity:0.85}
+        /* 2026标签基础态，由label-warn/label-pending/label-normal动态覆盖 */
+        .card-section-label.s2026{color:#065F46;background:linear-gradient(135deg,rgba(5,150,105,0.1),rgba(16,185,129,0.05));border-left:4px solid #10B981}
+        .card-section-label.s2026.label-warn{color:#fff;background:#EF4444;border-left:4px solid #DC2626}
+        .card-section-label.s2026.label-pending{color:#fff;background:#F59E0B;border-left:4px solid #D97706}
+        .card-section-label.s2026.label-normal{color:#fff;background:#059669;border-left:4px solid #047857}
+        .card-section-divider{height:1px;background:var(--border-light);margin:8px 0}
+        /* 代码对比行 */
+        .card-code-compare{display:flex;gap:16px;font-size:0.85rem;color:var(--text-secondary);margin-bottom:8px;flex-wrap:wrap}
+        .card-code-compare .cc-item{display:flex;align-items:center;gap:4px}
+        .card-code-compare .cc-year{font-weight:700;padding:2px 6px;border-radius:3px;font-size:0.75rem}
+        .card-code-compare .cc-year.y2025{background:rgba(37,99,235,0.1);color:#2563EB}
+        .card-code-compare .cc-year.y2026{background:rgba(5,150,105,0.1);color:#059669}
+        .card-code-compare .cc-code{font-family:monospace;font-weight:700;font-size:0.92rem}
+        .card-code-compare .cc-warn{color:#EF4444;font-size:0.78rem;font-weight:700}
+        /* 2026标签行 — 标签+代码信息+变更警告 */
+        .section-label-row{display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap}
+        .section-label-row .card-section-label{margin-bottom:0}
+        .section-code-inline{display:inline-flex;align-items:center;gap:4px;font-size:0.9rem;font-weight:700;color:#065F46;background:rgba(5,150,105,0.08);padding:3px 10px;border-radius:4px}
+        .section-code-inline .sci-label{font-weight:500;font-size:0.78rem;opacity:0.75}
+        .section-code-inline .sci-code{font-family:monospace;font-weight:800;font-size:0.95rem}
+        /* 代码变更对比块 */
+        .code-change-block{display:flex;align-items:center;gap:8px;margin-top:6px;padding:8px 14px;background:linear-gradient(135deg,rgba(239,68,68,0.08),rgba(249,115,22,0.05));border:1px solid rgba(239,68,68,0.25);border-radius:8px;flex-wrap:wrap}
+        .code-change-badge{display:inline-flex;align-items:center;gap:3px;font-size:0.78rem;font-weight:900;color:#fff;background:#EF4444;padding:3px 10px;border-radius:4px;white-space:nowrap;animation:pulse-warn 1.5s ease-in-out infinite}
+        @keyframes pulse-warn{0%,100%{box-shadow:0 0 0 0 rgba(239,68,68,0.4)}50%{box-shadow:0 0 0 6px rgba(239,68,68,0)}}
+        .code-change-new{display:inline-flex;align-items:center;gap:4px;font-size:1.1rem;font-weight:900;color:#DC2626;white-space:nowrap}
+        .code-change-new .ccn-label{font-weight:600;font-size:0.75rem;color:#B91C1C;opacity:0.85}
+        .code-change-new .ccn-code{font-family:monospace;font-size:1.3rem;font-weight:900;color:#DC2626;background:rgba(220,38,38,0.1);padding:1px 6px;border-radius:3px;border:2px solid rgba(220,38,38,0.3)}
+        .code-change-old{display:inline-flex;align-items:center;gap:4px;font-size:0.8rem;color:#6B7280;white-space:nowrap}
+        .code-change-old .cco-label{font-weight:400;font-size:0.7rem;opacity:0.7}
+        .code-change-old .cco-code{font-family:monospace;font-size:0.82rem;color:#9CA3AF;text-decoration:line-through;text-decoration-color:rgba(107,114,128,0.5);background:rgba(107,114,128,0.06);padding:1px 4px;border-radius:2px}
+        .code-change-arrow{color:#EF4444;font-weight:900;font-size:1rem;white-space:nowrap}
+        /* 2024年录取数据 — 纯白底 + 极淡橙色细左边框（退为背景） */
+        .block-2024{background:linear-gradient(135deg,rgba(249,115,22,0.06),rgba(251,146,60,0.02));border:1px solid rgba(249,115,22,0.15);border-left:4px solid rgba(249,115,22,0.5);border-radius:var(--radius-sm);padding:12px 16px;margin-top:4px}
+        .block-2024 .card-body{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+        @media(max-width:768px){.block-2024 .card-body{grid-template-columns:1fr 1fr;gap:8px}}
+        .block-2024-missing{background:#fff;border:1px dashed rgba(249,115,22,0.15);border-left:2px solid rgba(249,115,22,0.4);border-radius:var(--radius-sm);padding:12px 16px;margin-top:4px}
+        /* 趋势指示器 */
+        .trend-indicator{display:flex;align-items:center;justify-content:center;gap:10px;margin:8px 0;padding:9px 18px;border-radius:var(--radius-sm);font-size:0.95rem;font-weight:800}
+        .trend-up{background:linear-gradient(135deg,rgba(239,68,68,0.1),rgba(249,115,22,0.05));color:#DC2626;border:1px solid rgba(239,68,68,0.2);border-left:3px solid #EF4444}
+        .trend-down{background:linear-gradient(135deg,rgba(16,185,129,0.1),rgba(5,150,105,0.05));color:#059669;border:1px solid rgba(16,185,129,0.2);border-left:3px solid #10B981}
+        .trend-flat{background:linear-gradient(135deg,rgba(148,163,184,0.08),rgba(203,213,225,0.04));color:#64748B;border:1px solid rgba(148,163,184,0.15);border-left:3px solid #94A3B8}
+        .trend-arrow{font-size:1.3rem}
+        .trend-diff{font-family:monospace;font-size:1.05rem;font-weight:900}
+        .trend-label{font-size:0.8rem;opacity:0.75;font-weight:600}
+        /* 2025年录取数据 — 纯白底 + 极淡蓝色细左边框（退为背景） */
+        .block-2025{background:#fff;border:1px solid rgba(37,99,235,0.12);border-left:2px solid rgba(37,99,235,0.4);border-radius:var(--radius-sm);padding:12px 16px;margin-top:4px}
+        .block-2025 .card-body{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+        @media(max-width:768px){.block-2025 .card-body{grid-template-columns:1fr 1fr;gap:8px}}
+        /* 2026年招生计划 — 状态机三态视觉 (P1告警 / P2待定 / P3高光) */
+        /* 共用网格 */
+        .block-2026-warn .card-body,
+        .block-2026-pending .card-body,
+        .block-2026-normal .card-body{display:grid;grid-template-columns:repeat(4,1fr);gap:8px 12px}
+        @media(max-width:768px){
+            .block-2026-warn .card-body,
+            .block-2026-pending .card-body,
+            .block-2026-normal .card-body{grid-template-columns:1fr 1fr;gap:6px}
+        }
+        /* P1: 代码/专业变动 — 全域告警（红色） */
+        .block-2026-warn{background:linear-gradient(135deg,rgba(239,68,68,0.1)0%,rgba(239,68,68,0.03)100%);border:1px solid rgba(239,68,68,0.2);border-left:6px solid #EF4444;border-radius:var(--radius-sm);padding:12px 16px;margin-top:4px}
+        /* P2: 暂无数据 — 虚线待定（橙黄） */
+        .block-2026-pending{background:rgba(245,158,11,0.03);border:1px dashed #F59E0B;border-left:4px solid #F59E0B;border-radius:var(--radius-sm);padding:12px 16px;margin-top:4px}
+        /* P3: 常规正常 — 高光翠绿（C位焦点） */
+        .block-2026-normal{background:linear-gradient(135deg,rgba(16,185,129,0.12)0%,rgba(5,150,105,0.05)100%);border:1px solid rgba(16,185,129,0.15);border-left:6px solid #10B981;border-radius:var(--radius-sm);padding:12px 16px;margin-top:4px}
+        /* section-code-inline 状态色 */
+        .section-code-inline.code-pending{color:#92400E;background:rgba(245,158,11,0.1)}
         .info-item{display:flex;flex-direction:column}
-        .info-label{font-size:0.8rem;color:var(--text-secondary);margin-bottom:4px}
-        .info-value{font-size:0.95rem;font-weight:600;color:var(--text-primary)}
-        .major-code-inline{font-size:0.85rem;font-weight:600;color:#EC4899;margin-left:4px}
-        @media(max-width:768px){.major-code-inline{font-size:0.78rem}}
-        .diff-indicator{margin-top:12px;padding:10px;background:rgba(30,58,138,0.05);border-radius:var(--radius-sm);text-align:center;font-size:0.9rem;font-weight:600}
+        .info-label{font-size:0.88rem;font-weight:600;color:var(--text-secondary);margin-bottom:3px;letter-spacing:0.03em}
+        .info-value{font-size:1.05rem;font-weight:800;color:var(--text-primary);word-break:break-all}
+        .info-value.highlight{color:#1D4ED8;font-size:1.15rem}
+        .info-value.highlight-green{color:#059669;font-size:1.2rem;font-weight:900}
+        .info-value.highlight-warn{color:#F59E0B;font-size:1.05rem;font-weight:800}
+        .major-code-inline{font-size:0.88rem;font-weight:700;color:#EC4899;margin-left:4px}
+        @media(max-width:768px){.major-code-inline{font-size:0.8rem}}
+        .diff-indicator{margin-top:14px;padding:14px;background:rgba(30,58,138,0.05);border-radius:var(--radius-sm);text-align:center;font-size:1.15rem;font-weight:800}
         .diff-positive{color:var(--tag-wen)}
         .diff-negative{color:var(--tag-chong)}
         .empty-state{text-align:center;padding:60px 20px;color:var(--text-secondary)}
@@ -224,8 +295,8 @@
         .btn-export-csv{background:linear-gradient(135deg,#6366F1,#818CF8);color:white}
         .btn-export-copy{background:linear-gradient(135deg,#D97706,#F59E0B);color:white}
 
-        .card-remark{margin-top:8px;padding:8px 10px;background:rgba(245,158,11,0.06);border-left:3px solid #F59E0B;border-radius:0 var(--radius-sm) var(--radius-sm) 0;font-size:0.8rem;color:#92400E;line-height:1.5}
-        .card-remark.empty{background:rgba(148,163,184,0.06);border-left-color:#94A3B8;color:var(--text-tertiary);font-style:italic}
+        .card-remark{margin-top:8px;padding:8px 10px;background:rgba(245,158,11,0.06);border-left:3px solid #F59E0B;border-radius:0 var(--radius-sm) var(--radius-sm) 0;font-size:0.85rem;color:#92400E;line-height:1.5}
+        .card-remark.empty{background:rgba(148,163,184,0.06);border-left-color:#94A3B8;color:var(--text-tertiary);font-style:italic;font-size:0.85rem}
     </style>
 </head>
 <body>
@@ -244,12 +315,12 @@
             <option value="education">🏫 音乐教育</option>
         </select>
     </div>
-    <button type="button" class="btn-calculate" id="btnCalculate">🚀 开始智能预测</button>
+    <button type="button" class="btn-calculate" id="btnCalculate">💫 心想事成</button>
 </div>
 <div class="result-panel" id="resultPanelAnchor">
     <div class="dashboard" id="dashboard">
         <div class="dash-card score"><div>预估综合分（等位分校准）</div><div class="dash-val" id="comprehensiveScore">0.00</div><div class="dash-sub" id="predictedRank">综合全省第 -- 名</div></div>
-        <div class="dash-card rank"><div>综合排名 ➔ 2025等位换算</div><div class="dash-val" id="pureArtRank" style="color:#b45309;">--</div><div class="dash-sub" id="pureArtYear">等位综合分校准中</div></div>
+        <div class="dash-card rank"><div>综合排名 ➔ 跨年等位换算</div><div class="dash-val" id="pureArtRank" style="color:#b45309;">--</div><div class="dash-sub" id="pureArtYear">等位综合分校准中</div></div>
         <div class="dash-card logic"><div>艺术赛道文化超越率</div><div class="dash-val" id="culturePercent" style="color:#10b981;">0.0%</div><div class="dash-sub" id="cultureRankDetail">文化全省第 -- 名</div></div>
     </div>
     <div class="stats-bar" id="statsBar" style="display:none;"></div>
@@ -284,7 +355,7 @@
 <script>
 // ==================== 状态管理 ====================
 const state = {
-    schools: [], rankData: {}, calcResult: null,
+    schools: [], rankData: {}, plan2026: [], calcResult: null,
     filters: { provinces: [], nature: '', level: '', batch: '', gradient: '' },
     allProvinces: [], currentDisplay: []
 };
@@ -306,7 +377,7 @@ function gid(id){return document.getElementById(id)}
 
 // ==================== 初始化 ====================
 async function init(){
-    await Promise.all([loadSchools(), loadRanks()]);
+    await Promise.all([loadSchools(), loadRanks(), loadPlan2026()]);
     E.btnCalculate.addEventListener('click', handleCalculate);
     document.addEventListener('click', function(e){
         const w = gid('provinceSelectWrapper');
@@ -327,6 +398,13 @@ async function loadRanks(){
         state.rankData = await (await fetch('./compressed_ranks.json')).json();
         console.log('Ranks:', Object.keys(state.rankData).length, 'dicts');
     }catch(e){alert('compressed_ranks.json 加载失败'); state.rankData={}}
+}
+async function loadPlan2026(){
+    try{
+        const d = await (await fetch('./plan_2026.json')).json();
+        state.plan2026 = d.plans || [];
+        console.log('Plan2026:', state.plan2026.length, 'records');
+    }catch(e){console.warn('plan_2026.json 加载失败（可能尚未生成）'); state.plan2026=[]}
 }
 function initProvinceDropdown(){
     E.provinceOptions.innerHTML = state.allProvinces.map(p=>`<div class="option" onclick="toggleProvince('${p}',event)"><input type="checkbox" value="${p}" checked id="prov_${p}" onclick="event.stopPropagation();toggleProvince('${p}')"><label for="prov_${p}" style="cursor:pointer;flex:1;">📍 ${p}</label></div>`).join('');
@@ -363,27 +441,51 @@ function handleCalculate(){
         const art2026 = state.rankData[dir+'_art_2026'];
         const art2025 = state.rankData[dir+'_art_2025'];
         const comp2025 = state.rankData[dir+'_2025'];
+        const comp2024 = state.rankData[dir+'_2024'];
         const cult2025 = state.rankData[dir+'_culture_2025'];
 
-        // STEP 1
+        // STEP 1: 计算原始2026综合分（仅参考）
         const rawComp = +(culture*0.5 + pro*2.5*0.5).toFixed(2);
 
-        // STEP 2
+        // STEP 2: 在2026专业分段表找到专业排名
         let artRank = null;
         if(art2026) artRank = rankFromDict(art2026, pro);
-        else if(art2025) artRank = rankFromDict(art2025, pro);
 
-        // STEP 3
+        // STEP 3: 专业分百分位等位换算（核心算法）
+        // 2026专业排名 → 2026专业百分位 → 映射到2025专业分段表同百分位 → 等位2025专业分
+        // 注意：必须用百分位而非绝对排名，因为两届考生总数不同
         let equivPro = pro;
+        let artPercentile = 0, artTotal2026 = 0, artTotal2025 = 0;
         if(art2026 && art2025 && artRank){
-            const eq = scoreFromRank(art2025, artRank);
-            if(eq) equivPro = eq;
+            const vals2026 = Object.values(art2026);
+            const vals2025 = Object.values(art2025);
+            artTotal2026 = vals2026.length > 0 ? Math.max(...vals2026) : 0;
+            artTotal2025 = vals2025.length > 0 ? Math.max(...vals2025) : 0;
+            if(artTotal2026 > 0 && artTotal2025 > 0){
+                artPercentile = artRank / artTotal2026;
+                const targetRank = Math.round(artPercentile * artTotal2025);
+                const eq = scoreFromRank(art2025, targetRank);
+                if(eq) equivPro = eq;
+            }
         }
 
-        // STEP 4
+        // STEP 4: 用等位专业分 + 文化分 算出2025等位综合分
         const equivComp = +(culture*0.5 + equivPro*2.5*0.5).toFixed(2);
+
+        // STEP 5: 等位综合分在2025综合分段表中的排名
         let compRank = null;
         if(comp2025) compRank = rankFromDict(comp2025, equivComp);
+
+        // 2024年综合表交叉参考（同分在不同年份的排名对比）
+        let compRank2024 = null, compTotal2024 = 0, compPct2024 = 0;
+        if(comp2024){
+            compRank2024 = rankFromDict(comp2024, equivComp);
+            const vals2024 = Object.values(comp2024);
+            if(vals2024.length > 0){
+                compTotal2024 = Math.max(...vals2024);
+                if(compRank2024 && compTotal2024 > 0) compPct2024 = (compRank2024/compTotal2024*100).toFixed(1);
+            }
+        }
 
         // 文化课超越率
         let culturePct=0, cultureRank=null, cultureTotal=0;
@@ -394,7 +496,7 @@ function handleCalculate(){
             if(cultureRank && cultureTotal>0) culturePct = ((1-cultureRank/cultureTotal)*100).toFixed(1);
         }
 
-        state.calcResult = {rawComp, comprehensive:equivComp, comprehensiveRank:compRank, musicScore:pro, equivalentProf2025:equivPro, pureArtRank:artRank, culturePct, cultureRank, cultureTotal, direction:dir};
+        state.calcResult = {rawComp, comprehensive:equivComp, comprehensiveRank:compRank, compRank2024, compTotal2024, compPct2024, musicScore:pro, pureArtRank:artRank, equivalentProf2025:equivPro, culturePct, cultureRank, cultureTotal, direction:dir, artPercentile, artTotal2026, artTotal2025};
         renderResults(state.calcResult);
         console.log('✅ 计算完成:', state.calcResult);
     }catch(e){
@@ -480,10 +582,22 @@ function renderResults(result){
 
         if(result.pureArtRank){
             if(E.pureArtRank) E.pureArtRank.textContent = `第 ${result.pureArtRank.toLocaleString()} 名`;
-            const raw = (result.rawComp||result.comprehensive).toFixed(2);
-            const diff = (result.rawComp-result.comprehensive).toFixed(2);
+            const diff = (result.rawComp - result.comprehensive).toFixed(2);
             const sign = diff>=0?'+':'';
-            if(E.pureArtYear) E.pureArtYear.innerHTML = `2026原始综合分 <b>${raw}</b><br>➔ 2026全省第<b>${result.pureArtRank.toLocaleString()}</b>名<br>➔ 2025等位综合分 <b>${result.comprehensive.toFixed(2)}</b><br><span style="font-size:0.75rem;color:${diff>=0?'#ef4444':'#10b981'}">综合分年份差 ${sign}${diff}</span>`;
+
+            // 详细换算信息
+            const pct = result.artPercentile ? (result.artPercentile*100).toFixed(1)+'%' : '';
+            const total26 = result.artTotal2026 ? result.artTotal2026.toLocaleString() : '?';
+            const total25 = result.artTotal2025 ? result.artTotal2025.toLocaleString() : '?';
+
+            if(E.pureArtYear) E.pureArtYear.innerHTML =
+                `2026专业全省第<b>${result.pureArtRank.toLocaleString()}</b>名 (前 <b>${pct}</b>)<br>` +
+                `➔ 2026届共<b>${total26}</b>人 · 2025届共<b>${total25}</b>人<br>` +
+                `➔ 百分位映射2025等位专业分 <b>${result.equivalentProf2025.toFixed(2)}</b> 分<br>` +
+                `➔ 2025等位综合分 <b>${result.comprehensive.toFixed(2)}</b><br>` +
+                (result.compRank2024 ? `2024综合参考：同分排第<b>${result.compRank2024.toLocaleString()}</b>/${result.compTotal2024.toLocaleString()}名 (前<b>${result.compPct2024}%</b>)<br>` : ``) +
+                (result.comprehensiveRank && result.compRank2024 ? `<span style="font-size:0.74rem;color:#b45309">📅 2024-2025排名差: ${result.compRank2024 - result.comprehensiveRank > 0 ? '前移' : '后移'}${Math.abs(result.compRank2024 - result.comprehensiveRank).toLocaleString()}名 (人数${result.compTotal2024 > result.artTotal2025 ? '更少' : '更多'}，gap=${Math.abs(result.compTotal2024 - result.artTotal2025)}人)</span><br>` : ``) +
+                `<span style="font-size:0.75rem;color:${diff>=0?'#ef4444':'#10b981'}">综合分年份差 ${sign}${diff}</span>`;
         }else{
             if(E.pureArtRank) E.pureArtRank.textContent = '--';
             if(E.pureArtYear) E.pureArtYear.textContent = '等位综合分校准中';
@@ -508,12 +622,40 @@ function renderResults(result){
 function renderSchoolList(result){
     try{
         const filtered = getFilteredSchools(result);
+        
+        // 建立 2026计划查询: (学校名, 专业名) → 计划数
+        const plan2026Map = {};
+        state.plan2026.forEach(p => {
+            if (p.direction === result.direction) {
+                const key = p.name + '|' + p.major.substring(0, 20);
+                plan2026Map[key] = p;
+            }
+        });
+        function findPlan2026(s) {
+            // 精确匹配：学校名+专业名
+            const keys = [
+                s.name + '|' + s.major.substring(0, 20),
+                s.name + '|' + (s.major||'').replace(/[（(].*[）)]/g,'').trim().substring(0, 20)
+            ];
+            for (const k of keys) {
+                if (plan2026Map[k]) return plan2026Map[k];
+            }
+            // 模糊匹配：学校名相同 + 专业关键词匹配
+            const majorKW = (s.major||'').replace(/[（(].*[）)]/g,'').substring(0, 8);
+            for (const [k, v] of Object.entries(plan2026Map)) {
+                const [pn, pm] = k.split('|');
+                if (pn === s.name && pm.includes(majorKW.substring(0,4))) return v;
+            }
+            return null;
+        }
+        
         const processed = filtered.map(school=>{
             const line = typeof school.line === 'number' ? school.line : parseFloat(school.line) || 0;
             const diff = result.comprehensive - line;
-            if(diff > 15) return {...school, diff, gradient:'bao', tagClass:'tag-bao', tagText:'保'};
-            if(diff >= 0) return {...school, diff, gradient:'wen', tagClass:'tag-wen', tagText:'稳'};
-            if(diff >= -5) return {...school, diff, gradient:'chong', tagClass:'tag-chong', tagText:'冲'};
+            const plan2026 = findPlan2026(school);
+            if(diff > 15) return {...school, diff, gradient:'bao', tagClass:'tag-bao', tagText:'保', plan2026:plan2026};
+            if(diff >= 0) return {...school, diff, gradient:'wen', tagClass:'tag-wen', tagText:'稳', plan2026:plan2026};
+            if(diff >= -5) return {...school, diff, gradient:'chong', tagClass:'tag-chong', tagText:'冲', plan2026:plan2026};
             return null;
         }).filter(Boolean).sort((a,b)=>{
             const order = {chong:1, wen:2, bao:3};
@@ -524,7 +666,8 @@ function renderSchoolList(result){
         const bao = processed.filter(s=>s.gradient==='bao').length;
         const wen = processed.filter(s=>s.gradient==='wen').length;
         const chong = processed.filter(s=>s.gradient==='chong').length;
-        updateStatsBar(bao, wen, chong);
+        const withPlan = processed.filter(s=>s.plan2026).length;
+        updateStatsBar(bao, wen, chong, withPlan);
 
         let display = processed;
         const gf = state.filters.gradient;
@@ -559,21 +702,151 @@ function createSchoolCard(school){
     const diffText = school.diff>=0?`<span class="diff-positive">余 +${school.diff.toFixed(2)} 分</span>`:`<span class="diff-negative">差 ${school.diff.toFixed(2)} 分</span>`;
     const lc = school.level==='本科'?'level-bachelor':'level-associate';
     const nc = school.nature==='公办'?'nature-public':'nature-private';
-    const remark = school.remark || '';
-    const remarkHtml = remark
-        ? `<div class="card-remark">📌 ${remark}</div>`
-        : `<div class="card-remark empty">📌 暂无特殊报考要求</div>`;
-    return `<div class="school-card"><div class="card-header"><div class="school-name">${school.name}<span class="school-code-inline">${school.code||''}</span></div><span class="tag-badge ${school.tagClass}">${school.tagText}</span></div><div class="card-meta"><span class="meta-tag ${lc}">${school.level}</span><span class="meta-tag ${nc}">${school.nature}</span><span class="meta-tag">📍 ${school.province}</span></div><div class="card-body"><div class="info-item"><div class="info-label">专业名称</div><div class="info-value">${cleanMajor}<span class="major-code-inline">${school.major_code||''}</span></div></div><div class="info-item"><div class="info-label">2025投档线</div><div class="info-value">${school.line.toFixed(2)} 分</div></div><div class="info-item"><div class="info-label">招生计划</div><div class="info-value">${school.plan} 人</div></div></div>${remarkHtml}<div class="diff-indicator">${school.tagText} 🌟 ${diffText}</div></div>`;
+    const p26 = school.plan2026;
+    const has2024 = school.line2024 != null && school.line2024 > 0;
+    const code25S = school.code||'—';
+    const code25M = school.major_code||'—';
+    const code26S = p26 ? p26.code : '—';
+    const code26M = p26 ? p26.major_code : '—';
+    const codeChanged = (p26 && !(p26.code === school.code && p26.major_code === school.major_code));
+    // codeChanged 仅用于展示代码对比块 + 红色高亮提醒，标签和底色统一绿色
+
+    // ──── 2024 区块（纯白轻量）────
+    let block2024 = '';
+    let trendIndicator = '';
+    if (has2024) {
+        const plan24 = school.plan2024 || 0;
+        const plan24Text = plan24 > 0 ? `${plan24} 人` : '—';
+        block2024 = `
+        <div class="card-section-label s2024">📊 2024年录取情况</div>
+        <div class="block-2024">
+            <div class="card-body">
+                <div class="info-item"><div class="info-label">专业名称</div><div class="info-value">${cleanMajor}</div></div>
+                <div class="info-item"><div class="info-label">投档线</div><div class="info-value" style="color:#EA580C;font-size:1.05rem;">${school.line2024.toFixed(2)} 分</div></div>
+                <div class="info-item"><div class="info-label">2024计划</div><div class="info-value">${plan24Text}</div></div>
+            </div>
+        </div>`;
+        const trend = school.line - school.line2024;
+        let trendCls, trendArrow, trendSign;
+        if (trend > 0.5) { trendCls = 'trend-up'; trendArrow = '📈 上涨'; trendSign = '+'; }
+        else if (trend < -0.5) { trendCls = 'trend-down'; trendArrow = '📉 下降'; trendSign = ''; }
+        else { trendCls = 'trend-flat'; trendArrow = '➡️ 持平'; trendSign = ''; }
+        trendIndicator = `<div class="trend-indicator ${trendCls}"><span class="trend-arrow">${trendArrow}</span><span class="trend-diff">${trendSign}${trend.toFixed(2)} 分</span><span class="trend-label">2024→2025</span></div>`;
+    } else {
+        block2024 = `
+        <div class="card-section-label s2024">📊 2024年录取情况</div>
+        <div class="block-2024-missing">
+            <div class="card-body"><div class="info-item"><div class="info-label">提示</div><div class="info-value" style="color:#94A3B8;font-size:0.85rem;">暂无2024年数据</div></div></div>
+        </div>`;
+    }
+
+    // ──── 2025 区块（纯白轻量）────
+    const plan25 = school.plan || 0;
+    const plan25Text = plan25 > 0 ? `${plan25} 人` : '—';
+    const block2025 = `
+        <div class="card-section-label s2025">📊 2025年录取情况</div>
+        <div class="block-2025">
+            <div class="card-body">
+                <div class="info-item"><div class="info-label">专业名称</div><div class="info-value">${cleanMajor}</div></div>
+                <div class="info-item"><div class="info-label">投档线</div><div class="info-value highlight">${school.line.toFixed(2)} 分</div></div>
+                <div class="info-item"><div class="info-label">2025计划</div><div class="info-value">${plan25Text}</div></div>
+            </div>
+        </div>`;
+
+    // ──── 2026 标签行（统一绿色）────
+    const codeInfoHtml = (p26 && !codeChanged) ? `<span class="section-code-inline"><span class="sci-label">院校</span><span class="sci-code">${code26S}</span><span class="sci-label">专业</span><span class="sci-code">${code26M}</span></span>` : '';
+    const codeCompareHtml = codeChanged ? `
+                <div class="code-change-block">
+                    <span class="code-change-badge">⚠️ 代码变更</span>
+                    <span class="code-change-arrow">→</span>
+                    <span class="code-change-new">
+                        <span class="ccn-label">2026院校</span><span class="ccn-code">${code26S}</span>
+                        <span class="ccn-label">2026专业</span><span class="ccn-code">${code26M}</span>
+                    </span>
+                    <span class="code-change-old">
+                        <span class="cco-label">(原2025: 院校</span><span class="cco-code">${code25S}</span>
+                        <span class="cco-label">专业</span><span class="cco-code">${code25M}</span><span class="cco-label">)</span>
+                    </span>
+                </div>` : '';
+    const sectionLabel2026 = p26
+        ? `<div class="section-label-row"><span class="card-section-label s2026 label-normal">📋 2026年招生计划</span>${codeCompareHtml}${codeInfoHtml}</div>`
+        : `<div class="card-section-label s2026 label-normal">📋 2026年招生计划</div>`;
+
+    // ──── 2026 数据块（统一绿色）────
+    let block2026 = '';
+    if (p26) {
+        const planVal = p26.plan > 0 ? `${p26.plan} 人` : '见简章';
+        const remark26 = p26.remark || '';
+        const remark26Html = remark26
+            ? `<div style="margin-top:8px;font-size:0.85rem;color:#065F46;font-weight:600;padding:5px 10px;background:rgba(5,150,105,0.06);border-radius:4px;">📌 ${remark26}</div>`
+            : '';
+        const blockCls = 'block-2026-normal';
+        const codeCls = codeChanged ? ' style="color:#DC2626;font-weight:800"' : '';
+        const planCls = 'highlight-green';
+
+        block2026 = `
+        <div class="${blockCls}">
+            <div class="card-body">
+                <div class="info-item"><div class="info-label">科类名称</div><div class="info-value">${p26.source_batch||'—'}</div></div>
+                <div class="info-item"><div class="info-label">计划</div><div class="info-value ${planCls}">${planVal}</div></div>
+                <div class="info-item"><div class="info-label">录取批次</div><div class="info-value">${p26.batch||'—'}</div></div>
+                <div class="info-item"><div class="info-label">学制</div><div class="info-value">${p26.years||'—'} ${p26.years?'年':''}</div></div>
+                <div class="info-item"><div class="info-label">专业代码</div><div class="info-value"${codeCls}>${p26.major_code||'—'}${codeChanged?' 🔄':''}</div></div>
+                <div class="info-item"><div class="info-label">专业名称</div><div class="info-value">${p26.major||'—'}</div></div>
+                <div class="info-item"><div class="info-label">办学性质</div><div class="info-value">${p26.nature||'—'}</div></div>
+                <div class="info-item"><div class="info-label">选科要求</div><div class="info-value">${p26.subject_req||'—'}</div></div>
+                <div class="info-item"><div class="info-label">学费</div><div class="info-value">${p26.fee ? '💰'+p26.fee.toLocaleString()+'元/年' : '—'}</div></div>
+                <div class="info-item"><div class="info-label">省份</div><div class="info-value">📍${p26.province||'—'}</div></div>
+                <div class="info-item"><div class="info-label">城市</div><div class="info-value">${p26.city||'—'}</div></div>
+            </div>
+            ${remark26Html}
+        </div>`;
+    } else {
+        block2026 = `
+        <div class="block-2026-normal">
+            <div class="card-body">
+                <div class="info-item"><div class="info-label">2026计划</div><div class="info-value highlight-warn">⚠ 暂无数据</div></div>
+                <div class="info-item"><div class="info-label">录取批次</div><div class="info-value highlight-warn">待公布</div></div>
+                <div class="info-item"><div class="info-label">说明</div><div class="info-value" style="font-size:0.85rem;font-weight:600;">当前显示为2025年数据</div></div>
+            </div>
+        </div>`;
+    }
+
+    return `<div class="school-card">
+        <div class="card-header">
+            <div class="school-name">${school.name}<span class="school-code-inline">${school.code||''}</span></div>
+            <span class="tag-badge ${school.tagClass}">${school.tagText}</span>
+        </div>
+        <div class="card-meta">
+            <span class="meta-tag ${lc}">${school.level}</span>
+            <span class="meta-tag ${nc}">${school.nature}</span>
+            <span class="meta-tag">📍 ${school.province}</span>
+        </div>
+        ${block2024}
+        ${trendIndicator}
+        <div class="card-section-divider"></div>
+        ${block2025}
+        <div class="card-section-divider"></div>
+        ${sectionLabel2026}
+        ${block2026}
+        <div class="diff-indicator">${school.tagText} 🌟 ${diffText}</div>
+    </div>`;
 }
 
-function updateStatsBar(bao,wen,chong){
+function updateStatsBar(bao,wen,chong,withPlan){
     const el = gid('statsBar');
     if(!el) return;
     if(bao+wen+chong===0){el.style.display='none';return}
     el.style.display='flex';
     const a = state.filters.gradient;
     el.className = 'stats-bar'+(a?' filtering':'');
-    el.innerHTML = `<div onclick="setGradientFilter('chong')" class="stat-item stat-chong ${a==='chong'?'active':''}" style="flex:${chong||0.1}"><span class="stat-num">${chong}</span><span>冲刺</span></div><div onclick="setGradientFilter('wen')" class="stat-item stat-wen ${a==='wen'?'active':''}" style="flex:${wen||0.1}"><span class="stat-num">${wen}</span><span>稳妥</span></div><div onclick="setGradientFilter('bao')" class="stat-item stat-bao ${a==='bao'?'active':''}" style="flex:${bao||0.1}"><span class="stat-num">${bao}</span><span>保底</span></div>${a?`<div onclick="setGradientFilter('')" class="stat-item" style="background:#64748b;cursor:pointer;flex:0.3"><span>✕ 全部</span></div>`:''}`;
+    const total = bao+wen+chong;
+    let summary = '';
+    if(withPlan!==undefined && total>0){
+        const pct = (withPlan/total*100).toFixed(0);
+        summary = `<span style="padding:4px 10px;background:rgba(139,92,246,0.1);color:#7C3AED;border-radius:20px;font-size:0.78rem;font-weight:700;white-space:nowrap">📋 2026计划覆盖 ${withPlan}/${total}(${pct}%)</span>`;
+    }
+    el.innerHTML = summary+`<div onclick="setGradientFilter('chong')" class="stat-item stat-chong ${a==='chong'?'active':''}" style="flex:${chong||0.1}"><span class="stat-num">${chong}</span><span>冲刺</span></div><div onclick="setGradientFilter('wen')" class="stat-item stat-wen ${a==='wen'?'active':''}" style="flex:${wen||0.1}"><span class="stat-num">${wen}</span><span>稳妥</span></div><div onclick="setGradientFilter('bao')" class="stat-item stat-bao ${a==='bao'?'active':''}" style="flex:${bao||0.1}"><span class="stat-num">${bao}</span><span>保底</span></div>${a?`<div onclick="setGradientFilter('')" class="stat-item" style="background:#64748b;cursor:pointer;flex:0.3"><span>全部</span></div>`:''}`;
 }
 function setGradientFilter(g){state.filters.gradient=state.filters.gradient===g?'':g;if(state.calcResult)renderSchoolList(state.calcResult)}
 
@@ -584,6 +857,10 @@ function getExportData(){
         const cleanMajor = (s.major||'').replace(/^\*+|\*+$/g,'').trim();
         const diffSign = s.diff>=0?'+':'';
         const gradMap = {bao:'保底',wen:'稳妥',chong:'冲刺'};
+        const p26 = s.plan2026;
+        const has24 = s.line2024 != null && s.line2024 > 0;
+        const trend = has24 ? (s.line - s.line2024) : null;
+        const trendText = trend != null ? `${trend>=0?'+':''}${trend.toFixed(2)}` : '—';
         return {
             '序号':i+1,
             '梯度':gradMap[s.gradient]||s.gradient,
@@ -591,15 +868,23 @@ function getExportData(){
             '学校名称':s.name,
             '专业代码':s.major_code||'',
             '专业名称':cleanMajor,
-            '2025投档线':s.line.toFixed(2),
-            '等位综合分':state.calcResult.comprehensive.toFixed(2),
-            '分差(余量)':`${diffSign}${s.diff.toFixed(2)}`,
-            '招生计划':s.plan,
             '省份':s.province,
             '层次':s.level,
             '性质':s.nature,
-            '投档批次':s.batch||'',
-            '报考要求':s.remark||'无特殊要求'
+            '2024投档线':has24?s.line2024.toFixed(2):'—',
+            '2024计划':has24?(s.plan2024||0):'—',
+            '2025投档线':s.line.toFixed(2),
+            '2025计划':s.plan||0,
+            '2024→2025趋势':trendText,
+            '2026计划':p26?p26.plan:'—',
+            '2026批次':p26?p26.batch:'—',
+            '2026学费':p26?p26.fee:'—',
+            '2026学制':p26?p26.years:'—',
+            '2026选科':p26?p26.subject_req:'—',
+            '等位综合分':state.calcResult.comprehensive.toFixed(2),
+            '分差(余量)':`${diffSign}${s.diff.toFixed(2)}`,
+            '2026备注':p26?p26.remark||'':'—',
+            '2025报考要求':s.remark||'无特殊要求'
         };
     });
 }
@@ -611,7 +896,7 @@ function buildExportInfo(){
 文化分：${parseFloat(E.cultureScore.value)} | 专业分：${parseFloat(E.musicScore.value)} | 方向：${dirMap[r.direction]||r.direction}
 等位综合分：${r.comprehensive.toFixed(2)} | 综合位次：${r.comprehensiveRank?r.comprehensiveRank.toLocaleString()+'名':'--'} | 文化超越率：${r.culturePct}%
 原始综合分：${r.rawComp.toFixed(2)} | 2026专业位次：${r.pureArtRank?r.pureArtRank.toLocaleString()+'名':'--'}
-导出时间：${new Date().toLocaleString('zh-CN')}
+含2024-2025-2026三年数据对比 | 导出时间：${new Date().toLocaleString('zh-CN')}
 注：分差=等位综合分-2025投档线，保>15分、稳0~15分、冲-5~0分`;
 }
 
@@ -636,9 +921,10 @@ function exportToExcel(){
     const ws = XLSX.utils.aoa_to_sheet(rows);
     ws['!cols'] = [
         {wch:5},{wch:6},{wch:8},{wch:22},{wch:8},{wch:18},
-        {wch:12},{wch:12},{wch:12},{wch:8},{wch:8},{wch:6},{wch:8},{wch:18},{wch:30}
+        {wch:12},{wch:12},{wch:12},{wch:12},{wch:12},{wch:8},{wch:8},{wch:8},{wch:10},
+        {wch:8},{wch:8},{wch:6},{wch:8},{wch:18},{wch:12},{wch:30},{wch:30}
     ];
-    ws['!merges'] = [{s:{r:0,c:0},e:{r:0,c:14}}];
+    ws['!merges'] = [{s:{r:0,c:0},e:{r:0,c:22}}];
     XLSX.utils.book_append_sheet(wb, ws, '志愿填报方案');
     XLSX.writeFile(wb, `2026山东音乐志愿方案_${new Date().toISOString().slice(0,10)}.xlsx`);
 }
