@@ -144,6 +144,8 @@
         .stat-bao{background:linear-gradient(135deg,#3B82F6,#2563EB)}
         .stat-wen{background:linear-gradient(135deg,#10B981,#059669)}
         .stat-chong{background:linear-gradient(135deg,#F59E0B,#D97706)}
+        .stat-excluded{background:linear-gradient(135deg,#6B7280,#9CA3AF)}
+        .stat-all{background:#64748B;flex:0.3!important}
 
         .filter-bar{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-bottom:20px;padding:16px;background:rgba(30,58,138,0.03);border-radius:var(--radius-md);border:1px solid var(--border-light)}
         @media(max-width:768px){.filter-bar{gap:6px;padding:10px;flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch}}
@@ -183,64 +185,69 @@
         .batch-group-count{font-size:0.85rem;color:var(--text-secondary);font-weight:600}
         .school-list{display:flex;flex-direction:column;gap:12px}
 
-        .school-card{background:white;border-radius:var(--radius-md);padding:20px;border:2px solid transparent;transition:all 0.3s;box-shadow:0 2px 8px rgba(0,0,0,0.06)}
+        .school-card{background:white;border-radius:var(--radius-md);padding:0;overflow:hidden;border:2px solid transparent;transition:all 0.3s;box-shadow:0 2px 8px rgba(0,0,0,0.06)}
         .school-card:hover{transform:translateY(-3px) scale(1.01);box-shadow:0 8px 28px rgba(30,58,138,0.18),0 2px 8px rgba(0,0,0,0.08);border-color:var(--primary-blue-light)}
-        @media(max-width:768px){.school-card{padding:14px}}
-        .card-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px}
-        .school-name{font-size:1.5rem;font-weight:900;color:var(--text-primary);flex:1;letter-spacing:0.02em}
-        @media(max-width:768px){.school-name{font-size:1.2rem}}
-        .school-code-inline{font-size:1.25rem;font-weight:800;color:#6366F1;margin-left:6px}
-        @media(max-width:768px){.school-code-inline{font-size:1.05rem}}
-        .tag-badge{padding:6px 16px;border-radius:20px;font-size:0.95rem;font-weight:800;margin-left:12px;white-space:nowrap;letter-spacing:0.04em}
+        /* 冲稳保 Tag（独立悬浮于概览区右上角） */
+        .tag-badge{padding:6px 16px;border-radius:20px;font-size:0.95rem;font-weight:800;white-space:nowrap;letter-spacing:0.04em;flex-shrink:0}
         .tag-chong{background:var(--tag-chong-bg);color:var(--tag-chong);border:1.5px solid rgba(245,158,11,0.3)}
         .tag-wen{background:var(--tag-wen-bg);color:var(--tag-wen);border:1.5px solid rgba(16,185,129,0.3)}
         .tag-bao{background:var(--tag-bao-bg);color:var(--tag-bao);border:1.5px solid rgba(59,130,246,0.3)}
-        .card-meta{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
-        .meta-tag{padding:5px 12px;border-radius:4px;font-size:0.9rem;font-weight:700;background:#F1F5F9;color:var(--text-secondary)}
+        /* 元信息 Tag */
+        .meta-tag{padding:4px 10px;border-radius:4px;font-size:0.82rem;font-weight:700;background:#F1F5F9;color:var(--text-secondary)}
         .meta-tag.level-bachelor{background:rgba(37,99,235,0.08);color:#2563EB}
         .meta-tag.level-associate{background:rgba(245,158,11,0.08);color:#D97706}
         .meta-tag.nature-public{background:rgba(16,185,129,0.08);color:#059669}
         .meta-tag.nature-private{background:rgba(139,92,246,0.08);color:#7C3AED}
-        /* 年份分区标签 — 2024/2025 退为低饱和历史参考 */
-        .card-section-label{font-size:1.02rem;font-weight:900;letter-spacing:0.08em;margin-bottom:8px;display:flex;align-items:center;gap:5px;padding:5px 14px;border-radius:6px}
-        .card-section-label.s2024{color:#9A3412;background:rgba(249,115,22,0.08);border-left:3px solid rgba(249,115,22,0.5);font-weight:800;opacity:1}
-        .card-section-label.s2025{color:#1E3A8A;background:none;border-left:2px solid rgba(37,99,235,0.4);font-weight:700;opacity:0.85}
-        /* 2026标签基础态，由label-warn/label-pending/label-normal动态覆盖 */
-        .card-section-label.s2026{color:#065F46;background:linear-gradient(135deg,rgba(5,150,105,0.1),rgba(16,185,129,0.05));border-left:4px solid #10B981}
-        .card-section-label.s2026.label-warn{color:#fff;background:#EF4444;border-left:4px solid #DC2626}
-        .card-section-label.s2026.label-pending{color:#fff;background:#F59E0B;border-left:4px solid #D97706}
-        .card-section-label.s2026.label-normal{color:#fff;background:#059669;border-left:4px solid #047857}
-        .card-section-divider{height:1px;background:var(--border-light);margin:8px 0}
-        /* 代码对比行 */
-        .card-code-compare{display:flex;gap:16px;font-size:0.85rem;color:var(--text-secondary);margin-bottom:8px;flex-wrap:wrap}
-        .card-code-compare .cc-item{display:flex;align-items:center;gap:4px}
-        .card-code-compare .cc-year{font-weight:700;padding:2px 6px;border-radius:3px;font-size:0.75rem}
-        .card-code-compare .cc-year.y2025{background:rgba(37,99,235,0.1);color:#2563EB}
-        .card-code-compare .cc-year.y2026{background:rgba(5,150,105,0.1);color:#059669}
-        .card-code-compare .cc-code{font-family:monospace;font-weight:700;font-size:0.92rem}
-        .card-code-compare .cc-warn{color:#EF4444;font-size:0.78rem;font-weight:700}
-        /* 2026标签行 — 标签+代码信息+变更警告 */
-        .section-label-row{display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap}
-        .section-label-row .card-section-label{margin-bottom:0}
-        .section-code-inline{display:inline-flex;align-items:center;gap:4px;font-size:0.9rem;font-weight:700;color:#065F46;background:rgba(5,150,105,0.08);padding:3px 10px;border-radius:4px}
-        .section-code-inline .sci-label{font-weight:500;font-size:0.78rem;opacity:0.75}
-        .section-code-inline .sci-code{font-family:monospace;font-weight:800;font-size:0.95rem}
-        /* 代码变更对比块 */
-        .code-change-block{display:flex;align-items:center;gap:8px;margin-top:6px;padding:8px 14px;background:linear-gradient(135deg,rgba(239,68,68,0.08),rgba(249,115,22,0.05));border:1px solid rgba(239,68,68,0.25);border-radius:8px;flex-wrap:wrap}
-        .code-change-badge{display:inline-flex;align-items:center;gap:3px;font-size:0.78rem;font-weight:900;color:#fff;background:#EF4444;padding:3px 10px;border-radius:4px;white-space:nowrap;animation:pulse-warn 1.5s ease-in-out infinite}
-        @keyframes pulse-warn{0%,100%{box-shadow:0 0 0 0 rgba(239,68,68,0.4)}50%{box-shadow:0 0 0 6px rgba(239,68,68,0)}}
-        .code-change-new{display:inline-flex;align-items:center;gap:4px;font-size:1.1rem;font-weight:900;color:#DC2626;white-space:nowrap}
-        .code-change-new .ccn-label{font-weight:600;font-size:0.75rem;color:#B91C1C;opacity:0.85}
-        .code-change-new .ccn-code{font-family:monospace;font-size:1.3rem;font-weight:900;color:#DC2626;background:rgba(220,38,38,0.1);padding:1px 6px;border-radius:3px;border:2px solid rgba(220,38,38,0.3)}
-        .code-change-old{display:inline-flex;align-items:center;gap:4px;font-size:0.8rem;color:#6B7280;white-space:nowrap}
-        .code-change-old .cco-label{font-weight:400;font-size:0.7rem;opacity:0.7}
-        .code-change-old .cco-code{font-family:monospace;font-size:0.82rem;color:#9CA3AF;text-decoration:line-through;text-decoration-color:rgba(107,114,128,0.5);background:rgba(107,114,128,0.06);padding:1px 4px;border-radius:2px}
-        .code-change-arrow{color:#EF4444;font-weight:900;font-size:1rem;white-space:nowrap}
-        /* 2024年录取数据 — 纯白底 + 极淡橙色细左边框（退为背景） */
-        .block-2024{background:linear-gradient(135deg,rgba(249,115,22,0.06),rgba(251,146,60,0.02));border:1px solid rgba(249,115,22,0.15);border-left:4px solid rgba(249,115,22,0.5);border-radius:var(--radius-sm);padding:12px 16px;margin-top:4px}
-        .block-2024 .card-body{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
-        @media(max-width:768px){.block-2024 .card-body{grid-template-columns:1fr 1fr;gap:8px}}
-        .block-2024-missing{background:#fff;border:1px dashed rgba(249,115,22,0.15);border-left:2px solid rgba(249,115,22,0.4);border-radius:var(--radius-sm);padding:12px 16px;margin-top:4px}
+        /* ═══════ 三段式卡片布局 ═══════ */
+        /* ── 第一段：院校概览区 ── */
+        .card-overview{background:#F8FAFC;border-bottom:1px solid #E2E8F0;padding:16px;border-radius:12px 12px 0 0}
+        .card-overview-top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;flex-wrap:wrap}
+        .card-overview-name{font-size:1.5rem;font-weight:900;color:var(--text-primary);letter-spacing:0.02em;line-height:1.3}
+        @media(max-width:768px){.card-overview-name{font-size:1.2rem}}
+        .card-overview-code{font-size:1.2rem;font-weight:800;color:#6366F1;margin-left:6px}
+        .card-overview-badges{display:flex;flex-wrap:wrap;gap:5px;margin-top:6px}
+        .ov-badge{display:inline-block;padding:2px 8px;border-radius:12px;font-size:0.72rem;font-weight:700;white-space:nowrap}
+        .ov-badge.b985{background:#DC2626;color:#fff}
+        .ov-badge.b211{background:#2563EB;color:#fff}
+        .ov-badge.bdouble{background:#7C3AED;color:#fff}
+        .ov-badge.bbaoyan{background:rgba(5,150,105,0.12);color:#059669;border:1px solid rgba(5,150,105,0.25)}
+        .ov-badge.btag{background:rgba(100,116,139,0.08);color:#475569;border:1px solid rgba(100,116,139,0.15)}
+        .ov-badge.bnick{background:rgba(236,72,153,0.08);color:#BE185D;border:1px solid rgba(236,72,153,0.15)}
+        .card-overview-meta{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+        .card-overview-major{margin-top:10px;padding:8px 12px;background:rgba(37,99,235,0.04);border-radius:6px;border:1px dashed rgba(37,99,235,0.15)}
+        .ov-major-label{font-size:0.78rem;font-weight:700;color:var(--text-tertiary);letter-spacing:0.05em;margin-bottom:2px}
+        .ov-major-name{font-size:1.15rem;font-weight:900;color:var(--primary-blue)}
+        .ov-major-code{font-size:0.92rem;font-weight:700;color:#EC4899;margin-left:6px}
+        @media(max-width:768px){.ov-major-name{font-size:1rem}}
+        /* ── 学术/专业实力行 ── */
+        .card-overview-academic{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;padding:8px 12px;background:rgba(245,158,11,0.03);border-radius:8px;border:1px solid rgba(245,158,11,0.1)}
+        .ac-item{display:inline-flex;align-items:center;gap:3px;padding:3px 8px;border-radius:4px;font-size:0.75rem;font-weight:700;white-space:nowrap}
+        .ac-item.ac-eval{background:rgba(37,99,235,0.06);color:#2563EB;border:1px solid rgba(37,99,235,0.15)}
+        .ac-item.ac-master{background:rgba(5,150,105,0.06);color:#059669;border:1px solid rgba(5,150,105,0.15)}
+        .ac-item.ac-doctor{background:rgba(139,92,246,0.06);color:#7C3AED;border:1px solid rgba(139,92,246,0.15)}
+        .ac-item.ac-rank{background:rgba(245,158,11,0.06);color:#D97706;border:1px solid rgba(245,158,11,0.15)}
+        .ac-item.ac-level{background:rgba(14,165,233,0.06);color:#0EA5E9;border:1px solid rgba(14,165,233,0.15)}
+        .ac-item .ac-label{font-size:0.65rem;opacity:0.7}
+        .ac-item .ac-val{font-size:0.78rem}
+        /* 城市/排名 微信息行 */
+        .card-overview-extra{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px;font-size:0.78rem;color:var(--text-tertiary);font-weight:600}
+        .card-overview-extra span{display:inline-flex;align-items:center;gap:3px}
+        /* ── 第二段：24/25历史数据对比 ── */
+        .card-history{display:flex;gap:0;padding:0}
+        @media(max-width:768px){.card-history{flex-direction:column}}
+        .card-history-col{flex:1;padding:14px 16px;display:flex;flex-direction:column;gap:8px}
+        .card-history-col:first-child{border-right:1px solid #F1F5F9}
+        @media(max-width:768px){.card-history-col:first-child{border-right:none;border-bottom:1px solid #F1F5F9}}
+        .card-history-col.h24{border-left:3px solid rgba(249,115,22,0.6)}
+        .card-history-col.h25{border-left:3px solid rgba(37,99,235,0.6)}
+        .card-history-year{font-size:0.85rem;font-weight:900;letter-spacing:0.05em;margin-bottom:2px}
+        .card-history-year.y24{color:#9A3412}
+        .card-history-year.y25{color:#1E3A8A}
+        .card-history-row{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+        .card-history-row .h-label{font-size:0.78rem;color:var(--text-tertiary);font-weight:600;white-space:nowrap}
+        .card-history-row .h-value{font-size:1.05rem;font-weight:800;color:var(--text-primary);text-align:right}
+        .card-history-row .h-value.hl{color:#1D4ED8}
+        .card-history-missing{padding:14px 16px;color:var(--text-tertiary);font-size:0.85rem;font-style:italic}
         /* 趋势指示器 */
         .trend-indicator{display:flex;align-items:center;justify-content:center;gap:10px;margin:8px 0;padding:9px 18px;border-radius:var(--radius-sm);font-size:0.95rem;font-weight:800}
         .trend-up{background:linear-gradient(135deg,rgba(239,68,68,0.1),rgba(249,115,22,0.05));color:#DC2626;border:1px solid rgba(239,68,68,0.2);border-left:3px solid #EF4444}
@@ -249,39 +256,98 @@
         .trend-arrow{font-size:1.3rem}
         .trend-diff{font-family:monospace;font-size:1.05rem;font-weight:900}
         .trend-label{font-size:0.8rem;opacity:0.75;font-weight:600}
-        /* 2025年录取数据 — 纯白底 + 极淡蓝色细左边框（退为背景） */
-        .block-2025{background:#fff;border:1px solid rgba(37,99,235,0.12);border-left:2px solid rgba(37,99,235,0.4);border-radius:var(--radius-sm);padding:12px 16px;margin-top:4px}
-        .block-2025 .card-body{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
-        @media(max-width:768px){.block-2025 .card-body{grid-template-columns:1fr 1fr;gap:8px}}
-        /* 2026年招生计划 — 状态机三态视觉 (P1告警 / P2待定 / P3高光) */
-        /* 共用网格 */
-        .block-2026-warn .card-body,
-        .block-2026-pending .card-body,
-        .block-2026-normal .card-body{display:grid;grid-template-columns:repeat(4,1fr);gap:8px 12px}
-        @media(max-width:768px){
-            .block-2026-warn .card-body,
-            .block-2026-pending .card-body,
-            .block-2026-normal .card-body{grid-template-columns:1fr 1fr;gap:6px}
-        }
-        /* P1: 代码/专业变动 — 全域告警（红色） */
-        .block-2026-warn{background:linear-gradient(135deg,rgba(239,68,68,0.1)0%,rgba(239,68,68,0.03)100%);border:1px solid rgba(239,68,68,0.2);border-left:6px solid #EF4444;border-radius:var(--radius-sm);padding:12px 16px;margin-top:4px}
-        /* P2: 暂无数据 — 虚线待定（橙黄） */
-        .block-2026-pending{background:rgba(245,158,11,0.03);border:1px dashed #F59E0B;border-left:4px solid #F59E0B;border-radius:var(--radius-sm);padding:12px 16px;margin-top:4px}
-        /* P3: 常规正常 — 高光翠绿（C位焦点） */
-        .block-2026-normal{background:linear-gradient(135deg,rgba(16,185,129,0.12)0%,rgba(5,150,105,0.05)100%);border:1px solid rgba(16,185,129,0.15);border-left:6px solid #10B981;border-radius:var(--radius-sm);padding:12px 16px;margin-top:4px}
-        /* section-code-inline 状态色 */
-        .section-code-inline.code-pending{color:#92400E;background:rgba(245,158,11,0.1)}
+        /* ── 第三段：2026 核心计划区 ── */
+        .card-plan2026{padding:16px;border-top:1px solid #E2E8F0}
+        /* 正常 → 翠绿高光 */
+        .card-plan2026.normal{background:linear-gradient(135deg,rgba(16,185,129,0.1)0%,rgba(5,150,105,0.04)100%);border-left:6px solid #10B981;border-top:1px solid rgba(16,185,129,0.15)}
+        /* 暂无数据 → 黄色虚线 */
+        .card-plan2026.pending{background:rgba(245,158,11,0.03);border-left:4px dashed #F59E0B;border-top:1px dashed rgba(245,158,11,0.3)}
+        .card-plan2026-label{font-size:1rem;font-weight:800;letter-spacing:0.05em;margin-bottom:10px;display:flex;align-items:center;gap:6px}
+        .card-plan2026-label.pl{color:#D97706}
+        .card-plan2026-label.nl{color:#065F46}
+        .card-plan2026-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px 12px}
+        @media(max-width:768px){.card-plan2026-grid{grid-template-columns:1fr 1fr;gap:6px 10px}}
+        /* 2026计划人数 — 全场最大字号 */
+        .plan-hero{display:flex;align-items:center;gap:12px;margin-bottom:12px;padding:10px 14px;background:rgba(16,185,129,0.08);border-radius:8px}
+        .plan-hero.pending-hero{background:rgba(245,158,11,0.06)}
+        .plan-hero-label{font-size:0.82rem;font-weight:700;color:var(--text-secondary);white-space:nowrap}
+        .plan-hero-num{font-size:2.2rem;font-weight:900;color:#059669;line-height:1;letter-spacing:-0.02em}
+        .plan-hero.pending-hero .plan-hero-num{color:#D97706}
+        .plan-hero-unit{font-size:1rem;font-weight:700;color:var(--text-tertiary)}
+        /* ── 字段微件（2026区复用） ── */
         .info-item{display:flex;flex-direction:column}
         .info-label{font-size:0.88rem;font-weight:600;color:var(--text-secondary);margin-bottom:3px;letter-spacing:0.03em}
         .info-value{font-size:1.05rem;font-weight:800;color:var(--text-primary);word-break:break-all}
         .info-value.highlight{color:#1D4ED8;font-size:1.15rem}
         .info-value.highlight-green{color:#059669;font-size:1.2rem;font-weight:900}
         .info-value.highlight-warn{color:#F59E0B;font-size:1.05rem;font-weight:800}
-        .major-code-inline{font-size:0.88rem;font-weight:700;color:#EC4899;margin-left:4px}
-        @media(max-width:768px){.major-code-inline{font-size:0.8rem}}
-        .diff-indicator{margin-top:14px;padding:14px;background:rgba(30,58,138,0.05);border-radius:var(--radius-sm);text-align:center;font-size:1.15rem;font-weight:800}
+        /* ── 卡片底部：线差总结横幅 ── */
+        .card-summary{margin-top:0;padding:14px 16px;background:rgba(30,58,138,0.04);border-top:2px solid #E2E8F0;text-align:center;font-size:1.15rem;font-weight:800;border-radius:0 0 12px 12px}
         .diff-positive{color:var(--tag-wen)}
         .diff-negative{color:var(--tag-chong)}
+        /* ── 实用链接（紧凑底部行） ── */
+        .card-links{display:flex;flex-wrap:wrap;gap:5px;padding:8px 16px 12px;border-top:1px solid #F1F5F9}
+        .card-links a{display:inline-flex;align-items:center;gap:3px;padding:4px 10px;border-radius:14px;font-size:0.74rem;font-weight:700;text-decoration:none;transition:all 0.2s;white-space:nowrap;border:1px solid transparent}
+        .card-links a:hover{transform:translateY(-1px);box-shadow:0 2px 8px rgba(0,0,0,0.12)}
+        .card-links a.lzc{background:rgba(5,150,105,0.08);color:#059669;border-color:rgba(5,150,105,0.2)}
+        .card-links a.lxx{background:rgba(37,99,235,0.08);color:#2563EB;border-color:rgba(37,99,235,0.2)}
+        .card-links a.lvr{background:rgba(236,72,153,0.08);color:#DB2777;border-color:rgba(236,72,153,0.2)}
+        .card-links a.lbk{background:rgba(139,92,246,0.08);color:#7C3AED;border-color:rgba(139,92,246,0.2)}
+        .card-links a.ljy{background:rgba(245,158,11,0.08);color:#D97706;border-color:rgba(245,158,11,0.2)}
+
+        /* ── 多专业合并卡片 ── */
+        .major-list{border-top:1px solid #E2E8F0;padding:0}
+        .major-item{padding:8px 16px;border-bottom:1px solid #F1F5F9;transition:background 0.15s}
+        .major-item:hover{background:rgba(99,102,241,0.03)}
+        .major-item:last-child{border-bottom:none}
+        .major-item.is-primary{background:linear-gradient(135deg,rgba(16,185,129,0.08),rgba(5,150,105,0.02));border-left:3px solid #10B981}
+        /* 第一行：标签+专业名+计划+分差 */
+        .mi-row1{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+        .mi-tag{display:inline-flex;align-items:center;justify-content:center;min-width:42px;padding:3px 8px;border-radius:4px;font-size:0.72rem;font-weight:900;white-space:nowrap}
+        .mi-tag.tag-bao{background:rgba(37,99,235,0.12);color:#2563EB}
+        .mi-tag.tag-wen{background:rgba(16,185,129,0.12);color:#059669}
+        .mi-tag.tag-chong{background:rgba(245,158,11,0.12);color:#D97706}
+        .mi-tag.tag-excluded{background:rgba(156,163,175,0.15);color:#6B7280}
+        .mi-name{flex:1;font-size:0.95rem;font-weight:700;color:var(--text-primary);min-width:120px}
+        .mi-code{font-family:'SF Mono','Fira Code','Consolas',monospace;font-weight:700;padding:3px 10px;border-radius:6px;white-space:nowrap;cursor:pointer;transition:all 0.2s;position:relative}
+        .mi-code:hover{transform:scale(1.08);box-shadow:0 2px 8px rgba(0,0,0,0.15)}
+        .mi-code-school{font-size:0.85rem;color:#fff;background:linear-gradient(135deg,#4F46E5,#6366F1);border:1px solid #4338CA}
+        .mi-code-school:hover{background:linear-gradient(135deg,#4338CA,#4F46E5)}
+        .mi-code-major{font-size:0.85rem;color:#fff;background:linear-gradient(135deg,#059669,#10B981);border:1px solid #047857}
+        .mi-code-major:hover{background:linear-gradient(135deg,#047857,#059669)}
+        .copy-toast{position:fixed;top:20px;left:50%;transform:translateX(-50%);background:#1F2937;color:#fff;padding:8px 24px;border-radius:20px;font-size:0.9rem;font-weight:600;z-index:9999;pointer-events:none;animation:toastIn 0.3s ease,toastOut 0.3s ease 1.2s forwards}
+        @keyframes toastIn{from{opacity:0;transform:translateX(-50%) translateY(-10px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
+        @keyframes toastOut{from{opacity:1;transform:translateX(-50%) translateY(0)}to{opacity:0;transform:translateX(-50%) translateY(-10px)}}
+        .mi-diff{font-family:monospace;font-size:0.9rem;font-weight:800;white-space:nowrap;min-width:52px;text-align:right}
+        .mi-diff.positive{color:#059669}
+        .mi-diff.negative{color:#D97706}
+        .mi-diff.very-negative{color:#EF4444}
+        .mi-plan{font-size:0.78rem;font-weight:800;color:#059669;background:rgba(16,185,129,0.08);padding:2px 8px;border-radius:10px;white-space:nowrap}
+        .mi-plan-wrap{display:inline-flex;align-items:center;gap:3px}
+        .mi-plan-y24{font-size:0.7rem;background:rgba(139,92,246,0.08);color:#7C3AED;border:1px solid rgba(139,92,246,0.15);padding:1px 6px}
+        .mi-plan-y25{font-size:0.7rem;background:rgba(99,102,241,0.08);color:#4F46E5;border:1px solid rgba(99,102,241,0.15);padding:1px 6px}
+        .mi-plan-y26{font-size:0.78rem;font-weight:800}
+        /* 第二行：历史分数线醒目标签 */
+        .mi-row2{display:flex;align-items:center;gap:8px;margin-top:6px;padding-left:52px;flex-wrap:wrap}
+        .mi-line-badge{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:6px;font-size:0.8rem;font-weight:800;white-space:nowrap}
+        .mi-line-badge.line25{background:rgba(99,102,241,0.08);color:#4F46E5;border:1px solid rgba(99,102,241,0.2)}
+        .mi-line-badge.line24{background:rgba(139,92,246,0.08);color:#7C3AED;border:1px solid rgba(139,92,246,0.2)}
+        .mi-line-badge.line-delta-up{background:rgba(16,185,129,0.08);color:#059669;border:1px solid rgba(16,185,129,0.2);font-size:0.75rem}
+        .mi-line-badge.line-delta-down{background:rgba(239,68,68,0.08);color:#DC2626;border:1px solid rgba(239,68,68,0.2);font-size:0.75rem}
+        .mi-line-label{font-size:0.68rem;font-weight:600;opacity:0.7;margin-right:2px}
+        /* 排除专业的折叠 */
+        .major-excluded-toggle{cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;padding:8px;font-size:0.78rem;font-weight:700;color:#9CA3AF;border-top:1px dashed #E2E8F0;transition:all 0.2s;border-radius:0 0 12px 12px}
+        .major-excluded-toggle:hover{color:#6B7280;background:rgba(156,163,175,0.04)}
+        .major-excluded-list{display:none;border-top:1px dashed #E2E8F0}
+        .major-excluded-list.show{display:block}
+        .major-excluded-list .major-item{opacity:0.6}
+        .major-excluded-list .major-item:hover{opacity:0.85}
+        /* 展开/收起 */
+        .major-toggle{display:flex;align-items:center;justify-content:center;gap:6px;padding:8px;font-size:0.82rem;font-weight:700;color:#4F46E5;cursor:pointer;border-top:1px solid #E2E8F0;background:rgba(99,102,241,0.02);transition:all 0.2s;border-radius:0}
+        .major-toggle:hover{background:rgba(99,102,241,0.06)}
+        .major-more{display:none}
+        .major-more.show{display:block}
+
         .empty-state{text-align:center;padding:60px 20px;color:var(--text-secondary)}
         .empty-state-icon{font-size:4rem;margin-bottom:16px}
         .empty-state-text{font-size:1.1rem;font-weight:600}
@@ -294,9 +360,6 @@
         .btn-export-xlsx{background:linear-gradient(135deg,#059669,#10B981);color:white}
         .btn-export-csv{background:linear-gradient(135deg,#6366F1,#818CF8);color:white}
         .btn-export-copy{background:linear-gradient(135deg,#D97706,#F59E0B);color:white}
-
-        .card-remark{margin-top:8px;padding:8px 10px;background:rgba(245,158,11,0.06);border-left:3px solid #F59E0B;border-radius:0 var(--radius-sm) var(--radius-sm) 0;font-size:0.85rem;color:#92400E;line-height:1.5}
-        .card-remark.empty{background:rgba(148,163,184,0.06);border-left-color:#94A3B8;color:var(--text-tertiary);font-style:italic;font-size:0.85rem}
     </style>
 </head>
 <body>
@@ -306,13 +369,13 @@
         <h1>🎵 音乐类志愿智投</h1>
         <p>精准预测 · 科学填报</p>
     </div>
-    <div class="input-group"><label for="cultureScore">📚 高考文化课分数</label><input type="number" id="cultureScore" placeholder="例如：450" min="0" max="750"></div>
-    <div class="input-group"><label for="musicScore">🎹 音乐专业统考分数</label><input type="number" id="musicScore" placeholder="例如：240" min="0" max="300"></div>
+    <div class="input-group"><label for="cultureScore">📚 高考文化课分数</label><input type="number" id="cultureScore" placeholder="例如：450" min="0" max="750" value="430"></div>
+    <div class="input-group"><label for="musicScore">🎹 音乐专业统考分数</label><input type="number" id="musicScore" placeholder="例如：240" min="0" max="300" value="232.02"></div>
     <div class="input-group"><label for="directionSelect">🎯 专业方向</label>
         <select id="directionSelect">
             <option value="vocal">🎤 声乐</option>
             <option value="instrumental">🎸 器乐</option>
-            <option value="education">🏫 音乐教育</option>
+            <option value="education" selected>🏫 音乐教育</option>
         </select>
     </div>
     <button type="button" class="btn-calculate" id="btnCalculate">💫 心想事成</button>
@@ -320,7 +383,7 @@
 <div class="result-panel" id="resultPanelAnchor">
     <div class="dashboard" id="dashboard">
         <div class="dash-card score"><div>预估综合分（等位分校准）</div><div class="dash-val" id="comprehensiveScore">0.00</div><div class="dash-sub" id="predictedRank">综合全省第 -- 名</div></div>
-        <div class="dash-card rank"><div>综合排名 ➔ 跨年等位换算</div><div class="dash-val" id="pureArtRank" style="color:#b45309;">--</div><div class="dash-sub" id="pureArtYear">等位综合分校准中</div></div>
+        <div class="dash-card rank"><div>2026综合排名 ➔ 等位换算</div><div class="dash-val" id="pureArtRank" style="color:#0891b2;">--</div><div class="dash-sub" id="pureArtYear">综合→综合百分位等位运算中</div></div>
         <div class="dash-card logic"><div>艺术赛道文化超越率</div><div class="dash-val" id="culturePercent" style="color:#10b981;">0.0%</div><div class="dash-sub" id="cultureRankDetail">文化全省第 -- 名</div></div>
     </div>
     <div class="stats-bar" id="statsBar" style="display:none;"></div>
@@ -355,7 +418,7 @@
 <script>
 // ==================== 状态管理 ====================
 const state = {
-    schools: [], rankData: {}, plan2026: [], calcResult: null,
+    schools: [], rankData: {}, calcResult: null,
     filters: { provinces: [], nature: '', level: '', batch: '', gradient: '' },
     allProvinces: [], currentDisplay: []
 };
@@ -377,7 +440,7 @@ function gid(id){return document.getElementById(id)}
 
 // ==================== 初始化 ====================
 async function init(){
-    await Promise.all([loadSchools(), loadRanks(), loadPlan2026()]);
+    await Promise.all([loadSchools(), loadRanks()]);
     E.btnCalculate.addEventListener('click', handleCalculate);
     document.addEventListener('click', function(e){
         const w = gid('provinceSelectWrapper');
@@ -398,13 +461,6 @@ async function loadRanks(){
         state.rankData = await (await fetch('./compressed_ranks.json')).json();
         console.log('Ranks:', Object.keys(state.rankData).length, 'dicts');
     }catch(e){alert('compressed_ranks.json 加载失败'); state.rankData={}}
-}
-async function loadPlan2026(){
-    try{
-        const d = await (await fetch('./plan_2026.json')).json();
-        state.plan2026 = d.plans || [];
-        console.log('Plan2026:', state.plan2026.length, 'records');
-    }catch(e){console.warn('plan_2026.json 加载失败（可能尚未生成）'); state.plan2026=[]}
 }
 function initProvinceDropdown(){
     E.provinceOptions.innerHTML = state.allProvinces.map(p=>`<div class="option" onclick="toggleProvince('${p}',event)"><input type="checkbox" value="${p}" checked id="prov_${p}" onclick="event.stopPropagation();toggleProvince('${p}')"><label for="prov_${p}" style="cursor:pointer;flex:1;">📍 ${p}</label></div>`).join('');
@@ -438,41 +494,48 @@ function handleCalculate(){
         updateProvinceCheckboxes();
         updateProvinceTriggerText();
 
-        const art2026 = state.rankData[dir+'_art_2026'];
-        const art2025 = state.rankData[dir+'_art_2025'];
+        const comp2026 = state.rankData[dir+'_2026'];       // 2026综合分段表 ✅
         const comp2025 = state.rankData[dir+'_2025'];
         const comp2024 = state.rankData[dir+'_2024'];
+        const art2026 = state.rankData[dir+'_art_2026'];     // 保留专业表用于展示
+        const art2025 = state.rankData[dir+'_art_2025'];
         const cult2025 = state.rankData[dir+'_culture_2025'];
 
-        // STEP 1: 计算原始2026综合分（仅参考）
+        // STEP 1: 计算2026原始综合分
         const rawComp = +(culture*0.5 + pro*2.5*0.5).toFixed(2);
 
-        // STEP 2: 在2026专业分段表找到专业排名
-        let artRank = null;
-        if(art2026) artRank = rankFromDict(art2026, pro);
-
-        // STEP 3: 专业分百分位等位换算（核心算法）
-        // 2026专业排名 → 2026专业百分位 → 映射到2025专业分段表同百分位 → 等位2025专业分
-        // 注意：必须用百分位而非绝对排名，因为两届考生总数不同
-        let equivPro = pro;
-        let artPercentile = 0, artTotal2026 = 0, artTotal2025 = 0;
-        if(art2026 && art2025 && artRank){
-            const vals2026 = Object.values(art2026);
-            const vals2025 = Object.values(art2025);
-            artTotal2026 = vals2026.length > 0 ? Math.max(...vals2026) : 0;
-            artTotal2025 = vals2025.length > 0 ? Math.max(...vals2025) : 0;
-            if(artTotal2026 > 0 && artTotal2025 > 0){
-                artPercentile = artRank / artTotal2026;
-                const targetRank = Math.round(artPercentile * artTotal2025);
-                const eq = scoreFromRank(art2025, targetRank);
-                if(eq) equivPro = eq;
+        // STEP 2: 2026综合分 → 2026综合表排名（正确维度，分母=5571/5807/5740）
+        let compRank2026 = null, compTotal2026 = 0, compPct2026 = 0;
+        if(comp2026){
+            compRank2026 = rankFromDict(comp2026, rawComp);
+            const vals2026 = Object.values(comp2026);
+            if(vals2026.length > 0){
+                compTotal2026 = Math.max(...vals2026);
+                if(compRank2026 && compTotal2026 > 0) compPct2026 = (compRank2026/compTotal2026*100).toFixed(1);
             }
         }
 
-        // STEP 4: 用等位专业分 + 文化分 算出2025等位综合分
-        const equivComp = +(culture*0.5 + equivPro*2.5*0.5).toFixed(2);
+        // STEP 3: 专业排名（保留，仅用于展示参考）
+        let artRank = null, artTotal2026 = 0, artPercentile = '';
+        if(art2026){
+            artRank = rankFromDict(art2026, pro);
+            const artVals = Object.values(art2026);
+            artTotal2026 = artVals.length > 0 ? Math.max(...artVals) : 0;
+            if(artRank && artTotal2026 > 0) artPercentile = (artRank/artTotal2026*100).toFixed(1);
+        }
 
-        // STEP 5: 等位综合分在2025综合分段表中的排名
+        // STEP 4: 核心算法 — 综合分→综合分等位
+        // 2026综合百分位 → 映射2025综合表同百分位 → 等位2025综合分
+        let equivComp = rawComp;
+        if(comp2026 && comp2025 && compRank2026 && compTotal2026 > 0){
+            const compPct2026Val = compRank2026 / compTotal2026;
+            const compTotal2025 = Math.max(...Object.values(comp2025));
+            const targetRank = Math.round(compPct2026Val * compTotal2025);
+            const eq = scoreFromRank(comp2025, targetRank);
+            if(eq) equivComp = eq;
+        }
+
+        // STEP 5: 等位综合分在2025综合表中的排名
         let compRank = null;
         if(comp2025) compRank = rankFromDict(comp2025, equivComp);
 
@@ -496,7 +559,7 @@ function handleCalculate(){
             if(cultureRank && cultureTotal>0) culturePct = ((1-cultureRank/cultureTotal)*100).toFixed(1);
         }
 
-        state.calcResult = {rawComp, comprehensive:equivComp, comprehensiveRank:compRank, compRank2024, compTotal2024, compPct2024, musicScore:pro, pureArtRank:artRank, equivalentProf2025:equivPro, culturePct, cultureRank, cultureTotal, direction:dir, artPercentile, artTotal2026, artTotal2025};
+        state.calcResult = {rawComp, comprehensive:equivComp, comprehensiveRank:compRank, compRank2026, compTotal2026, compPct2026, compRank2024, compTotal2024, compPct2024, musicScore:pro, pureArtRank:artRank, artPercentile, artTotal2026, culturePct, cultureRank, cultureTotal, direction:dir};
         renderResults(state.calcResult);
         console.log('✅ 计算完成:', state.calcResult);
     }catch(e){
@@ -580,27 +643,21 @@ function renderResults(result){
         if(E.comprehensiveScore) E.comprehensiveScore.textContent = result.comprehensive.toFixed(2);
         if(E.predictedRank) E.predictedRank.textContent = result.comprehensiveRank ? `综合全省第 ${result.comprehensiveRank.toLocaleString()} 名` : '综合全省第 -- 名';
 
-        if(result.pureArtRank){
-            if(E.pureArtRank) E.pureArtRank.textContent = `第 ${result.pureArtRank.toLocaleString()} 名`;
+        if(result.compRank2026){
+            if(E.pureArtRank) E.pureArtRank.textContent = `第 ${result.compRank2026.toLocaleString()} 名`;
             const diff = (result.rawComp - result.comprehensive).toFixed(2);
             const sign = diff>=0?'+':'';
 
-            // 详细换算信息
-            const pct = result.artPercentile ? (result.artPercentile*100).toFixed(1)+'%' : '';
-            const total26 = result.artTotal2026 ? result.artTotal2026.toLocaleString() : '?';
-            const total25 = result.artTotal2025 ? result.artTotal2025.toLocaleString() : '?';
-
             if(E.pureArtYear) E.pureArtYear.innerHTML =
-                `2026专业全省第<b>${result.pureArtRank.toLocaleString()}</b>名 (前 <b>${pct}</b>)<br>` +
-                `➔ 2026届共<b>${total26}</b>人 · 2025届共<b>${total25}</b>人<br>` +
-                `➔ 百分位映射2025等位专业分 <b>${result.equivalentProf2025.toFixed(2)}</b> 分<br>` +
-                `➔ 2025等位综合分 <b>${result.comprehensive.toFixed(2)}</b><br>` +
-                (result.compRank2024 ? `2024综合参考：同分排第<b>${result.compRank2024.toLocaleString()}</b>/${result.compTotal2024.toLocaleString()}名 (前<b>${result.compPct2024}%</b>)<br>` : ``) +
-                (result.comprehensiveRank && result.compRank2024 ? `<span style="font-size:0.74rem;color:#b45309">📅 2024-2025排名差: ${result.compRank2024 - result.comprehensiveRank > 0 ? '前移' : '后移'}${Math.abs(result.compRank2024 - result.comprehensiveRank).toLocaleString()}名 (人数${result.compTotal2024 > result.artTotal2025 ? '更少' : '更多'}，gap=${Math.abs(result.compTotal2024 - result.artTotal2025)}人)</span><br>` : ``) +
-                `<span style="font-size:0.75rem;color:${diff>=0?'#ef4444':'#10b981'}">综合分年份差 ${sign}${diff}</span>`;
+                `📊 2026综合分 <b>${result.rawComp.toFixed(2)}</b> 排第<b>${result.compRank2026.toLocaleString()}</b>/${result.compTotal2026.toLocaleString()}名 (前<b>${result.compPct2026}%</b>)<br>` +
+                `🔄 综合→综合百分位等位 ≈ 2025综合分 <b>${result.comprehensive.toFixed(2)}</b><br>` +
+                (result.pureArtRank ? `🎵 参考：专业第<b>${result.pureArtRank.toLocaleString()}</b>/<b>${result.artTotal2026.toLocaleString()}</b>名 (前${result.artPercentile}%)<br>` : ``) +
+                (result.compRank2024 ? `<span style=\"font-size:0.74rem;color:#b45309\">📅 2024综合参考：同分排第<b>${result.compRank2024.toLocaleString()}</b>/${result.compTotal2024.toLocaleString()}名 (前<b>${result.compPct2024}%</b>)</span><br>` : ``) +
+                (result.comprehensiveRank && result.compRank2024 ? `<span style=\"font-size:0.74rem;color:#b45309\">   2024-2025排名差: ${result.compRank2024 - result.comprehensiveRank > 0 ? '前移' : '后移'}${Math.abs(result.compRank2024 - result.comprehensiveRank).toLocaleString()}名</span><br>` : ``) +
+                `<span style=\"font-size:0.75rem;color:${diff>=0?'#ef4444':'#10b981'}\">等位年份差 ${sign}${diff} 分</span>`;
         }else{
             if(E.pureArtRank) E.pureArtRank.textContent = '--';
-            if(E.pureArtYear) E.pureArtYear.textContent = '等位综合分校准中';
+            if(E.pureArtYear) E.pureArtYear.textContent = '综合分段表校准中（2026综合表已加载）';
         }
 
         if(result.culturePct>0){
@@ -622,42 +679,33 @@ function renderResults(result){
 function renderSchoolList(result){
     try{
         const filtered = getFilteredSchools(result);
-        
-        // 建立 2026计划查询: (学校名, 专业名) → 计划数
-        const plan2026Map = {};
-        state.plan2026.forEach(p => {
-            if (p.direction === result.direction) {
-                const key = p.name + '|' + p.major.substring(0, 20);
-                plan2026Map[key] = p;
-            }
-        });
-        function findPlan2026(s) {
-            // 精确匹配：学校名+专业名
-            const keys = [
-                s.name + '|' + s.major.substring(0, 20),
-                s.name + '|' + (s.major||'').replace(/[（(].*[）)]/g,'').trim().substring(0, 20)
-            ];
-            for (const k of keys) {
-                if (plan2026Map[k]) return plan2026Map[k];
-            }
-            // 模糊匹配：学校名相同 + 专业关键词匹配
-            const majorKW = (s.major||'').replace(/[（(].*[）)]/g,'').substring(0, 8);
-            for (const [k, v] of Object.entries(plan2026Map)) {
-                const [pn, pm] = k.split('|');
-                if (pn === s.name && pm.includes(majorKW.substring(0,4))) return v;
-            }
-            return null;
+
+        // 🔍 诊断：列出曲阜师范所有记录及其过滤原因
+        const qfDiag = filtered.filter(s=>s.name&&s.name.includes('曲阜'));
+        if(qfDiag.length > 0){
+            console.group('🔍 曲阜师范大学 诊断 (方向='+result.direction+'  综合分='+result.comprehensive+')');
+            qfDiag.forEach(s=>{
+                const line = typeof s.line === 'number' ? s.line : parseFloat(s.line) || 0;
+                const diff = result.comprehensive - line;
+                const status = line<=0?'❌无投档线':diff>15?'🟢保底':diff>=0?'🟡稳妥':diff>=-5?'🔴冲刺':'⛔排除(diff< -5)';
+                console.log(status, '|', s.major?.substring(0,30), '| line:', line, '| diff:', diff.toFixed(2), '| plan:', s.plan, '| code:', s.code, '| mcode:', s.major_code);
+            });
+            console.groupEnd();
         }
-        
-        const processed = filtered.map(school=>{
+
+        // 对每条记录计算分差和梯度，分入"入选"和"排除"两组
+        const processed = [];
+        const excludedMajors = [];
+        filtered.forEach(school=>{
             const line = typeof school.line === 'number' ? school.line : parseFloat(school.line) || 0;
+            if(line <= 0) return; // 跳过无2025年投档线数据的学校
             const diff = result.comprehensive - line;
-            const plan2026 = findPlan2026(school);
-            if(diff > 15) return {...school, diff, gradient:'bao', tagClass:'tag-bao', tagText:'保', plan2026:plan2026};
-            if(diff >= 0) return {...school, diff, gradient:'wen', tagClass:'tag-wen', tagText:'稳', plan2026:plan2026};
-            if(diff >= -5) return {...school, diff, gradient:'chong', tagClass:'tag-chong', tagText:'冲', plan2026:plan2026};
-            return null;
-        }).filter(Boolean).sort((a,b)=>{
+            if(diff > 15) processed.push({...school, diff, gradient:'bao', tagClass:'tag-bao', tagText:'保'});
+            else if(diff >= 0) processed.push({...school, diff, gradient:'wen', tagClass:'tag-wen', tagText:'稳'});
+            else if(diff >= -5) processed.push({...school, diff, gradient:'chong', tagClass:'tag-chong', tagText:'冲'});
+            else excludedMajors.push({...school, diff, gradient:'excluded', tagClass:'tag-excluded', tagText:'排除'});
+        });
+        processed.sort((a,b)=>{
             const order = {chong:1, wen:2, bao:3};
             const c = order[a.gradient] - order[b.gradient];
             return c !== 0 ? c : b.diff - a.diff;
@@ -666,174 +714,459 @@ function renderSchoolList(result){
         const bao = processed.filter(s=>s.gradient==='bao').length;
         const wen = processed.filter(s=>s.gradient==='wen').length;
         const chong = processed.filter(s=>s.gradient==='chong').length;
-        const withPlan = processed.filter(s=>s.plan2026).length;
-        updateStatsBar(bao, wen, chong, withPlan);
+        const withPlan = processed.filter(s=>s.plan > 0).length;
+        const excludedCount = excludedMajors.length;
+        updateStatsBar(bao, wen, chong, withPlan, excludedCount);
 
-        let display = processed;
+        let display;
         const gf = state.filters.gradient;
-        if(gf) display = processed.filter(s=>s.gradient===gf);
+        if(gf === 'excluded'){
+            display = [...excludedMajors];
+            display.sort((a,b)=>b.diff - a.diff);
+        }else if(gf === 'all'){
+            display = [...processed, ...excludedMajors];
+            display.sort((a,b)=>{
+                const order = {chong:1, wen:2, bao:3, excluded:4};
+                return (order[a.gradient]-order[b.gradient]) || b.diff - a.diff;
+            });
+        }else if(gf){
+            display = processed.filter(s=>s.gradient===gf);
+        }else{
+            display = processed;
+        }
 
         state.currentDisplay = display;
 
         if(E.exportBar) E.exportBar.classList.add('visible');
-        if(E.schoolCount) E.schoolCount.textContent = display.length+' 所';
+        if(E.schoolCount) E.schoolCount.textContent = display.length+' 个志愿';
         if(!display.length){
             if(E.schoolList) E.schoolList.innerHTML = '<div class="empty-state"><div class="empty-state-icon">😕</div><div class="empty-state-text">暂无匹配院校</div><p style="margin-top:8px;font-size:0.9rem">请调整分数或筛选条件</p></div>';
             return;
         }
 
         const bo = ['本科批第1次投档','本科批第1次录取','本科批第2次投档','专科批第1次投档','专科批第2次投档'];
-        const bg = {};
-        display.forEach(s=>{const b=s.batch||'其他';if(!bg[b])bg[b]=[];bg[b].push(s)});
+        // 排除专业按学校分组（仅在非全览/非排除模式时用于卡片折叠显示）
+        const isShowingAll = gf === 'all' || gf === 'excluded';
+        const excludedBySchool = {};
+        if(!isShowingAll){
+            excludedMajors.forEach(s=>{
+                const key = s.name || '未知学校';
+                if(!excludedBySchool[key]) excludedBySchool[key] = [];
+                excludedBySchool[key].push(s);
+            });
+            Object.values(excludedBySchool).forEach(list=>{
+                list.sort((a,b)=>b.diff - a.diff);
+            });
+        }
+
+        // 按学校名称分组（同一学校多个专业合并到一张卡片）
+        const schoolGroups = {};
+        display.forEach(s=>{
+            const key = s.name || '未知学校';
+            if(!schoolGroups[key]) schoolGroups[key] = [];
+            schoolGroups[key].push(s);
+        });
+        // 每个学校内部按梯度排序
+        Object.values(schoolGroups).forEach(list=>{
+            const order = {chong:1, wen:2, bao:3, excluded:4};
+            list.sort((a,b)=>order[a.gradient]-order[b.gradient] || b.diff-a.diff);
+        });
+
+        // 按批次分组渲染
         let html = '';
-        Object.keys(bg).sort((a,b)=>(bo.indexOf(a)===-1?99:bo.indexOf(a))-(bo.indexOf(b)===-1?99:bo.indexOf(b))).forEach(batch=>{
-            html += `<div class="batch-group-header"><span class="batch-group-title">📋 ${batch}</span><span class="batch-group-count">${bg[batch].length} 个志愿</span></div>`;
-            html += bg[batch].map(createSchoolCard).join('');
+        Object.keys(schoolGroups).sort((a,b)=>{
+            const batchA = schoolGroups[a][0]?.batch || '其他';
+            const batchB = schoolGroups[b][0]?.batch || '其他';
+            return (bo.indexOf(batchA)===-1?99:bo.indexOf(batchA)) - (bo.indexOf(batchB)===-1?99:bo.indexOf(batchB));
+        }).forEach(schoolName=>{
+            const majors = schoolGroups[schoolName];
+            const excluded = excludedBySchool[schoolName] || [];
+            html += createSchoolCardMulti(majors, excluded);
         });
         if(E.schoolList) E.schoolList.innerHTML = html;
-        console.log('✅ 列表渲染完成:', display.length, '所院校');
+        const uniqueSchools = Object.keys(schoolGroups).length;
+        console.log('✅ 列表渲染完成:', uniqueSchools, '所学校 |', display.length, '个志愿');
+        if(qfDiag.length > 0) console.log('🎯 曲阜师范大学:', (schoolGroups['曲阜师范大学']||[]).length, '个志愿在卡片中');
     }catch(e){
         console.error('❌ 列表渲染失败:', e);
     }
 }
 
 function createSchoolCard(school){
+    const esc = s => s || '—';
     const cleanMajor = (school.major||'').replace(/^\*+|\*+$/g,'').trim();
     const diffText = school.diff>=0?`<span class="diff-positive">余 +${school.diff.toFixed(2)} 分</span>`:`<span class="diff-negative">差 ${school.diff.toFixed(2)} 分</span>`;
     const lc = school.level==='本科'?'level-bachelor':'level-associate';
     const nc = school.nature==='公办'?'nature-public':'nature-private';
-    const p26 = school.plan2026;
+    const p26 = school.plan > 0 ? school : null;
     const has2024 = school.line2024 != null && school.line2024 > 0;
-    const code25S = school.code||'—';
-    const code25M = school.major_code||'—';
-    const code26S = p26 ? p26.code : '—';
-    const code26M = p26 ? p26.major_code : '—';
-    const codeChanged = (p26 && !(p26.code === school.code && p26.major_code === school.major_code));
-    // codeChanged 仅用于展示代码对比块 + 红色高亮提醒，标签和底色统一绿色
+    const has2025 = school.line != null && school.line > 0;
 
-    // ──── 2024 区块（纯白轻量）────
-    let block2024 = '';
-    let trendIndicator = '';
-    if (has2024) {
-        const plan24 = school.plan2024 || 0;
-        const plan24Text = plan24 > 0 ? `${plan24} 人` : '—';
-        block2024 = `
-        <div class="card-section-label s2024">📊 2024年录取情况</div>
-        <div class="block-2024">
-            <div class="card-body">
-                <div class="info-item"><div class="info-label">专业名称</div><div class="info-value">${cleanMajor}</div></div>
-                <div class="info-item"><div class="info-label">投档线</div><div class="info-value" style="color:#EA580C;font-size:1.05rem;">${school.line2024.toFixed(2)} 分</div></div>
-                <div class="info-item"><div class="info-label">2024计划</div><div class="info-value">${plan24Text}</div></div>
+
+    // ════════════════════════════════════════
+    // 第一段：院校概览区
+    // ════════════════════════════════════════
+    const sl = school.schoolLevel||'';
+    const ovBadges = [];
+    if(sl.includes('985')) ovBadges.push('<span class="ov-badge b985">985</span>');
+    if(sl.includes('211')) ovBadges.push('<span class="ov-badge b211">211</span>');
+    if(sl.includes('双一流')) ovBadges.push('<span class="ov-badge bdouble">双一流</span>');
+    if(sl.includes('保研资格')) ovBadges.push('<span class="ov-badge bbaoyan">保研资格</span>');
+    const otherTags = sl.replace(/985|211|双一流大学|保研资格/g,'').replace(/\/+/g,'/').replace(/^\/|\/$/g,'').trim();
+    if(otherTags) ovBadges.push('<span class="ov-badge btag">'+otherTags+'</span>');
+    if(school.schoolNick) ovBadges.push('<span class="ov-badge bnick">'+school.schoolNick+'</span>');
+
+    const tuitionMeta = school.tuition ? `<span class="meta-tag">💰 ${school.tuition.toLocaleString()}/年</span>` : '';
+    const cityMeta = school.city ? `<span class="meta-tag">📍 ${school.province||''} ${school.city}</span>` : `<span class="meta-tag">📍 ${school.province||''}</span>`;
+    const rankMeta = school.schoolRank ? `<span class="meta-tag" style="background:rgba(99,102,241,0.08);color:#4F46E5">🏆 排名${school.schoolRank}</span>` : '';
+
+    const extraInfo = [];
+    if(school.cityRating) extraInfo.push(`<span>🏙️ ${school.cityRating}</span>`);
+    if(school.cityRank) extraInfo.push(`<span>📊 城市排行 ${school.cityRank}</span>`);
+    if(school.majorEval) extraInfo.push(`<span>📝 ${school.majorEval}</span>`);
+    if(school.majorLevel){
+        const cleanML = school.majorLevel.replace(/^\//,'').replace(/\/$/,'').replace(/\//g,' · ');
+        extraInfo.push(`<span>🏅 ${cleanML}</span>`);
+    }
+
+    const overviewHtml = `
+        <div class="card-overview">
+            <div class="card-overview-top">
+                <div>
+                    <div class="card-overview-name">${school.name}<span class="card-overview-code">${school.code||''}</span></div>
+                    ${ovBadges.length ? `<div class="card-overview-badges">${ovBadges.join('')}</div>` : ''}
+                </div>
+                <span class="tag-badge ${school.tagClass}">${school.tagText}</span>
             </div>
+            <div class="card-overview-meta">
+                <span class="meta-tag ${lc}">${school.level}</span>
+                <span class="meta-tag ${nc}">${school.nature}</span>
+                ${cityMeta}
+                ${tuitionMeta}
+                ${rankMeta}
+            </div>
+            <div class="card-overview-major">
+                <div class="ov-major-label">招 生 专 业</div>
+                <span class="ov-major-name">${esc(p26?p26.major:cleanMajor)}</span>
+                <span class="ov-major-code">（${esc(p26?p26.major_code:school.major_code)}）</span>
+            </div>
+            ${extraInfo.length ? `<div class="card-overview-extra">${extraInfo.join('')}</div>` : ''}
         </div>`;
+
+    // ════════════════════════════════════════
+    // 第二段：24/25 历史数据对比
+    // ════════════════════════════════════════
+    const makeHistCol = (year, hasData, line, plan, rank, clsY, clsCol) => {
+        if(!hasData){
+            return `<div class="card-history-col ${clsCol}"><div class="card-history-year ${clsY}">${year}年</div><div class="card-history-missing">暂无数据</div></div>`;
+        }
+        const planText = (plan||0) > 0 ? `${plan} 人` : '—';
+        const rankText = rank ? `${rank.toLocaleString()} 名` : '—';
+        return `<div class="card-history-col ${clsCol}">
+            <div class="card-history-year ${clsY}">${year}年录取</div>
+            <div class="card-history-row"><span class="h-label">投档线</span><span class="h-value hl">${line.toFixed(2)} 分</span></div>
+            <div class="card-history-row"><span class="h-label">录取计划</span><span class="h-value">${planText}</span></div>
+            <div class="card-history-row"><span class="h-label">最低位次</span><span class="h-value">${rankText}</span></div>
+        </div>`;
+    };
+
+    const hist24 = makeHistCol('2024', has2024, school.line2024, school.plan2024, school.rank2024, 'y24', 'h24');
+    const hist25 = makeHistCol('2025', has2025, school.line, school.plan2025, school.rank, 'y25', 'h25');
+
+    // 趋势指示器
+    let trendIndicator = '';
+    if(has2024 && has2025){
         const trend = school.line - school.line2024;
         let trendCls, trendArrow, trendSign;
-        if (trend > 0.5) { trendCls = 'trend-up'; trendArrow = '📈 上涨'; trendSign = '+'; }
-        else if (trend < -0.5) { trendCls = 'trend-down'; trendArrow = '📉 下降'; trendSign = ''; }
-        else { trendCls = 'trend-flat'; trendArrow = '➡️ 持平'; trendSign = ''; }
+        if(trend>0.5){trendCls='trend-up';trendArrow='📈 上涨';trendSign='+';}
+        else if(trend<-0.5){trendCls='trend-down';trendArrow='📉 下降';trendSign='';}
+        else{trendCls='trend-flat';trendArrow='➡️ 持平';trendSign='';}
         trendIndicator = `<div class="trend-indicator ${trendCls}"><span class="trend-arrow">${trendArrow}</span><span class="trend-diff">${trendSign}${trend.toFixed(2)} 分</span><span class="trend-label">2024→2025</span></div>`;
-    } else {
-        block2024 = `
-        <div class="card-section-label s2024">📊 2024年录取情况</div>
-        <div class="block-2024-missing">
-            <div class="card-body"><div class="info-item"><div class="info-label">提示</div><div class="info-value" style="color:#94A3B8;font-size:0.85rem;">暂无2024年数据</div></div></div>
-        </div>`;
     }
 
-    // ──── 2025 区块（纯白轻量）────
-    const plan25 = school.plan || 0;
-    const plan25Text = plan25 > 0 ? `${plan25} 人` : '—';
-    const block2025 = `
-        <div class="card-section-label s2025">📊 2025年录取情况</div>
-        <div class="block-2025">
-            <div class="card-body">
-                <div class="info-item"><div class="info-label">专业名称</div><div class="info-value">${cleanMajor}</div></div>
-                <div class="info-item"><div class="info-label">投档线</div><div class="info-value highlight">${school.line.toFixed(2)} 分</div></div>
-                <div class="info-item"><div class="info-label">2025计划</div><div class="info-value">${plan25Text}</div></div>
+    const historyHtml = `
+        <div class="card-history">${hist24}${hist25}</div>`;
+
+    // ════════════════════════════════════════
+    // 第三段：2026 核心计划区
+    // ════════════════════════════════════════
+    let plan2026Html = '';
+    if(p26){
+        const planVal = p26.plan > 0 ? p26.plan : 0;
+
+        plan2026Html = `
+        <div class="card-plan2026 normal">
+            <div class="card-plan2026-label nl">
+                📋 2026年招生计划
             </div>
-        </div>`;
-
-    // ──── 2026 标签行（统一绿色）────
-    const codeInfoHtml = (p26 && !codeChanged) ? `<span class="section-code-inline"><span class="sci-label">院校</span><span class="sci-code">${code26S}</span><span class="sci-label">专业</span><span class="sci-code">${code26M}</span></span>` : '';
-    const codeCompareHtml = codeChanged ? `
-                <div class="code-change-block">
-                    <span class="code-change-badge">⚠️ 代码变更</span>
-                    <span class="code-change-arrow">→</span>
-                    <span class="code-change-new">
-                        <span class="ccn-label">2026院校</span><span class="ccn-code">${code26S}</span>
-                        <span class="ccn-label">2026专业</span><span class="ccn-code">${code26M}</span>
-                    </span>
-                    <span class="code-change-old">
-                        <span class="cco-label">(原2025: 院校</span><span class="cco-code">${code25S}</span>
-                        <span class="cco-label">专业</span><span class="cco-code">${code25M}</span><span class="cco-label">)</span>
-                    </span>
-                </div>` : '';
-    const sectionLabel2026 = p26
-        ? `<div class="section-label-row"><span class="card-section-label s2026 label-normal">📋 2026年招生计划</span>${codeCompareHtml}${codeInfoHtml}</div>`
-        : `<div class="card-section-label s2026 label-normal">📋 2026年招生计划</div>`;
-
-    // ──── 2026 数据块（统一绿色）────
-    let block2026 = '';
-    if (p26) {
-        const planVal = p26.plan > 0 ? `${p26.plan} 人` : '见简章';
-        const remark26 = p26.remark || '';
-        const remark26Html = remark26
-            ? `<div style="margin-top:8px;font-size:0.85rem;color:#065F46;font-weight:600;padding:5px 10px;background:rgba(5,150,105,0.06);border-radius:4px;">📌 ${remark26}</div>`
-            : '';
-        const blockCls = 'block-2026-normal';
-        const codeCls = codeChanged ? ' style="color:#DC2626;font-weight:800"' : '';
-        const planCls = 'highlight-green';
-
-        block2026 = `
-        <div class="${blockCls}">
-            <div class="card-body">
-                <div class="info-item"><div class="info-label">科类名称</div><div class="info-value">${p26.source_batch||'—'}</div></div>
-                <div class="info-item"><div class="info-label">计划</div><div class="info-value ${planCls}">${planVal}</div></div>
-                <div class="info-item"><div class="info-label">录取批次</div><div class="info-value">${p26.batch||'—'}</div></div>
-                <div class="info-item"><div class="info-label">学制</div><div class="info-value">${p26.years||'—'} ${p26.years?'年':''}</div></div>
-                <div class="info-item"><div class="info-label">专业代码</div><div class="info-value"${codeCls}>${p26.major_code||'—'}${codeChanged?' 🔄':''}</div></div>
-                <div class="info-item"><div class="info-label">专业名称</div><div class="info-value">${p26.major||'—'}</div></div>
-                <div class="info-item"><div class="info-label">办学性质</div><div class="info-value">${p26.nature||'—'}</div></div>
-                <div class="info-item"><div class="info-label">选科要求</div><div class="info-value">${p26.subject_req||'—'}</div></div>
-                <div class="info-item"><div class="info-label">学费</div><div class="info-value">${p26.fee ? '💰'+p26.fee.toLocaleString()+'元/年' : '—'}</div></div>
-                <div class="info-item"><div class="info-label">省份</div><div class="info-value">📍${p26.province||'—'}</div></div>
-                <div class="info-item"><div class="info-label">城市</div><div class="info-value">${p26.city||'—'}</div></div>
+            <div class="plan-hero">
+                <span class="plan-hero-label">2026 招生计划</span>
+                <span class="plan-hero-num">${planVal||'—'}</span>
+                <span class="plan-hero-unit">人</span>
             </div>
-            ${remark26Html}
+            <div class="card-plan2026-grid">
+                <div class="info-item"><div class="info-label">院校代码</div><div class="info-value highlight-green">${p26.code}</div></div>
+                <div class="info-item"><div class="info-label">专业代码</div><div class="info-value highlight-green">${esc(p26.major_code)}</div></div>
+                <div class="info-item"><div class="info-label">专业名称</div><div class="info-value">${esc(p26.major)}</div></div>
+                <div class="info-item"><div class="info-label">科类名称</div><div class="info-value">${esc(p26.sourceBatch)}</div></div>
+                <div class="info-item"><div class="info-label">录取批次</div><div class="info-value">${esc(p26.batch)}</div></div>
+                <div class="info-item"><div class="info-label">学制</div><div class="info-value">${p26.duration||'—'} ${p26.duration?'年':''}</div></div>
+                <div class="info-item"><div class="info-label">选科要求</div><div class="info-value">${esc(p26.subject_req)}</div></div>
+                <div class="info-item"><div class="info-label">办学性质</div><div class="info-value">${esc(p26.nature)}</div></div>
+            </div>
         </div>`;
     } else {
-        block2026 = `
-        <div class="block-2026-normal">
-            <div class="card-body">
-                <div class="info-item"><div class="info-label">2026计划</div><div class="info-value highlight-warn">⚠ 暂无数据</div></div>
-                <div class="info-item"><div class="info-label">录取批次</div><div class="info-value highlight-warn">待公布</div></div>
-                <div class="info-item"><div class="info-label">说明</div><div class="info-value" style="font-size:0.85rem;font-weight:600;">当前显示为2025年数据</div></div>
+        plan2026Html = `
+        <div class="card-plan2026 pending">
+            <div class="card-plan2026-label pl">📋 2026年招生计划</div>
+            <div class="plan-hero pending-hero">
+                <span class="plan-hero-label">2026 招生计划</span>
+                <span class="plan-hero-num">—</span>
+                <span class="plan-hero-unit">暂无数据</span>
+            </div>
+            <div class="card-plan2026-grid">
+                <div class="info-item"><div class="info-label">状态</div><div class="info-value highlight-warn">⚠ 2026计划暂未公布</div></div>
+                <div class="info-item"><div class="info-label">说明</div><div class="info-value" style="color:#94A3B8;font-size:0.9rem;">当前显示为2025年参考数据</div></div>
             </div>
         </div>`;
     }
 
+    // ════════════════════════════════════════
+    // 底部：线差总结 + 实用链接
+    // ════════════════════════════════════════
+    const summaryHtml = `
+        <div class="card-summary">
+            ${school.tagText==='冲'?'🚀':school.tagText==='稳'?'✅':'🛡️'} ${school.tagText} 🌟 ${diffText}
+        </div>`;
+
+    const links = [];
+    if(school.admissionUrl) links.push(`<a href="${school.admissionUrl}" target="_blank" class="lzc">📜 招生章程</a>`);
+    if(school.schoolInfoUrl) links.push(`<a href="${school.schoolInfoUrl}" target="_blank" class="lxx">🏫 招生信息</a>`);
+    if(school.vrUrl) links.push(`<a href="${school.vrUrl}" target="_blank" class="lvr">🌐 校园VR</a>`);
+    if(school.baikeUrl) links.push(`<a href="${school.baikeUrl}" target="_blank" class="lbk">📖 百科</a>`);
+    if(school.employUrl) links.push(`<a href="${school.employUrl}" target="_blank" class="ljy">💼 就业</a>`);
+    const linksHtml = links.length ? `<div class="card-links">${links.join('')}</div>` : '';
+
+    // ════════════════════════════════════════
+    // 组装三段式卡片
+    // ════════════════════════════════════════
     return `<div class="school-card">
-        <div class="card-header">
-            <div class="school-name">${school.name}<span class="school-code-inline">${school.code||''}</span></div>
-            <span class="tag-badge ${school.tagClass}">${school.tagText}</span>
-        </div>
-        <div class="card-meta">
-            <span class="meta-tag ${lc}">${school.level}</span>
-            <span class="meta-tag ${nc}">${school.nature}</span>
-            <span class="meta-tag">📍 ${school.province}</span>
-        </div>
-        ${block2024}
+        ${overviewHtml}
+        ${historyHtml}
         ${trendIndicator}
-        <div class="card-section-divider"></div>
-        ${block2025}
-        <div class="card-section-divider"></div>
-        ${sectionLabel2026}
-        ${block2026}
-        <div class="diff-indicator">${school.tagText} 🌟 ${diffText}</div>
+        ${plan2026Html}
+        ${summaryHtml}
+        ${linksHtml}
     </div>`;
 }
 
-function updateStatsBar(bao,wen,chong,withPlan){
+// ════════════════════════════════════════
+// 多专业合并卡片（同一学校多个专业合一）
+// ════════════════════════════════════════
+function createSchoolCardMulti(majors, excluded){
+    excluded = excluded || [];
+    if(!majors||majors.length===0)return'';
+    const esc = s => s || '—';
+    const school = majors[0]; // 用第一个专业作为学校信息的来源
+    const totalMajors = majors.length + excluded.length;
+
+    // ── 学校概览头部（复用 createSchoolCard 的概览逻辑） ──
+    const sl = school.schoolLevel||'';
+    const ovBadges = [];
+    if(sl.includes('985')) ovBadges.push('<span class="ov-badge b985">985</span>');
+    if(sl.includes('211')) ovBadges.push('<span class="ov-badge b211">211</span>');
+    if(sl.includes('双一流')) ovBadges.push('<span class="ov-badge bdouble">双一流</span>');
+    if(sl.includes('保研资格')) ovBadges.push('<span class="ov-badge bbaoyan">保研资格</span>');
+    const otherTags = sl.replace(/985|211|双一流大学|保研资格/g,'').replace(/\/+/g,'/').replace(/^\/|\/$/g,'').trim();
+    if(otherTags) ovBadges.push('<span class="ov-badge btag">'+otherTags+'</span>');
+    if(school.schoolNick) ovBadges.push('<span class="ov-badge bnick">'+school.schoolNick+'</span>');
+
+    const tuitionMeta = school.tuition ? `<span class="meta-tag">💰 ${school.tuition.toLocaleString()}/年</span>` : '';
+    const cityMeta = school.city ? `<span class="meta-tag">📍 ${school.province||''} ${school.city}</span>` : `<span class="meta-tag">📍 ${school.province||''}</span>`;
+    const rankMeta = school.schoolRank ? `<span class="meta-tag" style="background:rgba(99,102,241,0.08);color:#4F46E5">🏆 排名${school.schoolRank}</span>` : '';
+    const softRankMeta = school.softRank ? `<span class="meta-tag" style="background:rgba(236,72,153,0.08);color:#BE185D">📊 软科${school.softRank}</span>` : '';
+
+    const lc = school.level==='本科'?'level-bachelor':'level-associate';
+    const nc = school.nature==='公办'?'nature-public':'nature-private';
+
+    // ── 专业实力信息 ──
+    const acItems = [];
+    // 专业评估等级
+    if(school.majorEval) acItems.push(`<span class="ac-item ac-eval"><span class="ac-label">专业评估</span> <span class="ac-val">${school.majorEval}级</span></span>`);
+    // 硕士点
+    if(school.hasMaster){
+        const mstr = school.masterMajor ? `<span class="ac-val">${school.masterMajor}</span>` : '<span class="ac-val">有</span>';
+        acItems.push(`<span class="ac-item ac-master"><span class="ac-label">🎓硕士</span> ${mstr}</span>`);
+    }
+    // 博士点
+    if(school.hasDoctor){
+        const doc = school.doctorMajor ? `<span class="ac-val">${school.doctorMajor}</span>` : '<span class="ac-val">有</span>';
+        acItems.push(`<span class="ac-item ac-doctor"><span class="ac-label">🏅博士</span> ${doc}</span>`);
+    }
+    // 专业水平（国家级/省级一流本科等）
+    if(school.majorLevel){
+        const cleanLevel = school.majorLevel.replace(/^\/+/,'').trim();
+        if(cleanLevel) acItems.push(`<span class="ac-item ac-level"><span class="ac-label">专业层次</span> <span class="ac-val">${cleanLevel}</span></span>`);
+    }
+    // 专业排名
+    if(school.majorRank > 0){
+        const pctStr = school.majorRankPct > 0 ? ` (前${(school.majorRankPct*100).toFixed(0)}%)` : '';
+        acItems.push(`<span class="ac-item ac-rank"><span class="ac-label">专业排名</span> <span class="ac-val">第${school.majorRank}名${pctStr}</span></span>`);
+    } else if(school.softMajorRank > 0){
+        acItems.push(`<span class="ac-item ac-rank"><span class="ac-label">软科专业</span> <span class="ac-val">第${school.softMajorRank}名</span></span>`);
+    }
+    const academicHtml = acItems.length ? `<div class="card-overview-academic">${acItems.join('')}</div>` : '';
+
+    const excludedBadge = excluded.length > 0
+        ? `<span class="card-overview-code" style="color:#9CA3AF;font-size:0.9rem;margin-left:6px">(${excluded.length}个已排除)</span>`
+        : '';
+
+    const overviewHtml = `<div class="card-overview">
+        <div class="card-overview-top">
+            <div>
+                <span class="card-overview-name">${school.name}</span>
+                <span class="card-overview-code">${majors.length}个专业</span>${excludedBadge}
+            </div>
+        </div>
+        ${ovBadges.length ? `<div class="card-overview-badges">${ovBadges.join('')}</div>` : ''}
+        <div class="card-overview-meta">
+            <span class="meta-tag ${lc}">${school.level}</span>
+            <span class="meta-tag ${nc}">${school.nature}</span>
+            ${cityMeta}${tuitionMeta}${rankMeta}${softRankMeta}
+        </div>
+        ${academicHtml}
+    </div>`;
+
+    // ── 渲染专业行的辅助函数 ──
+    const renderMajorRow = (m, isPrimary, extraClass) => {
+        const cleanMajor = (m.major||'').replace(/^\*+|\*+$/g,'').trim();
+        const isExcluded = m.gradient === 'excluded';
+        const diffAbs = Math.abs(m.diff);
+        const diffClass = isExcluded ? 'very-negative' : (m.diff >= 0 ? 'positive' : 'negative');
+        const diffSign = m.diff >= 0 ? '+' : '−';
+        const rowClass = (isPrimary && !isExcluded) ? ' is-primary' : '';
+
+        // 计划人数（三年对比）
+        let planInfo = '';
+        const planBadges = [];
+        if(m.plan2024 != null && m.plan2024 > 0) planBadges.push(`<span class="mi-plan mi-plan-y24">24年${m.plan2024}人</span>`);
+        if(m.plan2025 != null && m.plan2025 > 0) planBadges.push(`<span class="mi-plan mi-plan-y25">25年${m.plan2025}人</span>`);
+        planBadges.push(m.plan > 0
+            ? `<span class="mi-plan mi-plan-y26">${m.plan}人</span>`
+            : `<span class="mi-plan mi-plan-y26" style="background:rgba(245,158,11,0.08);color:#D97706">见简章</span>`);
+        planInfo = `<span class="mi-plan-wrap">📋 ${planBadges.join('')}</span>`;
+        planInfo += `<span class="mi-code mi-code-school" onclick="copyCode(event,'${m.code||''}')" title="点击复制学校代码">🏫 ${m.code||'—'}</span>`+
+                    `<span class="mi-code mi-code-major" onclick="copyCode(event,'${m.major_code||''}')" title="点击复制专业代码">📖 ${m.major_code||'—'}</span>`;
+
+        // 历史分数线
+        const lineBadges = [];
+        if(m.line != null && m.line > 0) lineBadges.push(`<span class="mi-line-badge line25"><span class="mi-line-label">2025投档</span>${m.line.toFixed(2)}</span>`);
+        if(m.line2024 != null && m.line2024 > 0) lineBadges.push(`<span class="mi-line-badge line24"><span class="mi-line-label">2024投档</span>${m.line2024.toFixed(2)}</span>`);
+        // 两年都有投档线时，显示增减
+        if(m.line != null && m.line > 0 && m.line2024 != null && m.line2024 > 0){
+            const delta = m.line - m.line2024;
+            const pct = (delta / m.line2024) * 100;
+            const deltaSign = delta >= 0 ? '↑' : '↓';
+            const deltaClass = delta >= 0 ? 'line-delta-up' : 'line-delta-down';
+            lineBadges.push(`<span class="mi-line-badge ${deltaClass}">${deltaSign}${Math.abs(delta).toFixed(2)}（${deltaSign}${Math.abs(pct).toFixed(2)}%）</span>`);
+        }
+
+        return `<div class="major-item${rowClass}${extraClass}">
+            <div class="mi-row1">
+                <span class="mi-tag ${m.tagClass}">${m.tagText}</span>
+                <span class="mi-name">${cleanMajor}</span>
+                ${planInfo}
+                <span class="mi-diff ${diffClass}">${diffSign}${diffAbs.toFixed(2)}</span>
+            </div>
+            ${lineBadges.length ? `<div class="mi-row2">${lineBadges.join('')}</div>` : ''}
+        </div>`;
+    };
+
+    // ── 专业列表 ──
+    const cardId = 'ml_' + Math.random().toString(36).slice(2,8);
+    const showCount = 3;
+    const hasMore = majors.length > showCount;
+
+    let majorHtml = '';
+    majors.forEach((m, i) => {
+        const isPrimary = m.gradient === 'wen' || m.gradient === 'chong';
+        const extraClass = i >= showCount ? ' major-more' : '';
+        majorHtml += renderMajorRow(m, isPrimary, extraClass);
+    });
+
+    let toggleBtn = '';
+    if(hasMore){
+        toggleBtn = `<div class="major-toggle" onclick="toggleMajorList('${cardId}',this)">
+            <span class="toggle-icon">▼</span> 展开其余${majors.length - showCount}个专业
+        </div>`;
+    }
+
+    // ── 排除专业折叠区 ──
+    let excludedHtml = '';
+    if(excluded.length > 0){
+        const excId = 'exc_' + Math.random().toString(36).slice(2,8);
+        excludedHtml = `
+            <div class="major-excluded-toggle" onclick="toggleExcludedList('${excId}',this)">
+                <span class="toggle-icon">▶</span> 查看 ${excluded.length} 个已排除专业（分差＜−5分）
+            </div>
+            <div class="major-excluded-list" id="${excId}">
+                ${excluded.map(m => renderMajorRow(m, false, '')).join('')}
+            </div>`;
+    }
+
+    const majorListHtml = `<div class="major-list" id="${cardId}">${majorHtml}</div>${toggleBtn}${excludedHtml}`;
+
+    // ── 底部链接 ──
+    const links = [];
+    if(school.schoolInfoUrl) links.push(`<a href="${school.schoolInfoUrl}" target="_blank" class="lzc">📋 招生章程</a>`);
+    if(school.recruitUrl) links.push(`<a href="${school.recruitUrl}" target="_blank" class="lxx">🏫 学校信息</a>`);
+    if(school.vrUrl) links.push(`<a href="${school.vrUrl}" target="_blank" class="lvr">🌐 校园VR</a>`);
+    if(school.baikeUrl) links.push(`<a href="${school.baikeUrl}" target="_blank" class="lbk">📖 百科</a>`);
+    if(school.employUrl) links.push(`<a href="${school.employUrl}" target="_blank" class="ljy">💼 就业</a>`);
+    const linksHtml = links.length ? `<div class="card-links">${links.join('')}</div>` : '';
+
+    return `<div class="school-card">
+        ${overviewHtml}
+        ${majorListHtml}
+        ${linksHtml}
+    </div>`;
+}
+
+// 展开/收起排除专业列表
+function toggleExcludedList(excId, btn){
+    const container = document.getElementById(excId);
+    if(!container) return;
+    const icon = btn.querySelector('.toggle-icon');
+    const isExpanded = container.classList.contains('show');
+    container.classList.toggle('show', !isExpanded);
+    if(icon){
+        icon.textContent = isExpanded ? '▶' : '▼';
+        if(!isExpanded){
+            btn.innerHTML = btn.innerHTML.replace('▶', '▼').replace('查看', '隐藏');
+        } else {
+            btn.innerHTML = btn.innerHTML.replace('▼', '▶').replace('隐藏', '查看');
+        }
+    }
+}
+
+// 展开/收起专业列表
+function toggleMajorList(cardId, btn){
+    const container = document.getElementById(cardId);
+    if(!container) return;
+    const moreItems = container.querySelectorAll('.major-more');
+    const icon = btn.querySelector('.toggle-icon');
+    const isExpanded = moreItems.length > 0 && moreItems[0].classList.contains('show');
+    moreItems.forEach(item => {
+        item.classList.toggle('show', !isExpanded);
+    });
+    if(icon){
+        btn.innerHTML = isExpanded
+            ? `<span class="toggle-icon">▼</span> 展开其余${moreItems.length}个专业`
+            : `<span class="toggle-icon">▲</span> 收起`;
+    }
+}
+
+function updateStatsBar(bao,wen,chong,withPlan,excluded){
     const el = gid('statsBar');
     if(!el) return;
     if(bao+wen+chong===0){el.style.display='none';return}
@@ -846,7 +1179,12 @@ function updateStatsBar(bao,wen,chong,withPlan){
         const pct = (withPlan/total*100).toFixed(0);
         summary = `<span style="padding:4px 10px;background:rgba(139,92,246,0.1);color:#7C3AED;border-radius:20px;font-size:0.78rem;font-weight:700;white-space:nowrap">📋 2026计划覆盖 ${withPlan}/${total}(${pct}%)</span>`;
     }
-    el.innerHTML = summary+`<div onclick="setGradientFilter('chong')" class="stat-item stat-chong ${a==='chong'?'active':''}" style="flex:${chong||0.1}"><span class="stat-num">${chong}</span><span>冲刺</span></div><div onclick="setGradientFilter('wen')" class="stat-item stat-wen ${a==='wen'?'active':''}" style="flex:${wen||0.1}"><span class="stat-num">${wen}</span><span>稳妥</span></div><div onclick="setGradientFilter('bao')" class="stat-item stat-bao ${a==='bao'?'active':''}" style="flex:${bao||0.1}"><span class="stat-num">${bao}</span><span>保底</span></div>${a?`<div onclick="setGradientFilter('')" class="stat-item" style="background:#64748b;cursor:pointer;flex:0.3"><span>全部</span></div>`:''}`;
+    el.innerHTML = summary+
+        `<div onclick="setGradientFilter('chong')" class="stat-item stat-chong ${a==='chong'?'active':''}" style="flex:${chong||0.1}"><span class="stat-num">${chong}</span><span>冲刺</span></div>`+
+        `<div onclick="setGradientFilter('wen')" class="stat-item stat-wen ${a==='wen'?'active':''}" style="flex:${wen||0.1}"><span class="stat-num">${wen}</span><span>稳妥</span></div>`+
+        `<div onclick="setGradientFilter('bao')" class="stat-item stat-bao ${a==='bao'?'active':''}" style="flex:${bao||0.1}"><span class="stat-num">${bao}</span><span>保底</span></div>`+
+        (excluded>0?`<div onclick="setGradientFilter('excluded')" class="stat-item stat-excluded ${a==='excluded'?'active':''}" style="flex:${excluded||0.1}"><span class="stat-num">${excluded}</span><span>排除</span></div>`:'')+
+        (a?`<div onclick="setGradientFilter('all')" class="stat-item stat-all"><span>📋 全部</span></div>`:'');
 }
 function setGradientFilter(g){state.filters.gradient=state.filters.gradient===g?'':g;if(state.calcResult)renderSchoolList(state.calcResult)}
 
@@ -857,34 +1195,60 @@ function getExportData(){
         const cleanMajor = (s.major||'').replace(/^\*+|\*+$/g,'').trim();
         const diffSign = s.diff>=0?'+':'';
         const gradMap = {bao:'保底',wen:'稳妥',chong:'冲刺'};
-        const p26 = s.plan2026;
+        const p26 = s.plan > 0 ? s : null;
         const has24 = s.line2024 != null && s.line2024 > 0;
         const trend = has24 ? (s.line - s.line2024) : null;
         const trendText = trend != null ? `${trend>=0?'+':''}${trend.toFixed(2)}` : '—';
         return {
             '序号':i+1,
             '梯度':gradMap[s.gradient]||s.gradient,
-            '学校代码':s.code||'',
-            '学校名称':s.name,
+            '科类名称':s.sourceBatch||'—',
+            '院校代码':s.code||'',
+            '院校名称':s.name,
             '专业代码':s.major_code||'',
             '专业名称':cleanMajor,
             '省份':s.province,
+            '城市':s.city||'—',
+            '城市评级':s.cityRating||'—',
+            '城市排行':s.cityRank||'—',
             '层次':s.level,
-            '性质':s.nature,
+            '办学性质':s.nature,
+            '选科':s.subject_req||'—',
+            '学制':s.duration||'—',
+            '学费':s.tuition||'—',
+            '院校水平':s.schoolLevel||'—',
+            '院校背景':s.schoolBg||'—',
+            '院校花称':s.schoolNick||'—',
+            '院校排名':s.schoolRank||'—',
+            '软科专业排名':s.softMajorRank||'—',
+            '专业评估':s.majorEval||'—',
+            '专业水平':s.majorLevel||'—',
+            '硕士点':s.hasMaster?'有':'—',
+            '硕士专业':s.masterMajor||'—',
+            '博士点':s.hasDoctor?'有':'—',
+            '博士专业':s.doctorMajor||'—',
+            '专业排名':s.majorRank||'—',
+            '专业排名比例':s.majorRankPct||'—',
+            '专业总数':s.majorTotal||'—',
             '2024投档线':has24?s.line2024.toFixed(2):'—',
+            '2024位次':has24?(s.rank2024||'—'):'—',
             '2024计划':has24?(s.plan2024||0):'—',
             '2025投档线':s.line.toFixed(2),
-            '2025计划':s.plan||0,
+            '2025位次':s.rank||'—',
+            '2025计划':s.plan2025||0,
+            '2025录取分':s.admitScore||'—',
+            '2025院校代码':s.code2025||'—',
+            '2025专业代码':s.major_code2025||'—',
             '2024→2025趋势':trendText,
             '2026计划':p26?p26.plan:'—',
             '2026批次':p26?p26.batch:'—',
-            '2026学费':p26?p26.fee:'—',
-            '2026学制':p26?p26.years:'—',
-            '2026选科':p26?p26.subject_req:'—',
             '等位综合分':state.calcResult.comprehensive.toFixed(2),
             '分差(余量)':`${diffSign}${s.diff.toFixed(2)}`,
-            '2026备注':p26?p26.remark||'':'—',
-            '2025报考要求':s.remark||'无特殊要求'
+            '招生章程':s.admissionUrl||'—',
+            '学校招生信息':s.schoolInfoUrl||'—',
+            '校园VR':s.vrUrl||'—',
+            '院校百科':s.baikeUrl||'—',
+            '就业质量':s.employUrl||'—'
         };
     });
 }
@@ -941,6 +1305,24 @@ function exportToCSV(){
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');a.href=url;a.download=`2026山东音乐志愿方案_${new Date().toISOString().slice(0,10)}.csv`;
     a.click();URL.revokeObjectURL(url);
+}
+
+function copyCode(e,code){
+    e.stopPropagation();
+    if(!code||code==='—') return;
+    navigator.clipboard.writeText(code).then(()=>{
+        showToast(`✅ 已复制: ${code}`);
+    }).catch(()=>{
+        const ta=document.createElement('textarea');ta.value=code;
+        document.body.appendChild(ta);ta.select();document.execCommand('copy');
+        document.body.removeChild(ta);
+        showToast(`✅ 已复制: ${code}`);
+    });
+}
+function showToast(msg){
+    const t=document.createElement('div');t.className='copy-toast';t.textContent=msg;
+    document.body.appendChild(t);
+    setTimeout(()=>t.remove(),1600);
 }
 
 function copyForFill(){
